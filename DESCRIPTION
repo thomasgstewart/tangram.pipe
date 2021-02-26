@@ -1,13 +1,25 @@
 Package: tangram.pipe
-Title: Table making one row at a time (one line, title case)
-Version: 0.0.0.9000
-Authors@R: c(person("Thomas", "Stewart", email = "thomas.stewart@vanderbilt.edu", role = c("aut", "cre")), person("Molly", "Olson", email = "mao4003@med.cornell.edu", role = "aut"))
-Description: A syntax for creating a table one row at a time.
-Depends: R (>= 3.4.1)
-License: GPL-3
+Title: Row-by-row table building
+Version: 1.0.0
+Authors@R: 
+    c(person(given = "Andrew",
+           family = "Guide",
+           role = c("aut", "cre"),
+           email = "andrew.guide@vumc.org"),
+    person(given = "Thomas",
+           family = "Stewart",
+           role = c("aut"),
+           email = "thomas.stewart@vumc.org"))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
-Imports:
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
+Depends:
     dplyr,
-    tidyr
+    tibble
+VignetteBuilder: knitr
+URL: https://github.com/thomasgstewart/tangram.pipe
+BugReports: https://github.com/thomasgstewart/tangram.pipe/issues
+
