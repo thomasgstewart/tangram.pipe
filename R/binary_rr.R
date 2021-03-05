@@ -1,3 +1,13 @@
+#' Binary Risk Ratio
+#'
+#' Calculates risk ratio across categories for binary data
+#' @param dt the name of the dataframe object.
+#' @param num_col num_col the number of categorical columns in the data.
+#' @param reference the name of the reference row category to use.
+#' @param digits significant digits to use.
+#' @keywords tangram.pipe
+#' @export
+
 binary_rr <- function(dt, num_col, reference, digits){
   dt <- dt[complete.cases(dt),]
   rnd <- paste0("%.", digits, "f")
@@ -22,9 +32,9 @@ binary_rr <- function(dt, num_col, reference, digits){
       pt_est <- sprintf(rnd, pt_est)
       RR2 <- paste0(pt_est, " (", LB, ", ", UB, ")")
       RR <- data.frame(RR, RR2)
-      colnames(RR)[i-1] <- paste0("RR: ", sort(unique(dt[,2]))[i])
+      colnames(RR)[i-1] <- paste0("Compare: ", sort(unique(dt[,2]))[i])
     }
-    colnames(RR)[1] <- paste0("RR: ", sort(unique(dt[,2]))[2])
+    colnames(RR)[1] <- paste0("Compare: ", sort(unique(dt[,2]))[2])
   }
   RR
 }

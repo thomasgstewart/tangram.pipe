@@ -1,3 +1,13 @@
+#' Binary Odds Ratio
+#'
+#' Calculates odds ratio across categories for binary data
+#' @param dt the name of the dataframe object.
+#' @param num_col num_col the number of categorical columns in the data.
+#' @param reference the name of the reference row category to use.
+#' @param digits significant digits to use.
+#' @keywords tangram.pipe
+#' @export
+
 binary_or <- function(dt, num_col, reference, digits){
   rnd <- paste0("%.", digits, "f")
   model <- summary(glm(dt[,1]~dt[,2], data=dt, family="binomial"))
@@ -22,9 +32,9 @@ binary_or <- function(dt, num_col, reference, digits){
       UB <- sprintf(rnd, exp(logOR + 1.96*logSE))
       OR2 <- paste0(pt_est, " (", LB, ", ", UB, ")")
       OR <- data.frame(OR, OR2)
-      colnames(OR)[i-1] <- paste0("OR: ", sort(unique(dt[,2]))[i])
+      colnames(OR)[i-1] <- paste0("Compare: ", sort(unique(dt[,2]))[i])
     }
-    colnames(OR)[1] <- paste0("OR: ", sort(unique(dt[,2]))[2])
+    colnames(OR)[1] <- paste0("Compare: ", sort(unique(dt[,2]))[2])
   }
   OR
 }

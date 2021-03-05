@@ -82,10 +82,12 @@ binary_row <- function(
     if (ncol(comp) < 2){
       binary_out$compare <- ""
       binary_out$compare[1] <- comp
+      binary_out$compare <- as.character(binary_out$compare)
     } else {
       for (i in 1:ncol(comp)){
         binary_out$compare <- ""
         binary_out$compare[1] <- comp[i]
+        binary_out$compare <- as.character(binary_out$compare)
         colnames(binary_out)[ncol(binary_out)] <- colnames(comp)[i]
       }
     }

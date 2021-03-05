@@ -2,9 +2,18 @@
 % Please edit documentation in R/num_diff.R
 \name{num_diff}
 \alias{num_diff}
-\title{num_diff}
+\title{Numeric Difference in Means}
 \usage{
 num_diff(dt, num_col, row_var, digits)
+}
+\arguments{
+\item{dt}{the name of the dataframe object.}
+
+\item{num_col}{the number of categorical columns in the data.}
+
+\item{row_var}{the name of the row variable in the data.}
+
+\item{digits}{significant digits to use.}
 }
 \description{
 Default comparison function for numeric data

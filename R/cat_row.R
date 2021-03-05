@@ -74,10 +74,12 @@ cat_row <- function(
 
   if (class(comparison) == "function" & num_col > 1){
     cat_out$compare <- ""
-    cat_out$compare[1] <- comparison(data)
+    cat_out$compare[1] <- comparison(data, digits)
     if (cat_out$compare[1] == 'NaN (NaN)'){
       warning("Cannot compute chi-square with zero row/column")
       cat_out <- cat_out[,-ncol(cat_out)]
+    } else {
+      colnames(cat_out)[ncol(cat_out)] <- "Compare: All Groups"
     }
   }
 

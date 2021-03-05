@@ -1,3 +1,13 @@
+#' Binary Difference in Proportions
+#'
+#' Default comparison function for binary data
+#' @param dt the name of the dataframe object.
+#' @param num_col num_col the number of categorical columns in the data.
+#' @param reference the name of the reference row category to use.
+#' @param digits significant digits to use.
+#' @keywords tangram.pipe
+#' @export
+
 binary_diff <- function(dt, num_col, reference, digits){
   rnd <- paste0("%.",digits,"f")
   dt <- dt[complete.cases(dt),]

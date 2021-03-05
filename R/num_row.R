@@ -74,10 +74,12 @@ num_row <- function(
     if (ncol(comp) < 2){
       num_out$compare <- ""
       num_out$compare[1] <- comp
+      num_out$compare <- as.character(num_out$compare)
     } else {
       for (i in 1:ncol(comp)){
         num_out$compare <- ""
         num_out$compare[1] <- comp[i]
+        num_out$compare <- as.character(num_out$compare)
         colnames(num_out)[ncol(num_out)] <- colnames(comp)[i]
       }
     }

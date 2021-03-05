@@ -1,10 +1,10 @@
-#' num_diff
+#' Numeric Difference in Means
 #'
 #' Default comparison function for numeric data
-#' @param dt
-#' @param num_col
-#' @param row_var
-#' @param digits
+#' @param dt the name of the dataframe object.
+#' @param num_col the number of categorical columns in the data.
+#' @param row_var the name of the row variable in the data.
+#' @param digits significant digits to use.
 #' @keywords tangram.pipe
 #' @export
 
