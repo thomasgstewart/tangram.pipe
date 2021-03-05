@@ -30,6 +30,6 @@ binary_default <- function(dt, reference, row_var, rowlabels, missing, digits){
     out <- out %>% filter(out[,1]==reference | out[,1]==rowlabels)
   }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-  out$Measure[2:nrow(out)] <- "Prop. (N)"
+  out$Measure[1] <- "Prop. (N)"
   out
 }

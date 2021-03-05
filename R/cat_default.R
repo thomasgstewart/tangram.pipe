@@ -25,6 +25,6 @@ cat_default <- function(dt, row_var, rowlabels, missing, digits){
     out[,1] <- gsub("NA.", "Missing", out[,1])
   }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-  out$Measure[2:nrow(out)] <- "Prop. (N)"
+  out$Measure[1] <- "Prop. (N)"
   out
 }
