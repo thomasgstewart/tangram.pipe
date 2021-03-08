@@ -16,9 +16,10 @@ empty_row <- function(
     num_col <- list_obj[['num_col']]
   }
   erow <- c(rep("",num_col))
-  if (!is.null(header)){
-    erow[1] <- header
-  }
+
   list_obj[[length(list_obj) + 1]] <- erow
+  if (!is.null(header)){
+    list_obj[[length(list_obj)]][1] <- header
+  }
   return(list_obj)
 }

@@ -3,15 +3,15 @@
 #' Prints a finished table
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @keywords tangram.pipe
+#' @method print tangram.pipe
 #' @export
 
 print.tangram.pipe <- function(
   list_obj
 ){
-  idx <- which(lapply(list_obj, class)=="tangram.pipe")
+  idx <- which(vapply(list_obj, function(x){"out" %in% class(x)}, TRUE))
   if (length(idx) > 1){
     idx <- idx[1]
   }
-  class(list_obj[[idx]]) <- "data.frame"
-  return(list_obj[[idx]])
+  print(list_obj[[idx]])
 }

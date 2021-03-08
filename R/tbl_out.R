@@ -26,6 +26,7 @@ tbl_out <- function(
     out_tbl <- data.frame()
   }
   list_obj[[length(list_obj) + 1]] <- out_tbl
-  #class(list_obj[[length(list_obj)]]) <- "tangram.pipe"
+  class(list_obj[[length(list_obj)]]) <- c("data.frame", "out")
+  class(list_obj) <- "tangram.pipe"
   return(list_obj)
 }
