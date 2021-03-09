@@ -3,6 +3,8 @@
 #' Default comparison function for categorical data
 #' @param dt the name of the dataframe object
 #' @param digits significant digits to use.
+#' @importFrom stats chisq.test
+#' @importFrom stats pchisq
 #' @export
 
 

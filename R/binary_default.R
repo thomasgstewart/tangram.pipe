@@ -1,3 +1,17 @@
+#' Summary for a Binary Row
+#' 
+#' Summarizes a binary row using counts and column proportions.
+#' @param dt the name of the dataframe object.
+#' @param reference the name of the row category to use as the reference. Default will use alphabetical first category.
+#' @param row_var the name of the variable to be used in the rows.
+#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
+#' @param digits significant digits to use.
+#' @import dplyr
+#' @importFrom tibble rownames_to_column
+#' @keywords tangram.pipe
+#' @export
+
 binary_default <- function(dt, reference, row_var, rowlabels, missing, digits){
   dt <- filter(dt, !is.na(dt[,2]))
   rnd <- paste0("%.", digits, "f")

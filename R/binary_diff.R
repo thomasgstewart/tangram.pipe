@@ -5,6 +5,9 @@
 #' @param num_col num_col the number of categorical columns in the data.
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
+#' @import dplyr
+#' @importFrom stats complete.cases
+#' @importFrom stats prop.test
 #' @keywords tangram.pipe
 #' @export
 

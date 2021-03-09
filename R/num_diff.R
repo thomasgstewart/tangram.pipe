@@ -5,6 +5,8 @@
 #' @param num_col the number of categorical columns in the data.
 #' @param row_var the name of the row variable in the data.
 #' @param digits significant digits to use.
+#' @import dplyr
+#' @importFrom stats t.test
 #' @keywords tangram.pipe
 #' @export
 

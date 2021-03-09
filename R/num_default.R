@@ -1,3 +1,20 @@
+#' Summary for a Numeric Row
+#' 
+#' Summarizes a numeric row using the five-number summary, mean, and standard deviation.
+#' @param dt the name of the dataframe object.
+#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
+#' @param digits significant digits to use.
+#' @import dplyr
+#' @importFrom  stats complete.cases
+#' @importFrom stats aggregate
+#' @importFrom stats sd
+#' @importFrom stats median
+#' @importFrom stats quantile
+#' @importFrom tibble rownames_to_column
+#' @keywords tangram.pipe
+#' @export
+
 num_default <- function(dt, rowlabels, missing, digits){
   if (missing == TRUE){
     miss <- dt %>% filter(is.na(dt[,1]))

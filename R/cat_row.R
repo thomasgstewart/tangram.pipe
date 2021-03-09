@@ -11,6 +11,7 @@
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison the name of the comparison test to do, if different from that initialized in tbl_start.
 #' @param digits significant digits to use.
+#' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
@@ -43,14 +44,14 @@ cat_row <- function(
     col_var <- list_obj[["col_var"]]
     num_col <- list_obj[['num_col']]
   } else {
-    if (newdata[1] == FALSE){
+    if (class(newdata) == 'logical'){
       num_col <- list_obj[['data']][col_var] %>%
         filter(!is.na(list_obj[['data']][col_var])) %>%
         unique() %>%
         nrow()
     }
   }
-  if (newdata[1] == FALSE){
+  if (class(newdata) == 'logical'){
     data <- list_obj[['data']][,c(row_var, col_var)] #list_obj %>% le('data') %>% select(row_var, col_var)
   } else {
     data <- newdata[,c(row_var, col_var)]

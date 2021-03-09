@@ -5,6 +5,7 @@
 #' @param num_col num_col the number of categorical columns in the data.
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
+#' @importFrom stats glm
 #' @keywords tangram.pipe
 #' @export
 

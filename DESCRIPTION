@@ -19,6 +19,9 @@ RoxygenNote: 7.1.1.9000
 Depends:
     dplyr,
     tibble
+Suggests:
+    knitr,
+    kableExtra
 VignetteBuilder: knitr
 URL: https://github.com/thomasgstewart/tangram.pipe
 BugReports: https://github.com/thomasgstewart/tangram.pipe/issues

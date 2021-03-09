@@ -6,6 +6,7 @@
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison logical: if TRUE, a comparison test is conducted between columns.
+#' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
