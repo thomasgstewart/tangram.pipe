@@ -63,6 +63,8 @@ cat_row <- function(
   if (is.null(rowlabels)){
     rowlabels <- row_var
   }
+  
+  data[,2] <- as.factor(data[,2])
 
   #Default summary function will take % (N)
 

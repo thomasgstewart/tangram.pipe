@@ -65,6 +65,8 @@ binary_row <- function(
   if (is.null(rowlabels)){
     rowlabels <- row_var
   }
+  
+  data[,2] <- as.factor(data[,2])
 
   #Default summary function will take % (N)
 
@@ -80,10 +82,11 @@ binary_row <- function(
 
   if (class(comparison) == "function" & num_col > 1){
     comp <- comparison(data, num_col, reference, digits)
-    if (ncol(comp) < 2){
+    if (length(comp) < 2){
       binary_out$compare <- ""
       binary_out$compare[1] <- comp
       binary_out$compare <- as.character(binary_out$compare)
+      colnames(binary_out)[ncol(binary_out)] <- "Compare: All Groups"
     } else {
       for (i in 1:ncol(comp)){
         binary_out$compare <- ""

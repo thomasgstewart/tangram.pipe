@@ -10,7 +10,7 @@
 
 cat_comp_default <- function(dt, digits){
   rnd <- paste0("%.", digits, "f")
-  chisq <- chisq.test(table(dt))
+  chisq <- suppressWarnings(chisq.test(table(dt)))
   N <- nrow(dt)
   stat <- round(((N-1)/N)*chisq$statistic,2)
   pvalue <- sprintf(rnd, 1-pchisq(stat, df=chisq$parameter))
