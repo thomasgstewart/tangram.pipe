@@ -74,19 +74,13 @@ num_row <- function(
 
   if (class(comparison) == "function" & num_col > 1){
     comp <- comparison(data, num_col, row_var, digits)
-    if (length(comp) < 2){
+    for (i in 1:ncol(comp)){
       num_out$compare <- ""
-      num_out$compare[1] <- comp
+      num_out$compare[1] <- comp[i]
       num_out$compare <- as.character(num_out$compare)
-      colnames(num_out)[ncol(num_out)] <- "Compare: All Groups"
-    } else {
-      for (i in 1:ncol(comp)){
-        num_out$compare <- ""
-        num_out$compare[1] <- comp[i]
-        num_out$compare <- as.character(num_out$compare)
-        colnames(num_out)[ncol(num_out)] <- colnames(comp)[i]
-      }
+      colnames(num_out)[ncol(num_out)] <- colnames(comp)[i]
     }
+    colnames(num_out)[ncol(num_out)] <- "Compare: All Groups"
   }
 
   list_obj[[length(list_obj) + 1]] <- num_out

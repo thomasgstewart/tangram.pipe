@@ -1,5 +1,5 @@
 Package: tangram.pipe
-Title: Row-by-row table building
+Title: Row-by-Row Table Building
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Andrew",
@@ -10,7 +10,10 @@ Authors@R:
            family = "Stewart",
            role = c("aut"),
            email = "thomas.stewart@vumc.org"))
-Description: What the package does (one paragraph).
+Description: Builds tables with customizable rows. Users can specify the type
+             of data to use for each row, as well as how to handle missing
+             data and the types of comparison tests to run on the table
+             columns.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
