@@ -18,6 +18,7 @@ binary_or <- function(dt, num_col, reference, digits){
   }
   model <- summary(glm(dt[,1]~dt[,2], data=dt, family="binomial"))
   OR <- list()
+  name <- c()
   for (i in 2:num_col){
     logOR <- model$coefficients[i,1]
     logSE <- model$coefficients[i,2]

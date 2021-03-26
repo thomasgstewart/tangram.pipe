@@ -20,9 +20,13 @@ num_diff <- function(dt, num_col, row_var, digits){
   dt3 <- list()
   name <- c()
   for(i in 2:k){
-    dt3[[i-1]] <- t.test(dt2[[1]][,1], dt2[[i]][,1]) %>% 
-      diffmeans %>% 
-      fmt
+    if (is.na(sd(dt2[[1]][,1], na.rm=TRUE)) | is.na(sd(dt2[[i]][,1], na.rm=TRUE))){
+      dt3[[i-1]] <- ""
+    } else {
+      dt3[[i-1]] <- t.test(dt2[[1]][,1], dt2[[i]][,1]) %>% 
+        diffmeans %>% 
+        fmt
+    }
     
     name[i-1] <- paste0(names(dt2[1]), " vs. ", names(dt2[i]))
   }

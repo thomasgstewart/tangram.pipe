@@ -27,14 +27,14 @@ binary_rr <- function(dt, num_col, reference, digits){
   RR <- list()
   name <- c()
   for (i in 2:num_col){
-    A <- sum(dt[,1] == reference & dt[,2] == sort(unique(dt[,2]))[1])
-    B <- sum(dt[,1] == reference & dt[,2] == sort(unique(dt[,2]))[i])
-    C <- sum(dt[,1] != reference & dt[,2] == sort(unique(dt[,2]))[1])
-    D <- sum(dt[,1] != reference & dt[,2] == sort(unique(dt[,2]))[i])
+    A <- sum(dt[,1] == reference & dt[,2] == levels(dt[,2])[1])
+    B <- sum(dt[,1] == reference & dt[,2] == levels(dt[,2])[i])
+    C <- sum(dt[,1] != reference & dt[,2] == levels(dt[,2])[1])
+    D <- sum(dt[,1] != reference & dt[,2] == levels(dt[,2])[i])
     
     RR[[i-1]] <- RR_cal(A,B,C,D) %>%
       fmt
-    name[i-1] <- paste0(names(dt2[1]), " vs. ", names(dt2[i]))
+    name[i-1] <- paste0(levels(dt[,2])[1], " vs. ", levels(dt[,2])[i])
   }
   rnd2 <- paste0("%.", digits, "f")
   chisq <- suppressWarnings(chisq.test(table(dt)))

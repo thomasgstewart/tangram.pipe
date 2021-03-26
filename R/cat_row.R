@@ -76,14 +76,14 @@ cat_row <- function(
   }
 
   if (class(comparison) == "function" & num_col > 1){
-    cat_out$compare <- ""
-    cat_out$compare[1] <- comparison(data, digits)
-    if (cat_out$compare[1] == 'NaN (NaN)'){
-      warning("Cannot compute chi-square with zero row/column")
-      cat_out <- cat_out[,-ncol(cat_out)]
-    } else {
-      colnames(cat_out)[ncol(cat_out)] <- "Compare: All Groups"
+    comp <- comparison(data, digits)
+    for (i in 1:ncol(comp)){
+      cat_out$compare <- ""
+      cat_out$compare[1] <- comp[i]
+      cat_out$compare <- as.character(cat_out$compare)
+      colnames(cat_out)[ncol(cat_out)] <- colnames(comp)[i]
     }
+    colnames(cat_out)[ncol(cat_out)] <- "Compare: All Groups"
   }
 
 
