@@ -41,4 +41,8 @@ cat_row(
 \description{
 Adds in a categorical row to the table.
 }
+\examples{
+x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
+  cat_row("Stem.Size", rowlabels="Stem Size")
+}
 \keyword{tangram.pipe}

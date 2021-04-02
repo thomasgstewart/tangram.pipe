@@ -1,3 +1,13 @@
+#' Chi-Squared Test for Categorical Variables
+#'
+#' Default comparison function for categorical data
+#' @param dt the name of the dataframe object
+#' @param digits significant digits to use.
+#' @importFrom stats chisq.test
+#' @importFrom stats pchisq
+#' @importFrom stats setNames
+#' @export
+
 cat_comp_default <- function(dt, digits){
   fmt <- paste0("%.", digits, "f")
   counts <- table(dt)

@@ -12,4 +12,20 @@
 \description{
 Prints a finished table
 }
+\examples{
+x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
+  num_row("Sepal.Length", rowlabels="Sepal Length") \%>\%
+  empty_row() \%>\%
+  num_row("Sepal.Width", rowlabels="Sepal Width") \%>\%
+  empty_row() \%>\%
+  num_row("Petal.Length", rowlabels="Petal Length") \%>\%
+  empty_row() \%>\%
+  num_row("Petal.Width", rowlabels="Petal Width") \%>\%
+  empty_row() \%>\%
+  cat_row("Stem.Size", rowlabels="Stem Size") \%>\%
+  empty_row() \%>\%
+  binary_row("color", rowlabels="Color") \%>\%
+  tbl_out() \%>\%
+  print()
+}
 \keyword{tangram.pipe}

@@ -44,4 +44,8 @@ binary_row(
 \description{
 Adds in a binary row to the table.
 }
+\examples{
+x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
+  binary_row("color", rowlabels="Color")
+}
 \keyword{tangram.pipe}

@@ -7,6 +7,9 @@
 #' @param digits significant digits to use.
 #' @import dplyr
 #' @importFrom stats t.test
+#' @importFrom stats anova
+#' @importFrom stats lm
+#' @importFrom stats setNames
 #' @keywords tangram.pipe
 #' @export
 

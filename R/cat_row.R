@@ -13,6 +13,9 @@
 #' @param digits significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
+#' @examples 
+#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#'   cat_row("Stem.Size", rowlabels="Stem Size")
 #' @export
 
 cat_row <- function(
@@ -69,8 +72,7 @@ cat_row <- function(
   #Default summary function will take % (N)
 
   #Calculations
-  cat_out <- summary(data, row_var, rowlabels, missing, digits)
-  colnames(cat_out)[1] <- "Variable"
+  cat_out <- summary(data, rowlabels, missing, digits)
   if (overall == FALSE){
     cat_out <- cat_out[,-ncol(cat_out)]
   }

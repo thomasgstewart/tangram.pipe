@@ -4,12 +4,10 @@
 \alias{cat_default}
 \title{Summary for a Categorical Row}
 \usage{
-cat_default(dt, row_var, rowlabels, missing, digits)
+cat_default(dt, rowlabels, missing, digits)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
-
-\item{row_var}{the name of the variable to be used in the rows.}
 
 \item{rowlabels}{the label for the table row name, if different from row_var.}
 

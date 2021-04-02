@@ -8,6 +8,8 @@
 #' @param comparison logical: if TRUE, a comparison test is conducted between columns.
 #' @import dplyr
 #' @keywords tangram.pipe
+#' @examples 
+#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE)
 #' @export
 
 tbl_start <- function(

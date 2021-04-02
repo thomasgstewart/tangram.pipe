@@ -4,12 +4,10 @@
 \alias{empty_row}
 \title{Empty Row}
 \usage{
-empty_row(list_obj, num_col = NULL, header = NULL)
+empty_row(list_obj, header = NULL)
 }
 \arguments{
 \item{list_obj}{the name of the tbl_start object previously initialized.}
-
-\item{num_col}{the number of columns to include.}
 
 \item{header}{a header to include for the empty row.}
 }

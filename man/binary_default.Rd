@@ -4,14 +4,12 @@
 \alias{binary_default}
 \title{Summary for a Binary Row}
 \usage{
-binary_default(dt, reference, row_var, rowlabels, missing, digits)
+binary_default(dt, reference, rowlabels, missing, digits)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
 \item{reference}{the name of the row category to use as the reference. Default will use alphabetical first category.}
-
-\item{row_var}{the name of the variable to be used in the rows.}
 
 \item{rowlabels}{the label for the table row name, if different from row_var.}
 

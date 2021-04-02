@@ -13,6 +13,9 @@
 #' @param digits significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
+#' @examples 
+#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#'   num_row("Sepal.Length", rowlabels="Sepal Length")
 #' @export
 
 num_row <- function(

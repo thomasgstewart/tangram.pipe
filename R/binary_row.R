@@ -14,6 +14,9 @@
 #' @param digits significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
+#' @examples 
+#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#'   binary_row("color", rowlabels="Color")
 #' @export
 
 binary_row <- function(
@@ -74,8 +77,7 @@ binary_row <- function(
   if (is.null(reference)){
     reference = sort(unique(data[,1]))[1]
   }
-  binary_out <- summary(data, reference, row_var, rowlabels, missing, digits)
-  colnames(binary_out)[1] <- "Variable"
+  binary_out <- summary(data, reference, rowlabels, missing, digits)
   if (overall == FALSE){
     binary_out <- binary_out[,-ncol(binary_out)]
   }

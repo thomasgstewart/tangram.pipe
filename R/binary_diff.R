@@ -8,6 +8,7 @@
 #' @import dplyr
 #' @importFrom stats complete.cases
 #' @importFrom stats prop.test
+#' @importFrom stats setNames
 #' @keywords tangram.pipe
 #' @export
 

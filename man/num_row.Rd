@@ -41,4 +41,8 @@ num_row(
 \description{
 Adds in a numeric row to the table.
 }
+\examples{
+x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
+  num_row("Sepal.Length", rowlabels="Sepal Length")
+}
 \keyword{tangram.pipe}

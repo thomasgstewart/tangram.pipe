@@ -11,7 +11,6 @@
 #' @importFrom stats sd
 #' @importFrom stats median
 #' @importFrom stats quantile
-#' @importFrom tibble rownames_to_column
 #' @keywords tangram.pipe
 #' @export
 
@@ -69,7 +68,9 @@ num_default <- function(dt, rowlabels, missing, digits){
   out$Overall[7] <- sprintf(rnd, max(dt[,1]))
   out$Overall[8] <- sprintf(rnd, mean(dt[,1]))
   out$Overall[9] <- sprintf(rnd, sd(dt[,1]))
-  out <- out[(3:nrow(out)),] %>% tibble::rownames_to_column("Measure")
+  out <- out[(3:nrow(out)),] #%>% tibble::rownames_to_column("Measure")
+  out <- cbind(Measure=rownames(out), out)
+  rownames(out) <- NULL
   if (missing == TRUE){
     out <- cbind(Variable="",out)
     out[8,] <- ""

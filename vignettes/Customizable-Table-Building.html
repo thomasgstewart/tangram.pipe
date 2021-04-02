@@ -581,9 +581,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="initializing-the-table" class="section level1">
 <h1>Initializing the table</h1>
-<p>The first step to using this package is to initialize the data table to create. Here, the user will select the name of the dataset to be analyzed in the table, specify the variable name to use for the columns, and determine whether to account for missing data, calculated overall statistics across all columns, or conduct comparison tests across the columns for each row. The arguments for <code>missing</code>, <code>overall</code>, and <code>comparison</code> will be used as the defaults for each subsequent row added to the table; however, a user can specify a different entry for each argument for individual rows if desired.</p>
+<p>The first step to using this package is to initialize the data table to create. Here, the user will select the name of the dataset to be analyzed in the table and specify the variable name to use for the columns. In addition, the user will need to determine whether to account for missing data, calculated overall statistics across all columns, or conduct comparison tests across the columns for each row. The arguments for <code>missing</code>, <code>overall</code>, and <code>comparison</code> will be used as the defaults for each subsequent row added to the table; however, a user can specify a different entry for each argument for individual rows if desired.</p>
 <p>This vignette will use the dataset <code>iris2</code>, which is a modified version of the built-in R dataset <code>iris</code>. The data contains continuous, categorical, and binary variables to demonstrate the different row addition functions, as well as some missing data to show how the package accounts for missingness within the data.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">head</span>(iris2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">head</span>(iris2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -616,91 +616,13 @@ color
 <tbody>
 <tr>
 <td style="text-align:center;">
-6.7
+5.0
 </td>
 <td style="text-align:left;">
-3.0
+3.6
 </td>
 <td style="text-align:center;">
-5.2
-</td>
-<td style="text-align:left;">
-2.3
-</td>
-<td style="text-align:center;">
-virginica
-</td>
-<td style="text-align:left;">
-Green
-</td>
-<td style="text-align:center;">
-Large
-</td>
-<td style="text-align:left;">
-Blue
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.6
-</td>
-<td style="text-align:left;">
-2.5
-</td>
-<td style="text-align:center;">
-3.9
-</td>
-<td style="text-align:left;">
-1.1
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:left;">
-Green
-</td>
-<td style="text-align:center;">
-Large
-</td>
-<td style="text-align:left;">
-Blue
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-5.1
-</td>
-<td style="text-align:left;">
-2.5
-</td>
-<td style="text-align:center;">
-3.0
-</td>
-<td style="text-align:left;">
-1.1
-</td>
-<td style="text-align:center;">
-versicolor
-</td>
-<td style="text-align:left;">
-Green
-</td>
-<td style="text-align:center;">
-Small
-</td>
-<td style="text-align:left;">
-Blue
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-4.8
-</td>
-<td style="text-align:left;">
-3.4
-</td>
-<td style="text-align:center;">
-1.9
+1.4
 </td>
 <td style="text-align:left;">
 0.2
@@ -723,13 +645,13 @@ Blue
 7.7
 </td>
 <td style="text-align:left;">
-3.8
+2.8
 </td>
 <td style="text-align:center;">
 6.7
 </td>
 <td style="text-align:left;">
-2.2
+2.0
 </td>
 <td style="text-align:center;">
 virginica
@@ -738,7 +660,7 @@ virginica
 Green
 </td>
 <td style="text-align:center;">
-Small
+Large
 </td>
 <td style="text-align:left;">
 Blue
@@ -746,19 +668,97 @@ Blue
 </tr>
 <tr>
 <td style="text-align:center;">
-5.8
+5.5
 </td>
 <td style="text-align:left;">
-2.7
+4.2
 </td>
 <td style="text-align:center;">
-3.9
+1.4
 </td>
 <td style="text-align:left;">
-1.2
+0.2
 </td>
 <td style="text-align:center;">
-versicolor
+setosa
+</td>
+<td style="text-align:left;">
+Green
+</td>
+<td style="text-align:center;">
+Medium
+</td>
+<td style="text-align:left;">
+Blue
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5.1
+</td>
+<td style="text-align:left;">
+3.8
+</td>
+<td style="text-align:center;">
+1.6
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:left;">
+Green
+</td>
+<td style="text-align:center;">
+Medium
+</td>
+<td style="text-align:left;">
+Blue
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4.6
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:center;">
+1.0
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:center;">
+setosa
+</td>
+<td style="text-align:left;">
+Green
+</td>
+<td style="text-align:center;">
+Medium
+</td>
+<td style="text-align:left;">
+Blue
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4.6
+</td>
+<td style="text-align:left;">
+3.1
+</td>
+<td style="text-align:center;">
+1.5
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:center;">
+setosa
 </td>
 <td style="text-align:left;">
 Green
@@ -781,9 +781,9 @@ Blue
 <div id="numeric-rows" class="section level2">
 <h2>Numeric Rows</h2>
 <p>To start off, we will first add a numeric row to the table. The function <code>num_row</code> reads in data that is numeric in form, and by default calculates the five-number summary statistics (minimum, first quartile, median, third quartile, maximum), as well as the mean and standard deviation for the numeric variable within each column. Since we specified <code>overall=TRUE</code> in the initialization step, an overall summary row will be included as well. The default summary function is <code>num_default</code>, but the user may write their own function to calculate different summary statistics from what is shown here. Currently, <code>num_default</code> is the only built-in summary function for this data type.</p>
-<p>Let’s start by calculating summary statistics for the Sepal Length in the <code>iris2</code> dataset. Since the name of the variable in the dataset, <code>Sepal.Length</code>, is rather clunky, we will use the <code>rowlabels</code> argument to change the name of the row to something better suited for a professional table.</p>
+<p>Let’s start by calculating summary statistics for the Sepal Length in the <code>iris2</code> dataset. Since it makes more sense to display the variable name as “Sepal Length” rather than the R-generated “Sepal.Length”, we will use the <code>rowlabels</code> argument to make this change for the table.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">num_row</span>(<span class="dt">row_var=</span><span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Sepal Length&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -857,13 +857,13 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 </tr>
 <tr>
@@ -873,13 +873,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -911,16 +911,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 </tr>
 <tr>
@@ -930,23 +930,23 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 </tr>
 </tbody>
 </table>
 <p>By default, each row function will use two decimal places in reported statistics. We can use the <code>digits</code> argument to specify more or fewer significant digits in the reported table.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">num_row</span>(<span class="dt">row_var=</span><span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="dt">digits=</span><span class="dv">4</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1020,13 +1020,13 @@ median
 5.0000
 </td>
 <td style="text-align:left;">
-5.9000
+5.8000
 </td>
 <td style="text-align:center;">
 6.5000
 </td>
 <td style="text-align:left;">
-5.8000
+5.7000
 </td>
 </tr>
 <tr>
@@ -1036,13 +1036,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.2000
+5.3000
 </td>
 <td style="text-align:left;">
-6.3000
+6.2000
 </td>
 <td style="text-align:center;">
-6.9000
+6.8000
 </td>
 <td style="text-align:left;">
 6.4000
@@ -1074,16 +1074,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.0102
+5.0213
 </td>
 <td style="text-align:left;">
-5.9221
+5.9021
 </td>
 <td style="text-align:center;">
-6.6112
+6.5186
 </td>
 <td style="text-align:left;">
-5.8394
+5.8068
 </td>
 </tr>
 <tr>
@@ -1093,23 +1093,23 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.3222
+0.3651
 </td>
 <td style="text-align:left;">
-0.5157
+0.4919
 </td>
 <td style="text-align:center;">
-0.6062
+0.5927
 </td>
 <td style="text-align:left;">
-0.8174
+0.8022
 </td>
 </tr>
 </tbody>
 </table>
 <p>There is a small amount of missing data within the <code>iris2</code> dataset. Currently, <code>num_row</code> filters out the missing data and only considers data with complete cases of the row and column variables. To see how much missing data there is in the sepal length, we specify <code>missing=TRUE</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">num_row</span>(<span class="dt">row_var=</span><span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="dt">missing=</span><span class="ot">TRUE</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1183,13 +1183,13 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 </tr>
 <tr>
@@ -1199,13 +1199,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -1237,16 +1237,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 </tr>
 <tr>
@@ -1256,16 +1256,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 </tr>
 <tr>
@@ -1275,16 +1275,16 @@ SD
 Missing
 </td>
 <td style="text-align:center;">
-1
+0
 </td>
 <td style="text-align:left;">
 0
 </td>
 <td style="text-align:center;">
-3
+1
 </td>
 <td style="text-align:left;">
-4
+1
 </td>
 </tr>
 </tbody>
@@ -1292,7 +1292,7 @@ Missing
 <p>The function above tells us that the dataset is missing a sepal length measurement for three virginica flowers and one setosa flower, for a total of four missing data entries. Note that the function cannot locate instances of missingness in the column variable.</p>
 <p>Finally, suppose we want to look at the differences in means across all species. The function <code>num_diff</code> for the <code>comparison</code> argument will calculated the mean difference in sepal length for each row compared to a reference category, which is coded as the first column variable in the table. Here, versicolor and virginica will be compared to setosa. The function also provides a 95% Confidence interval to accompany the mean difference. Currently, <code>num_diff</code> is the only built-in comparison function for <code>num_row</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">num_row</span>(<span class="dt">row_var=</span><span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Sepal Length&quot;</span>, <span class="dt">comparison=</span>num_diff)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2"></a>info[[<span class="dv">7</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1315,10 +1315,13 @@ virginica
 Overall
 </th>
 <th style="text-align:center;">
-Compare: versicolor
+setosa vs. versicolor
 </th>
 <th style="text-align:left;">
-Compare: virginica
+setosa vs. virginica
+</th>
+<th style="text-align:center;">
+Compare: All Groups
 </th>
 </tr>
 </thead>
@@ -1343,10 +1346,13 @@ min
 4.30
 </td>
 <td style="text-align:center;">
--0.91 (-1.00, -0.82)
+-0.88 (-0.98, -0.78)
 </td>
 <td style="text-align:left;">
--1.6 (-1.71, -1.49)
+-1.50 (-1.60, -1.39)
+</td>
+<td style="text-align:center;">
+p = &lt;.001
 </td>
 </tr>
 <tr>
@@ -1371,6 +1377,8 @@ Q1
 </td>
 <td style="text-align:left;">
 </td>
+<td style="text-align:center;">
+</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -1382,17 +1390,19 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 <tr>
@@ -1402,13 +1412,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -1416,6 +1426,8 @@ Q3
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 <tr>
@@ -1440,6 +1452,8 @@ max
 </td>
 <td style="text-align:left;">
 </td>
+<td style="text-align:center;">
+</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -1448,20 +1462,22 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 <tr>
@@ -1471,20 +1487,22 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 </tbody>
@@ -1495,7 +1513,7 @@ SD
 <p>Now, we will look at adding categorical variables. The function <code>cat_row</code> reads in data that is categorical in form, and by default calculates the number of instances for each row category within each column category, as well as the column-wise proportions. The default summary function is <code>cat_default</code>, but the user may write their own function to calculate different summary statistics from what is shown here. Currently, <code>cat_default</code> is the only built-in summary function for this data type.</p>
 <p>We will demonstrate this function by looking at <code>Stem.Size</code> in the <code>iris2</code> dataset. Note that all possible arguments for <code>cat_row</code> are the same as those for <code>num_row</code></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat_row</span>(<span class="st">&quot;Stem.Size&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Stem Size&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb9-2"><a href="#cb9-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1543,16 +1561,16 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.23 (39)
+0.26 (47)
 </td>
 <td style="text-align:left;">
-0.25 (43)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.24 (38)
+0.23 (40)
 </td>
 <td style="text-align:left;">
-0.24 (120)
+0.25 (125)
 </td>
 </tr>
 <tr>
@@ -1562,16 +1580,16 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.50 (83)
+0.53 (95)
 </td>
 <td style="text-align:left;">
-0.48 (82)
+0.48 (69)
 </td>
 <td style="text-align:center;">
-0.55 (88)
+0.50 (88)
 </td>
 <td style="text-align:left;">
-0.51 (253)
+0.50 (252)
 </td>
 </tr>
 <tr>
@@ -1581,23 +1599,23 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.27 (45)
+0.20 (36)
 </td>
 <td style="text-align:left;">
-0.27 (47)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.22 (35)
+0.28 (49)
 </td>
 <td style="text-align:left;">
-0.25 (127)
+0.25 (123)
 </td>
 </tr>
 </tbody>
 </table>
 <p>Setting <code>missing=TRUE</code> will reveal the proportion of each species that does not have a corresponding entry for stem size</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat_row</span>(<span class="st">&quot;Stem.Size&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Stem Size&quot;</span>, <span class="dt">missing=</span><span class="ot">TRUE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb10-2"><a href="#cb10-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1645,16 +1663,16 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.23 (39)
+0.26 (47)
 </td>
 <td style="text-align:left;">
-0.25 (43)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.23 (38)
+0.22 (40)
 </td>
 <td style="text-align:left;">
-0.24 (120)
+0.25 (125)
 </td>
 </tr>
 <tr>
@@ -1664,16 +1682,16 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.49 (83)
+0.53 (95)
 </td>
 <td style="text-align:left;">
-0.48 (82)
+0.48 (69)
 </td>
 <td style="text-align:center;">
-0.54 (88)
+0.49 (88)
 </td>
 <td style="text-align:left;">
-0.50 (253)
+0.50 (252)
 </td>
 </tr>
 <tr>
@@ -1683,16 +1701,16 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.27 (45)
+0.20 (36)
 </td>
 <td style="text-align:left;">
-0.27 (47)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.21 (35)
+0.28 (49)
 </td>
 <td style="text-align:left;">
-0.25 (127)
+0.25 (123)
 </td>
 </tr>
 <tr>
@@ -1702,23 +1720,23 @@ Missing
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.01 (1)
+0.00 (0)
 </td>
 <td style="text-align:left;">
 0.00 (0)
 </td>
 <td style="text-align:center;">
-0.02 (3)
+0.01 (1)
 </td>
 <td style="text-align:left;">
-0.01 (4)
+0.00 (1)
 </td>
 </tr>
 </tbody>
 </table>
-<p>Finally, let’s look at a comparison test for a categorical row. The default comparison function is <code>cat_comp_default</code>, which will conduct a Chi-Square Goodness of Fit test on the data present. The result is a test statistic accompanied by a p-value. Currently, <code>cat_comp_default</code> is the only built-in funtion for categorical data, but a user may write their own function to use instead.</p>
+<p>Finally, let’s look at a comparison test for a categorical row. The default comparison function is <code>cat_comp_default</code>, which will calculate the relative entropy between each column and the reference category, as well as conduct a CBhi-Square Goodness of Fit test on the data present. Currently, <code>cat_comp_default</code> is the only built-in function for categorical data, but a user may write their own function to use instead.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">cat_row</span>(<span class="st">&quot;Stem.Size&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Stem Size&quot;</span>, <span class="dt">comparison=</span>cat_comp_default)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb11-2"><a href="#cb11-2"></a>info[[<span class="dv">8</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1739,6 +1757,12 @@ virginica
 </th>
 <th style="text-align:left;">
 Overall
+</th>
+<th style="text-align:center;">
+setosa vs. versicolor
+</th>
+<th style="text-align:left;">
+setosa vs. virginica
 </th>
 <th style="text-align:center;">
 Compare: All Groups
@@ -1762,7 +1786,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-2.21 (0.70)
+0.01
+</td>
+<td style="text-align:left;">
+0.02
+</td>
+<td style="text-align:center;">
+p = 0.49
 </td>
 </tr>
 <tr>
@@ -1772,16 +1802,20 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.23 (39)
+0.26 (47)
 </td>
 <td style="text-align:left;">
-0.25 (43)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.24 (38)
+0.23 (40)
 </td>
 <td style="text-align:left;">
-0.24 (120)
+0.25 (125)
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:left;">
 </td>
 <td style="text-align:center;">
 </td>
@@ -1793,16 +1827,20 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.50 (83)
+0.53 (95)
 </td>
 <td style="text-align:left;">
-0.48 (82)
+0.48 (69)
 </td>
 <td style="text-align:center;">
-0.55 (88)
+0.50 (88)
 </td>
 <td style="text-align:left;">
-0.51 (253)
+0.50 (252)
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:left;">
 </td>
 <td style="text-align:center;">
 </td>
@@ -1814,16 +1852,20 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.27 (45)
+0.20 (36)
 </td>
 <td style="text-align:left;">
-0.27 (47)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.22 (35)
+0.28 (49)
 </td>
 <td style="text-align:left;">
-0.25 (127)
+0.25 (123)
+</td>
+<td style="text-align:center;">
+</td>
+<td style="text-align:left;">
 </td>
 <td style="text-align:center;">
 </td>
@@ -1833,10 +1875,10 @@ Small
 </div>
 <div id="binary-data" class="section level2">
 <h2>Binary Data</h2>
-<p>The final type of data we will examine here is binary data; this is when a variable can only take on two possible values. In a table, it can be helpful to only include one of the options if the second entry can be deduced from looking at the first. This is done using the <code>binary row</code> function. Summary statistics are calculated using <code>binary_default</code>, and are the same as those calculated using a categorical variable. Note that a user may use <code>cat_row</code> to process binary data if they wish to see both row entries included in the table.</p>
+<p>The final type of data we will examine here is binary data; this is when a variable can only take on two possible values. In a table, it can be helpful to only include one of the options if the second entry can be deduced from looking at the first. This is done using the <code>binary_row</code> function. Summary statistics are calculated using <code>binary_default</code>, and are the same as those calculated using a categorical variable. Note that a user may use <code>cat_row</code> to process binary data if they wish to see both row entries included in the table.</p>
 <p>We will now demonstrate the use of <code>binary_row</code> on the color variable in <code>iris2</code>. In the dataset, the available colors are blue and purple, so we do not wish to include both entries here.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">binary_row</span>(<span class="st">&quot;color&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Color&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb12-2"><a href="#cb12-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1884,23 +1926,23 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>binary_row</code> function includes all of the same arguments as the previous row functions, but additionally includes a new argument, <code>reference</code>. This allows a user to choose which group will appear on the table. By default, the alphabetically first row group will appear on the table, which is why ‘blue’ appeared above. If we want to see the statistics for ‘purple’ flowers, we can run the following code.</p>
+<p>The <code>binary_row</code> function includes all of the same arguments as the previous row functions, but additionally includes a new argument, <code>reference</code>. This allows a user to choose which group will appear on the table. By default, the alphabetically first row group will appear on the table, which is why ‘Blue’ appeared above. If we want to see the statistics for purple flowers, we can run the following code.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">binary_row</span>(<span class="st">&quot;color&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Color&quot;</span>, <span class="dt">reference=</span><span class="st">&quot;Purple&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1948,23 +1990,23 @@ Purple
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.34 (56)
+0.41 (73)
 </td>
 <td style="text-align:left;">
-0.39 (67)
+0.46 (66)
 </td>
 <td style="text-align:center;">
-0.46 (74)
+0.34 (60)
 </td>
 <td style="text-align:left;">
-0.39 (197)
+0.40 (199)
 </td>
 </tr>
 </tbody>
 </table>
 <p>Finally, let’s look at some comparison functions used for binary data. By default, this row function will calculate the difference in proportions by using <code>binary_diff</code> if <code>comparison=TRUE</code> during initialization. This will calculated differences in proportions across columns; the calculations will also include 95% Confidence intervals.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">binary_row</span>(<span class="st">&quot;color&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Color&quot;</span>, <span class="dt">comparison=</span>binary_diff)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb14-2"><a href="#cb14-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1987,10 +2029,13 @@ virginica
 Overall
 </th>
 <th style="text-align:center;">
-Compare: versicolor
+setosa vs. versicolor
 </th>
 <th style="text-align:left;">
-Compare: virginica
+setosa vs. virginica
+</th>
+<th style="text-align:center;">
+Compare: All Groups
 </th>
 </tr>
 </thead>
@@ -2011,10 +2056,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.05 (-0.05, 0.16)
+0.05 (-0.07, 0.16)
 </td>
 <td style="text-align:left;">
-0.12 (0.01, 0.24)
+-0.07 (-0.17, 0.04)
+</td>
+<td style="text-align:center;">
+p = 0.10
 </td>
 </tr>
 <tr>
@@ -2024,27 +2072,29 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 </tbody>
 </table>
 <p>The package has two additional options for comparison tests using binary data. Odds ratios can be calculated using <code>binary_or</code>, and risk ratios can be calculated with <code>binary_rr</code>. Note that if <code>comparison=TRUE</code> is initialized in <code>tbl_start</code> and a user wants to use an odds ratio or risk ratio here, <code>comparison</code> must be set to either of those two options in this row addition, since excluding the argument will lead to <code>binary_diff</code> being called by default.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">binary_row</span>(<span class="st">&quot;color&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Color&quot;</span>, <span class="dt">comparison=</span>binary_or)</span>
-<span id="cb15-2"><a href="#cb15-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb15-2"><a href="#cb15-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2067,10 +2117,13 @@ virginica
 Overall
 </th>
 <th style="text-align:center;">
-Compare: versicolor
+setosa vs. versicolor
 </th>
 <th style="text-align:left;">
-Compare: virginica
+setosa vs. virginica
+</th>
+<th style="text-align:center;">
+Compare: All Groups
 </th>
 </tr>
 </thead>
@@ -2091,10 +2144,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-1.26 (0.81, 1.97)
+1.20 (0.77, 1.87)
 </td>
 <td style="text-align:left;">
-1.69 (1.08, 2.63)
+0.74 (0.48, 1.14)
+</td>
+<td style="text-align:center;">
+p = 0.10
 </td>
 </tr>
 <tr>
@@ -2104,26 +2160,28 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>info &lt;-<span class="st"> </span>info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">binary_row</span>(<span class="st">&quot;color&quot;</span>, <span class="dt">rowlabels=</span><span class="st">&quot;Color&quot;</span>, <span class="dt">comparison=</span>binary_rr)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<span id="cb16-2"><a href="#cb16-2"></a>info[[<span class="dv">9</span>]] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -2146,10 +2204,13 @@ virginica
 Overall
 </th>
 <th style="text-align:center;">
-Compare: versicolor
+setosa vs. versicolor
 </th>
 <th style="text-align:left;">
-Compare: virginica
+setosa vs. virginica
+</th>
+<th style="text-align:center;">
+Compare: All Groups
 </th>
 </tr>
 </thead>
@@ -2170,10 +2231,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-1.13 (0.76, 1.67)
+1.09 (0.75, 1.57)
 </td>
 <td style="text-align:left;">
-1.30 (0.88, 1.92)
+0.86 (0.60, 1.25)
+</td>
+<td style="text-align:center;">
+p = 0.10
 </td>
 </tr>
 <tr>
@@ -2183,20 +2247,22 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+</td>
+<td style="text-align:center;">
 </td>
 </tr>
 </tbody>
@@ -2298,13 +2364,13 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 </tr>
 <tr>
@@ -2314,13 +2380,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -2352,16 +2418,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 </tr>
 <tr>
@@ -2371,16 +2437,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 </tr>
 <tr>
@@ -2427,7 +2493,7 @@ Q1
 3.10
 </td>
 <td style="text-align:left;">
-2.60
+2.50
 </td>
 <td style="text-align:center;">
 2.80
@@ -2471,7 +2537,7 @@ Q3
 3.10
 </td>
 <td style="text-align:left;">
-3.30
+3.40
 </td>
 </tr>
 <tr>
@@ -2500,16 +2566,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-3.43
+3.44
 </td>
 <td style="text-align:left;">
-2.79
+2.76
 </td>
 <td style="text-align:center;">
-2.97
+2.96
 </td>
 <td style="text-align:left;">
-3.06
+3.08
 </td>
 </tr>
 <tr>
@@ -2519,16 +2585,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.35
+0.39
 </td>
 <td style="text-align:left;">
-0.33
-</td>
-<td style="text-align:center;">
 0.31
 </td>
+<td style="text-align:center;">
+0.30
+</td>
 <td style="text-align:left;">
-0.43
+0.44
 </td>
 </tr>
 <tr>
@@ -2575,7 +2641,7 @@ Q1
 1.40
 </td>
 <td style="text-align:left;">
-4.00
+3.90
 </td>
 <td style="text-align:center;">
 5.10
@@ -2597,7 +2663,7 @@ median
 4.30
 </td>
 <td style="text-align:center;">
-5.60
+5.50
 </td>
 <td style="text-align:left;">
 4.30
@@ -2616,7 +2682,7 @@ Q3
 4.60
 </td>
 <td style="text-align:center;">
-5.90
+5.80
 </td>
 <td style="text-align:left;">
 5.10
@@ -2648,16 +2714,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-1.49
+1.48
 </td>
 <td style="text-align:left;">
-4.24
+4.23
 </td>
 <td style="text-align:center;">
-5.56
+5.47
 </td>
 <td style="text-align:left;">
-3.75
+3.69
 </td>
 </tr>
 <tr>
@@ -2667,16 +2733,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.16
+0.18
 </td>
 <td style="text-align:left;">
-0.48
+0.47
 </td>
 <td style="text-align:center;">
-0.56
+0.51
 </td>
 <td style="text-align:left;">
-1.74
+1.76
 </td>
 </tr>
 <tr>
@@ -2764,7 +2830,7 @@ Q3
 1.50
 </td>
 <td style="text-align:center;">
-2.30
+2.20
 </td>
 <td style="text-align:left;">
 1.80
@@ -2796,16 +2862,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-0.24
+0.25
 </td>
 <td style="text-align:left;">
-1.33
+1.32
 </td>
 <td style="text-align:center;">
-2.04
+2.00
 </td>
 <td style="text-align:left;">
-1.19
+1.18
 </td>
 </tr>
 <tr>
@@ -2818,13 +2884,13 @@ SD
 0.11
 </td>
 <td style="text-align:left;">
-0.20
+0.22
 </td>
 <td style="text-align:center;">
 0.27
 </td>
 <td style="text-align:left;">
-0.76
+0.77
 </td>
 </tr>
 <tr>
@@ -2864,16 +2930,16 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.23 (39)
+0.26 (47)
 </td>
 <td style="text-align:left;">
-0.25 (43)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.24 (38)
+0.23 (40)
 </td>
 <td style="text-align:left;">
-0.24 (120)
+0.25 (125)
 </td>
 </tr>
 <tr>
@@ -2883,16 +2949,16 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.50 (83)
+0.53 (95)
 </td>
 <td style="text-align:left;">
-0.48 (82)
+0.48 (69)
 </td>
 <td style="text-align:center;">
-0.55 (88)
+0.50 (88)
 </td>
 <td style="text-align:left;">
-0.51 (253)
+0.50 (252)
 </td>
 </tr>
 <tr>
@@ -2902,16 +2968,16 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.27 (45)
+0.20 (36)
 </td>
 <td style="text-align:left;">
-0.27 (47)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.22 (35)
+0.28 (49)
 </td>
 <td style="text-align:left;">
-0.25 (127)
+0.25 (123)
 </td>
 </tr>
 <tr>
@@ -2951,16 +3017,16 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 </tr>
 </tbody>
@@ -3002,10 +3068,10 @@ virginica
 Overall
 </th>
 <th style="text-align:center;">
-Compare: versicolor
+setosa vs. versicolor
 </th>
 <th style="text-align:left;">
-Compare: virginica
+setosa vs. virginica
 </th>
 <th style="text-align:center;">
 Compare: All Groups
@@ -3033,12 +3099,13 @@ min
 4.30
 </td>
 <td style="text-align:center;">
--0.91 (-1.00, -0.82)
+-0.88 (-0.98, -0.78)
 </td>
 <td style="text-align:left;">
--1.6 (-1.71, -1.49)
+-1.50 (-1.60, -1.39)
 </td>
 <td style="text-align:center;">
+p = &lt;.001
 </td>
 </tr>
 <tr>
@@ -3076,13 +3143,13 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 <td style="text-align:center;">
 </td>
@@ -3098,13 +3165,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -3148,16 +3215,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 <td style="text-align:center;">
 </td>
@@ -3173,16 +3240,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 <td style="text-align:center;">
 </td>
@@ -3231,12 +3298,13 @@ min
 2.00
 </td>
 <td style="text-align:center;">
-0.64 (0.57, 0.71)
+0.68 (0.60, 0.76)
 </td>
 <td style="text-align:left;">
-0.46 (0.38, 0.53)
+0.48 (0.41, 0.55)
 </td>
 <td style="text-align:center;">
+p = &lt;.001
 </td>
 </tr>
 <tr>
@@ -3249,7 +3317,7 @@ Q1
 3.10
 </td>
 <td style="text-align:left;">
-2.60
+2.50
 </td>
 <td style="text-align:center;">
 2.80
@@ -3305,7 +3373,7 @@ Q3
 3.10
 </td>
 <td style="text-align:left;">
-3.30
+3.40
 </td>
 <td style="text-align:center;">
 </td>
@@ -3346,16 +3414,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-3.43
+3.44
 </td>
 <td style="text-align:left;">
-2.79
+2.76
 </td>
 <td style="text-align:center;">
-2.97
+2.96
 </td>
 <td style="text-align:left;">
-3.06
+3.08
 </td>
 <td style="text-align:center;">
 </td>
@@ -3371,16 +3439,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.35
+0.39
 </td>
 <td style="text-align:left;">
-0.33
-</td>
-<td style="text-align:center;">
 0.31
 </td>
+<td style="text-align:center;">
+0.30
+</td>
 <td style="text-align:left;">
-0.43
+0.44
 </td>
 <td style="text-align:center;">
 </td>
@@ -3429,12 +3497,13 @@ min
 1.00
 </td>
 <td style="text-align:center;">
--2.76 (-2.83, -2.68)
+-2.75 (-2.83, -2.66)
 </td>
 <td style="text-align:left;">
--4.08 (-4.16, -3.99)
+-3.98 (-4.06, -3.90)
 </td>
 <td style="text-align:center;">
+p = &lt;.001
 </td>
 </tr>
 <tr>
@@ -3447,7 +3516,7 @@ Q1
 1.40
 </td>
 <td style="text-align:left;">
-4.00
+3.90
 </td>
 <td style="text-align:center;">
 5.10
@@ -3475,7 +3544,7 @@ median
 4.30
 </td>
 <td style="text-align:center;">
-5.60
+5.50
 </td>
 <td style="text-align:left;">
 4.30
@@ -3500,7 +3569,7 @@ Q3
 4.60
 </td>
 <td style="text-align:center;">
-5.90
+5.80
 </td>
 <td style="text-align:left;">
 5.10
@@ -3544,16 +3613,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-1.49
+1.48
 </td>
 <td style="text-align:left;">
-4.24
+4.23
 </td>
 <td style="text-align:center;">
-5.56
+5.47
 </td>
 <td style="text-align:left;">
-3.75
+3.69
 </td>
 <td style="text-align:center;">
 </td>
@@ -3569,16 +3638,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.16
+0.18
 </td>
 <td style="text-align:left;">
-0.48
+0.47
 </td>
 <td style="text-align:center;">
-0.56
+0.51
 </td>
 <td style="text-align:left;">
-1.74
+1.76
 </td>
 <td style="text-align:center;">
 </td>
@@ -3627,12 +3696,13 @@ min
 0.10
 </td>
 <td style="text-align:center;">
--1.09 (-1.13, -1.06)
+-1.07 (-1.11, -1.03)
 </td>
 <td style="text-align:left;">
--1.8 (-1.85, -1.76)
+-1.75 (-1.79, -1.70)
 </td>
 <td style="text-align:center;">
+p = &lt;.001
 </td>
 </tr>
 <tr>
@@ -3698,7 +3768,7 @@ Q3
 1.50
 </td>
 <td style="text-align:center;">
-2.30
+2.20
 </td>
 <td style="text-align:left;">
 1.80
@@ -3742,16 +3812,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-0.24
+0.25
 </td>
 <td style="text-align:left;">
-1.33
+1.32
 </td>
 <td style="text-align:center;">
-2.04
+2.00
 </td>
 <td style="text-align:left;">
-1.19
+1.18
 </td>
 <td style="text-align:center;">
 </td>
@@ -3770,13 +3840,13 @@ SD
 0.11
 </td>
 <td style="text-align:left;">
-0.20
+0.22
 </td>
 <td style="text-align:center;">
 0.27
 </td>
 <td style="text-align:left;">
-0.76
+0.77
 </td>
 <td style="text-align:center;">
 </td>
@@ -3821,11 +3891,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
+0.01
 </td>
 <td style="text-align:left;">
+0.02
 </td>
 <td style="text-align:center;">
-2.21 (0.70)
+p = 0.49
 </td>
 </tr>
 <tr>
@@ -3835,16 +3907,16 @@ Large
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.23 (39)
+0.26 (47)
 </td>
 <td style="text-align:left;">
-0.25 (43)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.24 (38)
+0.23 (40)
 </td>
 <td style="text-align:left;">
-0.24 (120)
+0.25 (125)
 </td>
 <td style="text-align:center;">
 </td>
@@ -3860,16 +3932,16 @@ Medium
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.50 (83)
+0.53 (95)
 </td>
 <td style="text-align:left;">
-0.48 (82)
+0.48 (69)
 </td>
 <td style="text-align:center;">
-0.55 (88)
+0.50 (88)
 </td>
 <td style="text-align:left;">
-0.51 (253)
+0.50 (252)
 </td>
 <td style="text-align:center;">
 </td>
@@ -3885,16 +3957,16 @@ Small
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.27 (45)
+0.20 (36)
 </td>
 <td style="text-align:left;">
-0.27 (47)
+0.26 (38)
 </td>
 <td style="text-align:center;">
-0.22 (35)
+0.28 (49)
 </td>
 <td style="text-align:left;">
-0.25 (127)
+0.25 (123)
 </td>
 <td style="text-align:center;">
 </td>
@@ -3939,12 +4011,13 @@ Col. Prop. (N)
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.05 (-0.05, 0.16)
+0.05 (-0.07, 0.16)
 </td>
 <td style="text-align:left;">
-0.12 (0.01, 0.24)
+-0.07 (-0.17, 0.04)
 </td>
 <td style="text-align:center;">
+p = 0.10
 </td>
 </tr>
 <tr>
@@ -3954,16 +4027,16 @@ Blue
 <td style="text-align:left;">
 </td>
 <td style="text-align:center;">
-0.66 (111)
+0.59 (105)
 </td>
 <td style="text-align:left;">
-0.61 (105)
+0.54 (79)
 </td>
 <td style="text-align:center;">
-0.54 (87)
+0.66 (117)
 </td>
 <td style="text-align:left;">
-0.60 (303)
+0.60 (301)
 </td>
 <td style="text-align:center;">
 </td>
@@ -4036,10 +4109,10 @@ Q1
 median
 </td>
 <td style="text-align:center;">
-5.80
+5.70
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 </tr>
 <tr>
@@ -4075,10 +4148,10 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.84
+5.81
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 </tr>
 <tr>
@@ -4088,10 +4161,10 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.82
+0.80
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 </tr>
 </tbody>
@@ -4102,7 +4175,7 @@ SD
 <h1>Changing datasets within a row</h1>
 <p>This package allows for an individual row to use a different dataset from the one initialized in <code>tbl_start</code>. Use the <code>newdata</code> argument to specify the new dataset to use, then define the rows and columns for the new data. Note that if a new row is added after the row with the differing dataset, the new row will automatically return to using the initialized dataset from <code>tbl_start</code> unless the user specifies otherwise in <code>newdata</code>.</p>
 <p>For this example, we will be using a new dataset called <code>birds</code>. This dataset includes three species of bird, their corresponding ages, and the region where they live.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">head</span>(birds) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>F, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">head</span>(birds) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable</span>(<span class="dt">escape=</span>T, <span class="dt">align=</span><span class="st">&quot;cl&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span>trimws <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">kable_styling</span>(<span class="kw">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;bordered&quot;</span>))</span></code></pre></div>
 <table class="table table-striped table-bordered" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -4123,40 +4196,7 @@ Region
 Owl
 </td>
 <td style="text-align:left;">
-8.904164
-</td>
-<td style="text-align:center;">
-East
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-Cardinal
-</td>
-<td style="text-align:left;">
-9.089025
-</td>
-<td style="text-align:center;">
-West
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-Owl
-</td>
-<td style="text-align:left;">
-11.566646
-</td>
-<td style="text-align:center;">
-West
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-Owl
-</td>
-<td style="text-align:left;">
-9.800619
+10.658337
 </td>
 <td style="text-align:center;">
 East
@@ -4167,7 +4207,7 @@ East
 Bluejay
 </td>
 <td style="text-align:left;">
-8.997788
+9.696682
 </td>
 <td style="text-align:center;">
 West
@@ -4175,13 +4215,46 @@ West
 </tr>
 <tr>
 <td style="text-align:center;">
-Cardinal
+Owl
 </td>
 <td style="text-align:left;">
-10.747658
+8.005677
 </td>
 <td style="text-align:center;">
 East
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Cardinal
+</td>
+<td style="text-align:left;">
+10.497836
+</td>
+<td style="text-align:center;">
+East
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Bluejay
+</td>
+<td style="text-align:left;">
+9.697736
+</td>
+<td style="text-align:center;">
+West
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Owl
+</td>
+<td style="text-align:left;">
+9.458543
+</td>
+<td style="text-align:center;">
+West
 </td>
 </tr>
 </tbody>
@@ -4290,13 +4363,13 @@ median
 5.00
 </td>
 <td style="text-align:left;">
-5.90
+5.80
 </td>
 <td style="text-align:center;">
 6.50
 </td>
 <td style="text-align:left;">
-5.80
+5.70
 </td>
 <td style="text-align:center;">
 </td>
@@ -4312,13 +4385,13 @@ median
 Q3
 </td>
 <td style="text-align:center;">
-5.20
+5.30
 </td>
 <td style="text-align:left;">
-6.30
+6.20
 </td>
 <td style="text-align:center;">
-6.90
+6.80
 </td>
 <td style="text-align:left;">
 6.40
@@ -4362,16 +4435,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-5.01
+5.02
 </td>
 <td style="text-align:left;">
-5.92
+5.90
 </td>
 <td style="text-align:center;">
-6.61
+6.52
 </td>
 <td style="text-align:left;">
-5.84
+5.81
 </td>
 <td style="text-align:center;">
 </td>
@@ -4387,16 +4460,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.32
+0.37
 </td>
 <td style="text-align:left;">
-0.52
+0.49
 </td>
 <td style="text-align:center;">
-0.61
+0.59
 </td>
 <td style="text-align:left;">
-0.82
+0.80
 </td>
 <td style="text-align:center;">
 </td>
@@ -4461,7 +4534,7 @@ Q1
 3.10
 </td>
 <td style="text-align:left;">
-2.60
+2.50
 </td>
 <td style="text-align:center;">
 2.80
@@ -4517,7 +4590,7 @@ Q3
 3.10
 </td>
 <td style="text-align:left;">
-3.30
+3.40
 </td>
 <td style="text-align:center;">
 </td>
@@ -4558,16 +4631,16 @@ max
 mean
 </td>
 <td style="text-align:center;">
-3.43
+3.44
 </td>
 <td style="text-align:left;">
-2.79
+2.76
 </td>
 <td style="text-align:center;">
-2.97
+2.96
 </td>
 <td style="text-align:left;">
-3.06
+3.08
 </td>
 <td style="text-align:center;">
 </td>
@@ -4583,16 +4656,16 @@ mean
 SD
 </td>
 <td style="text-align:center;">
-0.35
+0.39
 </td>
 <td style="text-align:left;">
-0.33
-</td>
-<td style="text-align:center;">
 0.31
 </td>
+<td style="text-align:center;">
+0.30
+</td>
 <td style="text-align:left;">
-0.43
+0.44
 </td>
 <td style="text-align:center;">
 </td>
@@ -4610,7 +4683,6 @@ Switch to Birds Dataset
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-Switch to Birds Dataset
 </td>
 <td style="text-align:center;">
 </td>
@@ -4637,16 +4709,16 @@ min
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-8.35
+8.01
 </td>
 <td style="text-align:center;">
-8.92
+9.70
 </td>
 <td style="text-align:left;">
-8.87
+8.84
 </td>
 <td style="text-align:center;">
-8.35
+8.01
 </td>
 </tr>
 <tr>
@@ -4662,16 +4734,16 @@ Q1
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-8.98
+9.62
 </td>
 <td style="text-align:center;">
-8.98
+10.00
 </td>
 <td style="text-align:left;">
-9.57
+9.26
 </td>
 <td style="text-align:center;">
-8.89
+9.46
 </td>
 </tr>
 <tr>
@@ -4687,16 +4759,16 @@ median
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-9.94
+10.37
 </td>
 <td style="text-align:center;">
-9.34
+10.53
 </td>
 <td style="text-align:left;">
-10.21
+10.06
 </td>
 <td style="text-align:center;">
-10.13
+10.20
 </td>
 </tr>
 <tr>
@@ -4712,16 +4784,16 @@ Q3
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-10.76
+10.68
 </td>
 <td style="text-align:center;">
-9.88
+10.84
 </td>
 <td style="text-align:left;">
-10.79
+10.53
 </td>
 <td style="text-align:center;">
-10.87
+10.66
 </td>
 </tr>
 <tr>
@@ -4737,16 +4809,16 @@ max
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-11.57
+11.22
 </td>
 <td style="text-align:center;">
-10.46
+11.14
 </td>
 <td style="text-align:left;">
-11.13
+10.89
 </td>
 <td style="text-align:center;">
-11.57
+11.22
 </td>
 </tr>
 <tr>
@@ -4762,16 +4834,16 @@ mean
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
+10.10
+</td>
+<td style="text-align:center;">
+10.43
+</td>
+<td style="text-align:left;">
 9.94
 </td>
 <td style="text-align:center;">
-9.52
-</td>
-<td style="text-align:left;">
-10.11
-</td>
-<td style="text-align:center;">
-9.98
+9.91
 </td>
 </tr>
 <tr>
@@ -4787,16 +4859,16 @@ SD
 <td style="text-align:center;">
 </td>
 <td style="text-align:left;">
-0.95
+0.84
 </td>
 <td style="text-align:center;">
-0.72
+0.57
 </td>
 <td style="text-align:left;">
-0.83
+0.77
 </td>
 <td style="text-align:center;">
-1.18
+1.25
 </td>
 </tr>
 <tr>
@@ -4857,13 +4929,13 @@ East
 0.45 (9)
 </td>
 <td style="text-align:center;">
-0.75 (3)
+0.43 (3)
 </td>
 <td style="text-align:left;">
-0.50 (4)
+0.38 (3)
 </td>
 <td style="text-align:center;">
-0.25 (2)
+0.60 (3)
 </td>
 </tr>
 <tr>
@@ -4882,13 +4954,13 @@ West
 0.55 (11)
 </td>
 <td style="text-align:center;">
-0.25 (1)
+0.57 (4)
 </td>
 <td style="text-align:left;">
-0.50 (4)
+0.62 (5)
 </td>
 <td style="text-align:center;">
-0.75 (6)
+0.40 (2)
 </td>
 </tr>
 </tbody>

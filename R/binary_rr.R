@@ -6,6 +6,8 @@
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
 #' @importFrom stats complete.cases
+#' @importFrom stats relevel
+#' @importFrom stats setNames
 #' @keywords tangram.pipe
 #' @export
 

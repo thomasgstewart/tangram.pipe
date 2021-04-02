@@ -20,4 +20,7 @@ tbl_start(data, col_var, missing, overall, comparison)
 \description{
 Initializes the table by specifying the desired elements and data components.
 }
+\examples{
+x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE)
+}
 \keyword{tangram.pipe}
