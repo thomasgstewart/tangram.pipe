@@ -39,19 +39,26 @@ The arguments for `missing`, `overall`, and `comparison` will be used as the
 defaults for each subsequent row added to the table; however, a user can specify
 a different entry for each argument for individual rows if desired.
 
-This vignette will use the dataset `iris2`, which is a modified version of the 
-built-in R dataset `iris`. The data contains continuous, categorical, and binary
-variables to demonstrate the different row addition functions, as well as some
-missing data to show how the package accounts for missingness within the data.
+This vignette will use the built-in `iris` dataset, which is a well-known dataset
+containing flower measurements for three species of iris flowers.  Since most of 
+the data in `iris` is numerical, we will add in three additional made-up variables
+(flower color, leaf color, and stem size) in order to demonstrate table-building
+functions for non-numeric data. Note that the additional columns are made-up 
+purely for demonstration of this package.
 
 ```{r}
-head(iris2) %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
+iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
+iris$Leaf.Color <- "Green"
+iris[149,5] <- NA
+iris[150,c(1:4, 6:8)] <- NA
+head(iris) %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 For this example, the variable 'Species' will be chosen as the column variable;
 `missing` and `comparison` will be set to `FALSE` to generate a simple example.
 ```{r}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 ```
 
 Using this function creates a list object that stores the user preferences for 
@@ -72,7 +79,7 @@ but the user may write their own function to calculate different summary statist
 from what is shown here. Currently, `num_default` is the only built-in summary
 function for this data type.
 
-Let's start by calculating summary statistics for the Sepal Length in the `iris2`
+Let's start by calculating summary statistics for the Sepal Length in the `iris`
 dataset. Since it makes more sense to display the variable name as "Sepal Length"
 rather than the R-generated "Sepal.Length", we will use the `rowlabels` argument 
 to make this change for the table.
@@ -85,19 +92,19 @@ By default, each row function will use two decimal places in reported statistics
 We can use the `digits` argument to specify more or fewer significant digits in
 the reported table.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", digits=4)
 info[[7]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
-There is a small amount of missing data within the `iris2` dataset. Currently, 
+There is a small amount of missing data within the `iris` dataset. Currently, 
 `num_row` filters out the missing data and only considers data with complete cases
 of the row and column variables. To see how much missing data there is in the
 sepal length, we specify `missing=TRUE`.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", missing=TRUE)
@@ -117,7 +124,7 @@ will be compared to setosa. The function also provides a 95% Confidence interval
 to accompany the mean difference. Currently, `num_diff` is the only built-in comparison
 function for `num_row`.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", comparison=num_diff)
@@ -133,7 +140,7 @@ but the user may write their own function to calculate different summary statist
 from what is shown here. Currently, `cat_default` is the only built-in summary
 function for this data type.
 
-We will demonstrate this function by looking at `Stem.Size` in the `iris2` dataset.
+We will demonstrate this function by looking at `Stem.Size` in the `iris` dataset.
 Note that all possible arguments for `cat_row` are the same as those for `num_row`
 ```{r}
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
@@ -143,7 +150,7 @@ info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("stripe
 Setting `missing=TRUE` will reveal the proportion of each species that does not
 have a corresponding entry for stem size
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 ```
 ```{r}
@@ -158,7 +165,7 @@ a CBhi-Square Goodness of Fit test on the data present. Currently,
 `cat_comp_default` is the only built-in function for categorical data, but a 
 user may write their own function to use instead.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 ```
 ```{r}
@@ -175,7 +182,7 @@ using `binary_default`, and are the same as those calculated using a categorical
 variable. Note that a user may use `cat_row` to process binary data if they wish
 to see both row entries included in the table.
 
-We will now demonstrate the use of `binary_row` on the color variable in `iris2`.
+We will now demonstrate the use of `binary_row` on the color variable in `iris`.
 In the dataset, the available colors are blue and purple, so we do not wish
 to include both entries here.
 ```{r}
@@ -190,7 +197,7 @@ alphabetically first row group will appear on the table, which is why 'Blue'
 appeared above. If we want to see the statistics for purple flowers, we can
 run the following code.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
@@ -204,7 +211,7 @@ this row function will calculate the difference in proportions by using `binary_
 if `comparison=TRUE` during initialization. This will calculated differences in
 proportions across columns; the calculations will also include 95% Confidence intervals.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
@@ -220,7 +227,7 @@ a user wants to use an odds ratio or risk ratio here, `comparison` must be set t
 either of those two options in this row addition, since excluding the argument
 will lead to `binary_diff` being called by default.
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
@@ -230,7 +237,7 @@ info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("stripe
 ```
 
 ```{r, echo=FALSE}
-info <- tbl_start(data=iris2, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
@@ -250,12 +257,12 @@ info <- info %>% empty_row()
 ```
 
 # Creating a Finished Product
-The following code will generate a finalized table for the `iris2` dataset.  It
+The following code will generate a finalized table for the `iris` dataset.  It
 will include all four numeric variables (sepal length, sepal width, petal length,
 petal width), as well as stem size and color. The final table itself is generated
 using `tbl_out`; a `print` command will display the final result.
 ```{r, eval=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -271,7 +278,7 @@ info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALS
   print()
 ```
 ```{r, echo=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -291,7 +298,7 @@ Setting `comparison=TRUE` will compute the default comparison functions for each
 row in the table. Rows that do not correspond to the comparison type will be
 left blank in that column.
 ```{r, eval=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -307,7 +314,7 @@ info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=TRUE
   print()
 ```
 ```{r, echo=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -326,17 +333,17 @@ info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=TRUE
 # Additional Features
 ## Single Column of Data
 The package can handle cases where there is only a single column of data. In the
-`iris2` dataset, if we set the column variable to be Leaf.Color, we see that there
+`iris` dataset, if we set the column variable to be Leaf.Color, we see that there
 is only one possible leaf color in the dataset. In this case, the column variable
 statistics would be exactly the same as those for the overall column in the table.
 ```{r, eval=FALSE}
-info <- tbl_start(iris2, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   tbl_out() %>%
   print()
 ```
 ```{r, echo=FALSE}
-info <- tbl_start(iris2, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   tbl_out()
   info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
@@ -366,7 +373,7 @@ head(birds) %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("stri
 ```
 
 ```{r, eval=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -378,7 +385,7 @@ info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALS
   print()
 ```
 ```{r, echo=FALSE}
-info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   empty_row() %>%
   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -390,7 +397,7 @@ info <- tbl_start(iris2, "Species", missing=FALSE, overall=TRUE, comparison=FALS
   info[[14]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
-Since the columns of the rows with the `birds` data differ from the columns of `iris2`, 
+Since the columns of the rows with the `birds` data differ from the columns of `iris`, 
 all columns are included in the table, but only columns corresponding to the data
 used in the rows will have values filled in.
 

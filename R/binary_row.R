@@ -15,7 +15,8 @@
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
-#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#' iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
+#' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
 #'   binary_row("color", rowlabels="Color")
 #' @export
 

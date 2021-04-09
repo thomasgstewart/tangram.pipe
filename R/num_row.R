@@ -14,7 +14,7 @@
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
-#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
 #'   num_row("Sepal.Length", rowlabels="Sepal Length")
 #' @export
 

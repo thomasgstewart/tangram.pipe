@@ -14,7 +14,8 @@
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
-#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#' iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
+#' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
 #'   cat_row("Stem.Size", rowlabels="Stem Size")
 #' @export
 

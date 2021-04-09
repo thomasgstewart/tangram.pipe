@@ -1,11 +1,15 @@
 #' Printing a Table
 #'
 #' Prints a finished table
-#' @param list_obj the name of the tbl_start object previously initialized.
+#' @param x the name of the tbl_start object previously initialized.
+#' @param ... further arguments passed to or from other methods
 #' @keywords tangram.pipe
 #' @method print tangram.pipe
 #' @examples 
-#' x <- tbl_start(iris2, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
+#' iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
+#' iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
+#' iris$Leaf.Color <- "Green"
+#' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
 #'   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
 #'   empty_row() %>%
 #'   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
@@ -22,11 +26,11 @@
 #' @export
 
 print.tangram.pipe <- function(
-  list_obj
+  x, ...
 ){
-  idx <- which(vapply(list_obj, function(x){"out" %in% class(x)}, TRUE))
+  idx <- which(vapply(x, function(x){"out" %in% class(x)}, TRUE))
   if (length(idx) > 1){
     idx <- idx[1]
   }
-  print(list_obj[[idx]])
+  print(x[[idx]])
 }
