@@ -59,17 +59,27 @@ cat_row <- function(
     data <- list_obj[['data']][,c(row_var, col_var)] #list_obj %>% le('data') %>% select(row_var, col_var)
   } else {
     data <- newdata[,c(row_var, col_var)]
-    num_col <- data[col_var] %>%
-      filter(!is.na(data[col_var])) %>%
-      unique() %>%
-      nrow()
+    if (!is.null(col_var)){
+      num_col <- data[col_var] %>%
+        filter(!is.na(data[col_var])) %>%
+        unique() %>%
+        nrow()
+    } else {
+      num_col <- 1
+    }
   }
   if (is.null(rowlabels)){
-    rowlabels <- row_var
+    if (!is.na(label(data)[1])) {
+      rowlabels <- label(data)[1]
+    } else {
+      rowlabels <- row_var
+    }
   }
   
-  data[,2] <- as.factor(data[,2])
-
+  if (!is.null(col_var)){
+    data[,2] <- as.factor(data[,2])
+  }
+  
   #Default summary function will take % (N)
 
   #Calculations
