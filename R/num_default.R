@@ -110,6 +110,7 @@ num_default <- function(dt, rowlabels, missing, digits){
     rownames(out) <- NULL
     if (missing == TRUE){
       out <- cbind(Variable="",out)
+      out[8,] <- ""
       out$Overall[8] <- miss
       out$Variable[1] <- rowlabels
       out$Measure[8] <- "Missing"
