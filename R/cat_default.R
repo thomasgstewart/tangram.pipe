@@ -27,16 +27,17 @@ cat_default <- function(dt, rowlabels, missing, digits){
               table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
               prop.table() %>%
               rowSums())
-    
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
-      as.data.frame() #%>%
-    #tibble::rownames_to_column(paste(row_var))
-    out <- cbind(rownames(out), out)
-    rownames(out) <- NULL
+
+    cols <- unlist(dimnames(prop)[2])
+    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
+      as.data.frame() 
+
+    out <- cbind(dimnames(prop)[1], out)
+
     row1 <- c(paste(rowlabels), rep("", ncol(out)-1))
     out <- rbind(row1, out)
     if (missing == TRUE){
-      out[,1] <- gsub("NA.", "Missing", out[,1])
+      out[is.na(out[,1]),1] <- "Missing"
     }
     out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
     out$Measure[1] <- "Col. Prop. (N)"
@@ -48,15 +49,17 @@ cat_default <- function(dt, rowlabels, missing, digits){
       table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
       prop.table()
     
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
+    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop)) %>%
       as.data.frame()
-    out <- cbind(rownames(out), out)
-    rownames(out) <- NULL
+
+    out <- cbind(dimnames(prop), out)
+
     row1 <- c(paste(rowlabels), "Overall")
     out <- rbind(row1, out)
     if (missing == TRUE){
-      out[,1] <- gsub("NA.", "Missing", out[,1])
+      out[is.na(out[,1]),1] <- "Missing"
     }
+
     out <- data.frame(out[,1], Measure="", out[,2])
     out$Measure[1] <- "Col. Prop. (N)"
     colnames(out)[1] <- "Variable"
