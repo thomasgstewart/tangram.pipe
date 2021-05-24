@@ -68,10 +68,18 @@ num_row <- function(
     }
   }
   if (is.null(rowlabels)){
-    if (!is.na(label(data)[1])) {
-      rowlabels <- label(data)[1]
+    if (is.null(dim(data))) {
+      if  (!is.null(attr(data, "label"))){
+        rowlabels <- attr(data, "label")
+      } else {
+        rowlabels <- row_var
+      }
     } else {
-      rowlabels <- row_var
+      if (!is.null(attr(data[,1], "label"))) {
+        rowlabels <- attr(data[,1], "label")
+      } else {
+        rowlabels <- row_var
+      }
     }
   }
   
