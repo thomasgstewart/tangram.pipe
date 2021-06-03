@@ -41,18 +41,17 @@ a different entry for each argument for individual rows if desired.
 
 This vignette will use the built-in `iris` dataset, which is a well-known dataset
 containing flower measurements for three species of iris flowers.  Since most of 
-the data in `iris` is numerical, we will add in three additional made-up variables
-(flower color, leaf color, and stem size) in order to demonstrate table-building
+the data in `iris` is numerical, we will add in two additional made-up variables
+(flower color and stem size) in order to demonstrate table-building
 functions for non-numeric data. Note that the additional columns are made-up 
 purely for demonstration of this package.
 
 ```{r}
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
-iris$Leaf.Color <- "Green"
 iris[149,5] <- NA
-iris[150,c(1:4, 6:8)] <- NA
-head(iris) %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+iris[150,c(1:4, 6:7)] <- NA
+head(iris) %>% kable(escape=F, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 For this example, the variable 'Species' will be chosen as the column variable;
@@ -82,10 +81,12 @@ function for this data type.
 Let's start by calculating summary statistics for the Sepal Length in the `iris`
 dataset. Since it makes more sense to display the variable name as "Sepal Length"
 rather than the R-generated "Sepal.Length", we will use the `rowlabels` argument 
-to make this change for the table.
+to make this change for the table. Note that if you have a dataframe with 
+labelled variables as columns, leaving `rowlabels` blank will automatically
+input the variable's label as the rowlabel.
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
-info[[7]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[7]] %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 By default, each row function will use two decimal places in reported statistics.
@@ -96,7 +97,7 @@ info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, com
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", digits=4)
-info[[7]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[7]] %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 There is a small amount of missing data within the `iris` dataset. Currently, 
@@ -108,7 +109,7 @@ info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, com
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", missing=TRUE)
-info[[7]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[7]] %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 The function above tells us that the dataset is missing a sepal length measurement
@@ -128,7 +129,7 @@ info <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, com
 ```
 ```{r}
 info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length", comparison=num_diff)
-info[[7]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[7]] %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 ## Categorical Rows
@@ -144,7 +145,7 @@ We will demonstrate this function by looking at `Stem.Size` in the `iris` datase
 Note that all possible arguments for `cat_row` are the same as those for `num_row`
 ```{r}
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
-info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[8]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 Setting `missing=TRUE` will reveal the proportion of each species that does not
@@ -155,13 +156,13 @@ info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 ```
 ```{r}
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size", missing=TRUE)
-info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[8]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 Finally, let's look at a comparison test for a categorical row. The default
 comparison function is `cat_comp_default`, which will calculate the relative
 entropy between each column and the reference category, as well as conduct
-a CBhi-Square Goodness of Fit test on the data present. Currently, 
+a Chi-Square Goodness of Fit test on the data present. Currently, 
 `cat_comp_default` is the only built-in function for categorical data, but a 
 user may write their own function to use instead.
 ```{r, echo=FALSE}
@@ -170,7 +171,7 @@ info <- info %>% num_row(row_var="Sepal.Length", rowlabels="Sepal Length")
 ```
 ```{r}
 info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size", comparison=cat_comp_default)
-info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[8]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 ## Binary Data
@@ -187,7 +188,7 @@ In the dataset, the available colors are blue and purple, so we do not wish
 to include both entries here.
 ```{r}
 info <- info %>% binary_row("color", rowlabels="Color")
-info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[9]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 The `binary_row` function includes all of the same arguments as the previous row
@@ -203,7 +204,7 @@ info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
 ```{r}
 info <- info %>% binary_row("color", rowlabels="Color", reference="Purple")
-info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[9]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 Finally, let's look at some comparison functions used for binary data. By default,
@@ -217,7 +218,7 @@ info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
 ```{r}
 info <- info %>% binary_row("color", rowlabels="Color", comparison=binary_diff)
-info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[9]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 The package has two additional options for comparison tests using binary data. 
@@ -233,7 +234,7 @@ info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
 ```{r}
 info <- info %>% binary_row("color", rowlabels="Color", comparison=binary_or)
-info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[9]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 ```{r, echo=FALSE}
@@ -243,7 +244,7 @@ info <- info %>% cat_row("Stem.Size", rowlabels="Stem Size")
 ```
 ```{r}
 info <- info %>% binary_row("color", rowlabels="Color", comparison=binary_rr)
-info[[9]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+info[[9]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 ## Adding an empty row
@@ -291,7 +292,7 @@ info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE
   empty_row() %>%
   binary_row("color", rowlabels="Color") %>%
   tbl_out()
-  info[[18]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+  info[[18]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 Setting `comparison=TRUE` will compute the default comparison functions for each
@@ -327,26 +328,27 @@ info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=TRUE)
   empty_row() %>%
   binary_row("color", rowlabels="Color") %>%
   tbl_out()
-  info[[18]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+  info[[18]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 # Additional Features
 ## Single Column of Data
-The package can handle cases where there is only a single column of data. In the
-`iris` dataset, if we set the column variable to be Leaf.Color, we see that there
-is only one possible leaf color in the dataset. In this case, the column variable
-statistics would be exactly the same as those for the overall column in the table.
+The package can handle cases where a user only wants a single summary column of 
+data. In the `iris` dataset, if we set the column variable to be NULL in `tbl_start`,
+we can obtain just one summary column for the dataset without breaking the table
+up by columns. Note that comparison functions will not run here, even if the
+`comparison` argument is set to TRUE.
 ```{r, eval=FALSE}
-info <- tbl_start(iris, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, NULL, missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   tbl_out() %>%
   print()
 ```
 ```{r, echo=FALSE}
-info <- tbl_start(iris, "Leaf.Color", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
+info <- tbl_start(iris, NULL, missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
   tbl_out()
-  info[[8]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+  info[[8]] %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 # Changing datasets within a row
@@ -369,7 +371,7 @@ region=c("East", "West")
 birds$Region <- sample(region, 20, replace=TRUE)
 ```
 ```{r}
-head(birds) %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+head(birds) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 ```{r, eval=FALSE}
@@ -394,7 +396,7 @@ info <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE
   empty_row() %>% 
   cat_row(row_var="Region", col_var="Type", newdata=birds) %>%
   tbl_out()
-  info[[14]] %>% kable(escape=T, align="cl") %>% trimws %>% kable_styling(c("striped","bordered"))
+  info[[14]] %>% indent(5) %>% kable(escape=F, align="l") %>% trimws %>% kable_styling(c("striped","bordered"))
 ```
 
 Since the columns of the rows with the `birds` data differ from the columns of `iris`, 

@@ -18,13 +18,13 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1.9001
 Depends:
     dplyr
 Suggests:
     knitr,
-    kableExtra
+    kableExtra,
+    rmarkdown
 VignetteBuilder: knitr
 URL: https://github.com/thomasgstewart/tangram.pipe
 BugReports: https://github.com/thomasgstewart/tangram.pipe/issues
-
