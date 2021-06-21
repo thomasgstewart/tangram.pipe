@@ -44,5 +44,7 @@ binary_diff <- function(dt, num_col, reference, digits){
     setNames(name) %>% 
     mutate(Total = paste("p = ", pval))
   
+  out <- as.data.frame(cbind(Test="Difference in Proportions", out))
+  
   out
 }

@@ -42,6 +42,8 @@ binary_or <- function(dt, num_col, reference, digits){
     setNames(name) %>% 
     mutate(Total = paste("p = ", pval))
   
+  out <- as.data.frame(cbind(Test="Odds Ratio", out))
+  
   out
 }
 

@@ -29,6 +29,8 @@ cat_comp_default <- function(dt, digits){
     as.data.frame %>% 
     setNames(name) %>% 
     mutate(Total = paste("p = ", pval))
+
+  out <- as.data.frame(cbind(Test="Relative Entropy", out))
   
-  out
+  return(out)
 }

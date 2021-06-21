@@ -12,6 +12,7 @@
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison the name of the comparison test to do, if different from that initialized in tbl_start.
 #' @param digits significant digits to use.
+#' @param indent number of spaces to indent category names.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
@@ -32,6 +33,7 @@ binary_row <- function(
   , overall=NULL
   , comparison=NULL  #Null or function
   , digits=2
+  , indent=5
 ){
   if (is.null(missing)){
     missing <- list_obj[["missing"]]
@@ -115,6 +117,9 @@ binary_row <- function(
     }
     colnames(binary_out)[ncol(binary_out)] <- "Compare: All Groups"
   }
+  
+  idt <- paste(rep(" ", indent), collapse="")
+  binary_out[,1] <- ifelse(binary_out[,2]=="" & binary_out[,1] != "", paste0(idt, binary_out[,1]), binary_out[,1])
 
   list_obj[[length(list_obj) + 1]] <- binary_out
   return(list_obj)

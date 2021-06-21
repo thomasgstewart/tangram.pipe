@@ -15,7 +15,8 @@ binary_row(
   missing = NULL,
   overall = NULL,
   comparison = NULL,
-  digits = 2
+  digits = 2,
+  indent = 5
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ binary_row(
 \item{comparison}{the name of the comparison test to do, if different from that initialized in tbl_start.}
 
 \item{digits}{significant digits to use.}
+
+\item{indent}{number of spaces to indent category names.}
 }
 \description{
 Adds in a binary row to the table.

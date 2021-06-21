@@ -40,5 +40,7 @@ num_diff <- function(dt, num_col, row_var, digits){
     setNames(name) %>% 
     mutate(Total = paste("p = ", pval))
   
+  out <- as.data.frame(cbind(Test="Difference in Means", out))
+  
   out
 }

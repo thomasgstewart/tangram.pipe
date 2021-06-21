@@ -48,5 +48,8 @@ binary_rr <- function(dt, num_col, reference, digits){
     as.data.frame %>% 
     setNames(name) %>% 
     mutate(Total = paste("p = ", pval))
+  
+  out <- as.data.frame(cbind(Test="Risk Ratio", out))
+  
   out
 }
