@@ -7,10 +7,10 @@
 cat_comp_default(dt, digits)
 }
 \arguments{
-\item{dt}{the name of the dataframe object}
+\item{dt}{the name of the dataframe object.}
 
 \item{digits}{significant digits to use.}
 }
 \description{
-Default comparison function for categorical data
+Default comparison function for categorical data.
 }

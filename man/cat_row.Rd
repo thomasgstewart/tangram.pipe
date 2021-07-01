@@ -23,19 +23,19 @@ cat_row(
 
 \item{row_var}{the name of the variable to be used in the rows.}
 
-\item{col_var}{the variable to be used in the table columns. Default is from initialized tbl_start object}
+\item{col_var}{the variable to be used in the table columns. Default is from initialized tbl_start object.}
 
-\item{newdata}{enter new dataset name if different from that initialized in tbl_start}
+\item{newdata}{enter new dataset name if different from that initialized in tbl_start.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var}
+\item{rowlabels}{the label for the table row name, if different from row_var.}
 
-\item{summary}{summary function for the data. Default will compute proportion (N)}
+\item{summary}{summary function for the data. Default will compute proportion (N).}
 
-\item{missing}{missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
+\item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
 \item{overall}{logical: if TRUE, an overall column is included.}
 
-\item{comparison}{the name of the comparison test to do, if different from that initialized in tbl_start.}
+\item{comparison}{the name of the comparison test to use, if different from that initialized in tbl_start.}
 
 \item{digits}{significant digits to use.}
 

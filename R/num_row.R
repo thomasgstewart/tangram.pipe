@@ -3,13 +3,13 @@
 #' Adds in a numeric row to the table.
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @param row_var the name of the variable to be used in the rows.
-#' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object
-#' @param newdata enter new dataset name if different from that initialized in tbl_start
-#' @param rowlabels the label for the table row name, if different from row_var
-#' @param summary summary function for the data. Default will compute 5-number summary plus mean/std. dev.
-#' @param missing missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
+#' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
+#' @param newdata enter new dataset name if different from that initialized in tbl_start.
+#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param summary summary function for the data. Default will compute 5-number summary plus mean and standard deviation.
+#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
-#' @param comparison the name of the comparison test to do, if different from that initialized in tbl_start.
+#' @param comparison the name of the comparison test to use, if different from that initialized in tbl_start.
 #' @param digits significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe

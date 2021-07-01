@@ -1,6 +1,6 @@
 #' Numeric Difference in Means
 #'
-#' Default comparison function for numeric data
+#' Default comparison function for numeric data.
 #' @param dt the name of the dataframe object.
 #' @param num_col the number of categorical columns in the data.
 #' @param row_var the name of the row variable in the data.
@@ -34,7 +34,7 @@ num_diff <- function(dt, num_col, row_var, digits){
     name[i-1] <- paste0(names(dt2[1]), " vs. ", names(dt2[i]))
   }
   pval <- anova(lm(dt[,1]~dt[,2]))[[5]][1] %>% round(digits)
-  pval <- ifelse(pval<.0005, "<.001", pval)
+  pval <- ifelse(pval<.0005, "< 0.001", pval)
   out <- dt3 %>% 
     as.data.frame %>% 
     setNames(name) %>% 

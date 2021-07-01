@@ -10,5 +10,5 @@ tangram_styling(df)
 \item{df}{The output data frame object to be printed in HTML form.}
 }
 \description{
-Used to preprocess a tangram.pipe table for HTML formatting
+Used to preprocess a tangram.pipe table for HTML formatting.
 }

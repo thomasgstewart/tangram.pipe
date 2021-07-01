@@ -16,6 +16,6 @@ num_diff(dt, num_col, row_var, digits)
 \item{digits}{significant digits to use.}
 }
 \description{
-Default comparison function for numeric data
+Default comparison function for numeric data.
 }
 \keyword{tangram.pipe}

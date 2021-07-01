@@ -1,6 +1,6 @@
 #' Output Table
 #'
-#' Produces a finalized table
+#' Produces a finalized table.
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @keywords tangram.pipe
 #' @importFrom dplyr bind_rows

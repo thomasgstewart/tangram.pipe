@@ -2,7 +2,7 @@
 #'
 #' Initializes the table by specifying the desired elements and data components.
 #' @param data the dataset to be used in the table.
-#' @param col_var the variable to be used in the table columns. NULL if single summary column desired
+#' @param col_var the variable to be used in the table columns. NULL if single summary column desired.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison logical: if TRUE, a comparison test is conducted between columns.

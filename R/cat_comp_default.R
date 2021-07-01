@@ -1,7 +1,7 @@
 #' Chi-Squared Test for Categorical Variables
 #'
-#' Default comparison function for categorical data
-#' @param dt the name of the dataframe object
+#' Default comparison function for categorical data.
+#' @param dt the name of the dataframe object.
 #' @param digits significant digits to use.
 #' @importFrom stats chisq.test
 #' @importFrom stats pchisq
@@ -23,7 +23,7 @@ cat_comp_default <- function(dt, digits){
   N <- nrow(dt)
   stat <- ((N-1)/N)*chisq$statistic
   pval <- sprintf(fmt, 1-pchisq(stat, df=chisq$parameter))
-  pval <- ifelse(as.numeric(pval)<.0005, "<.001", pval)
+  pval <- ifelse(as.numeric(pval)<.0005, "< 0.001", pval)
   
   out <- ent %>% 
     as.data.frame %>% 

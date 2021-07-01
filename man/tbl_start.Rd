@@ -9,7 +9,7 @@ tbl_start(data, col_var, missing, overall, comparison)
 \arguments{
 \item{data}{the dataset to be used in the table.}
 
-\item{col_var}{the variable to be used in the table columns. NULL if single summary column desired}
+\item{col_var}{the variable to be used in the table columns. NULL if single summary column desired.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 

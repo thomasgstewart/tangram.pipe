@@ -10,7 +10,7 @@ tbl_out(list_obj)
 \item{list_obj}{the name of the tbl_start object previously initialized.}
 }
 \description{
-Produces a finalized table
+Produces a finalized table.
 }
 \examples{
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)

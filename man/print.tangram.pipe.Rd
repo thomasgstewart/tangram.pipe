@@ -9,10 +9,10 @@
 \arguments{
 \item{x}{the name of the tbl_start object previously initialized.}
 
-\item{...}{further arguments passed to or from other methods}
+\item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Prints a finished table
+Prints a finished table created from tangram.pipe.
 }
 \examples{
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)

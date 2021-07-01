@@ -9,13 +9,13 @@ binary_or(dt, num_col, reference, digits)
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{num_col}{num_col the number of categorical columns in the data.}
+\item{num_col}{the number of categorical columns in the data.}
 
 \item{reference}{the name of the reference row category to use.}
 
 \item{digits}{significant digits to use.}
 }
 \description{
-Calculates odds ratio across categories for binary data
+Calculates odds ratio across categories for binary data.
 }
 \keyword{tangram.pipe}

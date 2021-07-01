@@ -1,8 +1,8 @@
 #' Binary Odds Ratio
 #'
-#' Calculates odds ratio across categories for binary data
+#' Calculates odds ratio across categories for binary data.
 #' @param dt the name of the dataframe object.
-#' @param num_col num_col the number of categorical columns in the data.
+#' @param num_col the number of categorical columns in the data.
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
 #' @importFrom stats glm
@@ -35,7 +35,7 @@ binary_or <- function(dt, num_col, reference, digits){
   N <- nrow(dt)
   stat <- ((N-1)/N)*chisq$statistic
   pval <- sprintf(rnd, 1-pchisq(stat, df=chisq$parameter))
-  pval <- ifelse(as.numeric(pval)<.0005, "<.001", pval)
+  pval <- ifelse(as.numeric(pval)<.0005, "< 0.001", pval)
 
   out <- OR %>% 
     as.data.frame %>% 

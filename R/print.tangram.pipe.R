@@ -1,8 +1,8 @@
 #' Printing a Table
 #'
-#' Prints a finished table
+#' Prints a finished table created from tangram.pipe.
 #' @param x the name of the tbl_start object previously initialized.
-#' @param ... further arguments passed to or from other methods
+#' @param ... further arguments passed to or from other methods.
 #' @keywords tangram.pipe
 #' @method print tangram.pipe
 #' @examples 

@@ -11,8 +11,9 @@ empty_row <- function(
   , header=NULL
 ){
   if (!is.null(header)){
-    list_obj[[length(list_obj) + 1]] <- rep("", dim(list_obj[[length(list_obj)]])[2])
-    list_obj[[length(list_obj)]][1] <- header
+    #list_obj[[length(list_obj) + 1]] <- rep("", dim(list_obj[[length(list_obj)]])[2])
+    #list_obj[[length(list_obj)]][1] <- header
+    list_obj[[length(list_obj) + 1]] <- data.frame(Variable=header)
   } else {
     list_obj[[length(list_obj) + 1]] <- ""
   }
