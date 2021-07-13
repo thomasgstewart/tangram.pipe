@@ -69,8 +69,9 @@ num_default <- function(dt, rowlabel, missing, digits){
     out$Overall[7] <- sprintf(rnd, max(dt[,1]))
     out$Overall[8] <- sprintf(rnd, mean(dt[,1]))
     out$Overall[9] <- sprintf(rnd, sd(dt[,1]))
-    out <- out[(3:nrow(out)),] #%>% tibble::rownames_to_column("Measure")
-    out <- cbind(Measure=rownames(out), out)
+    out <- out[(3:nrow(out)),]
+    out <- data.frame(N="", Measure=rownames(out), out)
+    out$N[1] <- nrow(dt)
     rownames(out) <- NULL
     if (missing == TRUE){
       out <- cbind(Variable="",out)
@@ -81,6 +82,7 @@ num_default <- function(dt, rowlabel, missing, digits){
         out[8,(2+i)] <- miss[i]
       }
       out$Overall[8] <- sum(miss)
+      out$N[1] <- as.numeric(out$N[1]) + sum(miss)
     } else {
       out <- cbind(Variable="",out)
       out$Variable[1] <- rowlabel
@@ -107,7 +109,8 @@ num_default <- function(dt, rowlabel, missing, digits){
     out$Overall[5] <- sprintf(rnd, max(dt))
     out$Overall[6] <- sprintf(rnd, mean(dt))
     out$Overall[7] <- sprintf(rnd, sd(dt))
-    out <- cbind(Measure=rownames(out), out)
+    out <- data.frame(N="", Measure=rownames(out), out)
+    out$N[1] <- length(dt)
     rownames(out) <- NULL
     if (missing == TRUE){
       out <- cbind(Variable="",out)
@@ -115,6 +118,7 @@ num_default <- function(dt, rowlabel, missing, digits){
       out$Overall[8] <- miss
       out$Variable[1] <- rowlabel
       out$Measure[8] <- "Missing"
+      out$N[1] <- as.numeric(out$N[1]) + miss
     } else {
       out <- cbind(Variable="",out)
       out$Variable[1] <- rowlabel

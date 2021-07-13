@@ -37,11 +37,16 @@ cat_default <- function(dt, rowlabel, missing, digits){
 
     row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
     out <- rbind(row1, out)
+    n <- dt %>%
+      complete.cases() %>%
+      sum()
     if (missing == TRUE){
       out[is.na(out[,1]),1] <- "Missing"
+      n <- n + sum(is.na(dt[,1]))
     }
-    out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
+    out <- cbind(out[,1], N="", Measure="", out[,(2:ncol(out))])
     out$Measure[1] <- "Col. Prop. (N)"
+    out$N[1] <- n
     colnames(out)[1] <- "Variable"
   } else {
     ct=dt %>%
@@ -57,14 +62,18 @@ cat_default <- function(dt, rowlabel, missing, digits){
 
     row1 <- c(paste(rowlabel), "")
     out <- rbind(row1, out)
+    n <- dt %>%
+      complete.cases() %>%
+      sum()
     if (missing == TRUE){
       out[is.na(out[,1]),1] <- "Missing"
+      n <- n + sum(is.na(dt))
     }
-
-    out <- data.frame(out[,1], Measure="", out[,2])
+    out <- data.frame(out[,1], N="", Measure="", out[,2])
     out$Measure[1] <- "Col. Prop. (N)"
+    out$N[1] <- n
     colnames(out)[1] <- "Variable"
-    colnames(out)[3] <- "Overall"
+    colnames(out)[4] <- "Overall"
   }
   out
 }

@@ -40,19 +40,27 @@ binary_default <- function(dt, reference, rowlabel, compact, missing, digits){
     rownames(out) <- NULL
     row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
     out <- rbind(row1, out)
+    n <- dt %>%
+      complete.cases() %>%
+      sum()
     if (missing == TRUE){
       out <- out %>% filter(out[,1]==reference | out[,1]=="NA." | out[,1]==rowlabel)
       out[,1] <- gsub("NA.", "Missing", out[,1])
+      n <- n + sum(is.na(dt[,1]))
     } else {
       out <- out %>% filter(out[,1]==reference | out[,1]==rowlabel)
     }
-    out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-    out$Measure[1] <- "Col. Prop. (N)"
+    out <- cbind(out[,1], N="", Measure="", out[,(2:ncol(out))])
     if (compact == TRUE){
-      out[2,2] <- out[1,2]
+      out$Measure[2] <- "Col. Prop. (N)"
+      out$N[2] <- n
       out <- out[-1,]
+    } else {
+      out$Measure[1] <- "Col. Prop. (N)"
+      out$N[1] <- n
     }
     colnames(out)[1] <- "Variable"
+    
   } else {
     ct <- dt %>%
       table(useNA=ifelse(missing==TRUE, "ifany", "no"))
@@ -67,20 +75,27 @@ binary_default <- function(dt, reference, rowlabel, compact, missing, digits){
     rownames(out) <- NULL
     row1 <- c(paste(rowlabel), "")
     out <- rbind(row1, out)
+    n <- dt %>%
+      complete.cases() %>%
+      sum()
     if (missing == TRUE){
       out <- out %>% filter(out[,1]==reference | out[,1]=="NA." | out[,1]==rowlabel)
       out[,1] <- gsub("NA.", "Missing", out[,1])
+      n <- n + sum(is.na(dt))
     } else {
       out <- out %>% filter(out[,1]==reference | out[,1]==rowlabel)
     }
-    out <- data.frame(out[,1], Measure="", out[,2])
+    out <- data.frame(out[,1], N="", Measure="", out[,2])
     if (compact == TRUE){
-      out[2,2] <- out[1,2]
+      out$Measure[2] <- "Col. Prop. (N)"
+      out$N[2] <- n
       out <- out[-1,]
+    } else {
+      out$Measure[1] <- "Col. Prop. (N)"
+      out$N[1] <- n
     }
-    out$Measure[1] <- "Col. Prop. (N)"
     colnames(out)[1] <- "Variable"
-    colnames(out)[3] <- "Overall"
+    colnames(out)[4] <- "Overall"
   }
   out
 }
