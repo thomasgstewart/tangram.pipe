@@ -9,7 +9,7 @@ cat_row(
   row_var,
   col_var = NULL,
   newdata = FALSE,
-  rowlabels = NULL,
+  rowlabel = NULL,
   summary = cat_default,
   missing = NULL,
   overall = NULL,
@@ -27,7 +27,7 @@ cat_row(
 
 \item{newdata}{enter new dataset name if different from that initialized in tbl_start.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from row_var.}
 
 \item{summary}{summary function for the data. Default will compute proportion (N).}
 
@@ -41,12 +41,15 @@ cat_row(
 
 \item{indent}{number of spaces to indent category names.}
 }
+\value{
+A list with the categorical row's table information added as a new element to \code{list_obj}.
+}
 \description{
 Adds in a categorical row to the table.
 }
 \examples{
 iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  cat_row("Stem.Size", rowlabels="Stem Size")
+  cat_row("Stem.Size", rowlabel="Stem Size")
 }
 \keyword{tangram.pipe}

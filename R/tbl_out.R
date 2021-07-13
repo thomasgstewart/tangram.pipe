@@ -2,6 +2,7 @@
 #'
 #' Produces a finalized table.
 #' @param list_obj the name of the tbl_start object previously initialized.
+#' @return A tangram.pipe class object with the finalized table as a dataframe added as the most recent element of `list_obj`.
 #' @keywords tangram.pipe
 #' @importFrom dplyr bind_rows
 #' @examples 
@@ -9,17 +10,17 @@
 #' iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
 #' iris$Leaf.Color <- "Green"
 #' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
-#'   num_row("Sepal.Length", rowlabels="Sepal Length") %>%
+#'   num_row("Sepal.Length", rowlabel="Sepal Length") %>%
 #'   empty_row() %>%
-#'   num_row("Sepal.Width", rowlabels="Sepal Width") %>%
+#'   num_row("Sepal.Width", rowlabel="Sepal Width") %>%
 #'   empty_row() %>%
-#'   num_row("Petal.Length", rowlabels="Petal Length") %>%
+#'   num_row("Petal.Length", rowlabel="Petal Length") %>%
 #'   empty_row() %>%
-#'   num_row("Petal.Width", rowlabels="Petal Width") %>%
+#'   num_row("Petal.Width", rowlabel="Petal Width") %>%
 #'   empty_row() %>%
-#'   cat_row("Stem.Size", rowlabels="Stem Size") %>%
+#'   cat_row("Stem.Size", rowlabel="Stem Size") %>%
 #'   empty_row() %>%
-#'   binary_row("color", rowlabels="Color") %>%
+#'   binary_row("color", rowlabel="Color") %>%
 #'   tbl_out()
 #' @export
 

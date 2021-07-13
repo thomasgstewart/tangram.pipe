@@ -3,6 +3,7 @@
 #' Default comparison function for categorical data.
 #' @param dt the name of the dataframe object.
 #' @param digits significant digits to use.
+#' @return A dataframe calculating relative entropy between column pairs, as well as an overall chi-squared test across all groups.
 #' @importFrom stats chisq.test
 #' @importFrom stats pchisq
 #' @importFrom stats setNames

@@ -11,6 +11,9 @@
 
 \item{...}{further arguments passed to or from other methods.}
 }
+\value{
+A dataframe object containing the information from the last element of a tangram.pipe class object created using \code{tbl_out()}.  This is the finalized table object.
+}
 \description{
 Prints a finished table created from tangram.pipe.
 }
@@ -19,17 +22,17 @@ iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
 iris$Leaf.Color <- "Green"
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  num_row("Sepal.Length", rowlabels="Sepal Length") \%>\%
+  num_row("Sepal.Length", rowlabel="Sepal Length") \%>\%
   empty_row() \%>\%
-  num_row("Sepal.Width", rowlabels="Sepal Width") \%>\%
+  num_row("Sepal.Width", rowlabel="Sepal Width") \%>\%
   empty_row() \%>\%
-  num_row("Petal.Length", rowlabels="Petal Length") \%>\%
+  num_row("Petal.Length", rowlabel="Petal Length") \%>\%
   empty_row() \%>\%
-  num_row("Petal.Width", rowlabels="Petal Width") \%>\%
+  num_row("Petal.Width", rowlabel="Petal Width") \%>\%
   empty_row() \%>\%
-  cat_row("Stem.Size", rowlabels="Stem Size") \%>\%
+  cat_row("Stem.Size", rowlabel="Stem Size") \%>\%
   empty_row() \%>\%
-  binary_row("color", rowlabels="Color") \%>\%
+  binary_row("color", rowlabel="Color") \%>\%
   tbl_out() \%>\%
   print()
 }

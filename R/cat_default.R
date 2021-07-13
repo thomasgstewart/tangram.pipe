@@ -2,14 +2,15 @@
 #' 
 #' Summarizes a categorical row using counts and column proportions.
 #' @param dt the name of the dataframe object.
-#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param rowlabel the label for the table row name, if different from row_var.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param digits significant digits to use.
+#' @return A dataframe with summary statistics for a categorical variable.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
-cat_default <- function(dt, rowlabels, missing, digits){
+cat_default <- function(dt, rowlabel, missing, digits){
   rnd <- paste0("%.", digits, "f")
   if (!is.null(ncol(dt))){
     dt <- filter(dt, !is.na(dt[,2]))
@@ -34,7 +35,7 @@ cat_default <- function(dt, rowlabels, missing, digits){
 
     out <- cbind(dimnames(prop)[1], out)
 
-    row1 <- c(paste(rowlabels), rep("", ncol(out)-1))
+    row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
     out <- rbind(row1, out)
     if (missing == TRUE){
       out[is.na(out[,1]),1] <- "Missing"
@@ -54,7 +55,7 @@ cat_default <- function(dt, rowlabels, missing, digits){
 
     out <- cbind(dimnames(prop), out)
 
-    row1 <- c(paste(rowlabels), "Overall")
+    row1 <- c(paste(rowlabel), "")
     out <- rbind(row1, out)
     if (missing == TRUE){
       out[is.na(out[,1]),1] <- "Missing"

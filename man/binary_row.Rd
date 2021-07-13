@@ -9,9 +9,10 @@ binary_row(
   row_var,
   col_var = NULL,
   newdata = FALSE,
-  rowlabels = NULL,
+  rowlabel = NULL,
   summary = binary_default,
   reference = NULL,
+  compact = TRUE,
   missing = NULL,
   overall = NULL,
   comparison = NULL,
@@ -28,11 +29,13 @@ binary_row(
 
 \item{newdata}{enter new dataset name if different from that initialized in tbl_start.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from row_var.}
 
 \item{summary}{summary function for the data. Default will compute proportion (N).}
 
 \item{reference}{the name of the row category to use as the reference. Default will use alphabetical first category.}
+
+\item{compact}{logical: if TRUE, data displayed in one row.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
@@ -44,12 +47,15 @@ binary_row(
 
 \item{indent}{number of spaces to indent category names.}
 }
+\value{
+A list with the binary row's table information added as a new element to \code{list_obj}.
+}
 \description{
 Adds in a binary row to the table.
 }
 \examples{
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  binary_row("color", rowlabels="Color")
+  binary_row("color", rowlabel="Color")
 }
 \keyword{tangram.pipe}

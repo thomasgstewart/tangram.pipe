@@ -4,7 +4,7 @@
 \alias{tbl_start}
 \title{Table Initialization}
 \usage{
-tbl_start(data, col_var, missing, overall, comparison)
+tbl_start(data, col_var, missing = FALSE, overall = TRUE, comparison = FALSE)
 }
 \arguments{
 \item{data}{the dataset to be used in the table.}
@@ -16,6 +16,9 @@ tbl_start(data, col_var, missing, overall, comparison)
 \item{overall}{logical: if TRUE, an overall column is included.}
 
 \item{comparison}{logical: if TRUE, a comparison test is conducted between columns.}
+}
+\value{
+A list containing separate entries holding information provided in the function's arguments, as well as a calculated number of column categories to include for the initialized table.
 }
 \description{
 Initializes the table by specifying the desired elements and data components.

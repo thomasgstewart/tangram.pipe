@@ -5,6 +5,7 @@
 #' @param num_col the number of categorical columns in the data.
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
+#' @return A dataframe with difference in proportions test results between pairs of columns for binary data, as well as an overall chi-squared test across all groups. 
 #' @import dplyr
 #' @importFrom stats complete.cases
 #' @importFrom stats prop.test

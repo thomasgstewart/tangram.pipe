@@ -15,6 +15,9 @@ binary_or(dt, num_col, reference, digits)
 
 \item{digits}{significant digits to use.}
 }
+\value{
+A dataframe with computed odds ratios between pairs of columns for binary data, as well as an overall chi-squared test across all groups.
+}
 \description{
 Calculates odds ratio across categories for binary data.
 }

@@ -4,16 +4,19 @@
 \alias{cat_default}
 \title{Summary for a Categorical Row}
 \usage{
-cat_default(dt, rowlabels, missing, digits)
+cat_default(dt, rowlabel, missing, digits)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from row_var.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
 \item{digits}{significant digits to use.}
+}
+\value{
+A dataframe with summary statistics for a categorical variable.
 }
 \description{
 Summarizes a categorical row using counts and column proportions.

@@ -11,6 +11,9 @@ cat_comp_default(dt, digits)
 
 \item{digits}{significant digits to use.}
 }
+\value{
+A dataframe calculating relative entropy between column pairs, as well as an overall chi-squared test across all groups.
+}
 \description{
 Default comparison function for categorical data.
 }

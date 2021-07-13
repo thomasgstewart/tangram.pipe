@@ -4,16 +4,19 @@
 \alias{num_default}
 \title{Summary for a Numeric Row}
 \usage{
-num_default(dt, rowlabels, missing, digits)
+num_default(dt, rowlabel, missing, digits)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from row_var.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
 \item{digits}{significant digits to use.}
+}
+\value{
+A dataframe with summary statistics for a numeric variable.
 }
 \description{
 Summarizes a numeric row using the five-number summary, mean, and standard deviation.

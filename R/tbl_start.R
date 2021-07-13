@@ -6,6 +6,7 @@
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison logical: if TRUE, a comparison test is conducted between columns.
+#' @return A list containing separate entries holding information provided in the function's arguments, as well as a calculated number of column categories to include for the initialized table.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
@@ -15,10 +16,11 @@
 tbl_start <- function(
     data
   , col_var
-  , missing
-  , overall
-  , comparison
+  , missing = FALSE
+  , overall = TRUE
+  , comparison = FALSE
 ){
+  class(data) <- "data.frame"
   if (!is.null(col_var)){
     num_col <- data[col_var] %>%
       filter(!is.na(data[col_var])) %>%
@@ -27,6 +29,5 @@ tbl_start <- function(
   } else {
     num_col <- 1
   }
-  pipetab_out <- list(data=data, col_var=col_var, missing=missing, overall=overall, comparison=comparison, num_col=num_col)
+  out <- list(data=data, col_var=col_var, missing=missing, overall=overall, comparison=comparison, num_col=num_col)
 }
-#add calculation with number of columns so other functions can use info

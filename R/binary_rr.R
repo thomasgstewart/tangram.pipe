@@ -5,6 +5,7 @@
 #' @param num_col the number of categorical columns in the data.
 #' @param reference the name of the reference row category to use.
 #' @param digits significant digits to use.
+#' @return A dataframe with computed risk ratios between pairs of columns for binary data, as well as an overall chi-squared test across all groups.
 #' @importFrom stats complete.cases
 #' @importFrom stats relevel
 #' @importFrom stats setNames

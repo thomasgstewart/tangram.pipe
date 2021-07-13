@@ -5,6 +5,7 @@
 #' @param num_col the number of categorical columns in the data.
 #' @param row_var the name of the row variable in the data.
 #' @param digits significant digits to use.
+#' @return A dataframe calculating the difference in means between column pairs, as well as an overall one-way ANOVA across all groups.
 #' @import dplyr
 #' @importFrom stats t.test
 #' @importFrom stats anova

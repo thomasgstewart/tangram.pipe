@@ -5,20 +5,22 @@
 #' @param row_var the name of the variable to be used in the rows.
 #' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
 #' @param newdata enter new dataset name if different from that initialized in tbl_start.
-#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param rowlabel the label for the table row name, if different from row_var.
 #' @param summary summary function for the data. Default will compute proportion (N).
 #' @param reference the name of the row category to use as the reference. Default will use alphabetical first category.
+#' @param compact logical: if TRUE, data displayed in one row.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison the name of the comparison test to use, if different from that initialized in tbl_start.
 #' @param digits significant digits to use.
 #' @param indent number of spaces to indent category names.
+#' @return A list with the binary row's table information added as a new element to `list_obj`.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
 #' iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 #' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
-#'   binary_row("color", rowlabels="Color")
+#'   binary_row("color", rowlabel="Color")
 #' @export
 
 binary_row <- function(
@@ -26,9 +28,10 @@ binary_row <- function(
   , row_var
   , col_var=NULL
   , newdata=FALSE
-  , rowlabels=NULL
+  , rowlabel=NULL
   , summary=binary_default
   , reference=NULL
+  , compact=TRUE
   , missing=NULL
   , overall=NULL
   , comparison=NULL  #Null or function
@@ -72,18 +75,18 @@ binary_row <- function(
       num_col <- 1
     }
   }
-  if (is.null(rowlabels)){
+  if (is.null(rowlabel)){
     if (is.null(dim(data))) {
       if  (!is.null(attr(data, "label"))){
-        rowlabels <- attr(data, "label")
+        rowlabel <- attr(data, "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     } else {
       if (!is.null(attr(data[,1], "label"))) {
-        rowlabels <- attr(data[,1], "label")
+        rowlabel <- attr(data[,1], "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     }
   }
@@ -102,7 +105,7 @@ binary_row <- function(
       reference = sort(unique(data[,1]))[1]
     }
   }
-  binary_out <- summary(data, reference, rowlabels, missing, digits)
+  binary_out <- summary(data, reference, rowlabel, compact, missing, digits)
   if (overall == FALSE){
     binary_out <- binary_out[,-ncol(binary_out)]
   }

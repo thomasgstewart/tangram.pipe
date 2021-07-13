@@ -15,6 +15,9 @@ num_diff(dt, num_col, row_var, digits)
 
 \item{digits}{significant digits to use.}
 }
+\value{
+A dataframe calculating the difference in means between column pairs, as well as an overall one-way ANOVA across all groups.
+}
 \description{
 Default comparison function for numeric data.
 }

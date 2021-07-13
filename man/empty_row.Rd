@@ -11,6 +11,9 @@ empty_row(list_obj, header = NULL)
 
 \item{header}{a header to include for the empty row.}
 }
+\value{
+If a header is included, a list object is returned with a one-element dataframe containing the header as the most recent entry to \code{list_obj}. Otherwise, a list is returned containing a blank character as the last element of \code{list_obj}.
+}
 \description{
 Produces a empty dividing row in the table.  May have a row header.
 }

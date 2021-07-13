@@ -5,17 +5,18 @@
 #' @param row_var the name of the variable to be used in the rows.
 #' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
 #' @param newdata enter new dataset name if different from that initialized in tbl_start.
-#' @param rowlabels the label for the table row name, if different from row_var.
+#' @param rowlabel the label for the table row name, if different from row_var.
 #' @param summary summary function for the data. Default will compute 5-number summary plus mean and standard deviation.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison the name of the comparison test to use, if different from that initialized in tbl_start.
 #' @param digits significant digits to use.
+#' @return A list with the numeric row's table information added as a new element to `list_obj`.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 
 #' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
-#'   num_row("Sepal.Length", rowlabels="Sepal Length")
+#'   num_row("Sepal.Length", rowlabel="Sepal Length")
 #' @export
 
 num_row <- function(
@@ -23,7 +24,7 @@ num_row <- function(
   , row_var
   , col_var=NULL
   , newdata=FALSE
-  , rowlabels=NULL
+  , rowlabel=NULL
   , summary=num_default
   , missing=NULL
   , overall=NULL
@@ -67,18 +68,18 @@ num_row <- function(
       num_col <- 1
     }
   }
-  if (is.null(rowlabels)){
+  if (is.null(rowlabel)){
     if (is.null(dim(data))) {
       if  (!is.null(attr(data, "label"))){
-        rowlabels <- attr(data, "label")
+        rowlabel <- attr(data, "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     } else {
       if (!is.null(attr(data[,1], "label"))) {
-        rowlabels <- attr(data[,1], "label")
+        rowlabel <- attr(data[,1], "label")
       } else {
-        rowlabels <- row_var
+        rowlabel <- row_var
       }
     }
   }
@@ -88,7 +89,7 @@ num_row <- function(
   }
 
   #Default summary function will take mean (SD)
-  num_out <- summary(data, rowlabels, missing, digits)
+  num_out <- summary(data, rowlabel, missing, digits)
   if (overall == FALSE){
     num_out <- num_out[,-ncol(num_out)]
   }

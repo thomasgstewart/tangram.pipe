@@ -9,6 +9,9 @@ tangram_styling(df)
 \arguments{
 \item{df}{The output data frame object to be printed in HTML form.}
 }
+\value{
+A dataframe containing HTML formatting code where applicable.
+}
 \description{
 Used to preprocess a tangram.pipe table for HTML formatting.
 }

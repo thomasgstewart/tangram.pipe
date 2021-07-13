@@ -9,7 +9,7 @@ num_row(
   row_var,
   col_var = NULL,
   newdata = FALSE,
-  rowlabels = NULL,
+  rowlabel = NULL,
   summary = num_default,
   missing = NULL,
   overall = NULL,
@@ -26,7 +26,7 @@ num_row(
 
 \item{newdata}{enter new dataset name if different from that initialized in tbl_start.}
 
-\item{rowlabels}{the label for the table row name, if different from row_var.}
+\item{rowlabel}{the label for the table row name, if different from row_var.}
 
 \item{summary}{summary function for the data. Default will compute 5-number summary plus mean and standard deviation.}
 
@@ -38,11 +38,14 @@ num_row(
 
 \item{digits}{significant digits to use.}
 }
+\value{
+A list with the numeric row's table information added as a new element to \code{list_obj}.
+}
 \description{
 Adds in a numeric row to the table.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  num_row("Sepal.Length", rowlabels="Sepal Length")
+  num_row("Sepal.Length", rowlabel="Sepal Length")
 }
 \keyword{tangram.pipe}
