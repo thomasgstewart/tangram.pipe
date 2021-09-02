@@ -1,4 +1,4 @@
-#' Summary for a Categorical Row
+#' Default summary for a Categorical Row
 #' 
 #' Summarizes a categorical row using counts and column proportions.
 #' @param dt the name of the dataframe object.
@@ -12,68 +12,46 @@
 
 cat_default <- function(dt, rowlabel, missing, digits){
   rnd <- paste0("%.", digits, "f")
-  if (!is.null(ncol(dt))){
-    dt <- filter(dt, !is.na(dt[,2]))
-    ct <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      as.matrix() %>%
-      cbind(Overall=dt %>%
-              table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-              rowSums())
-    prop <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      prop.table(margin=2) %>%
-      as.matrix() %>%
-      cbind(Overall=dt %>%
-              table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-              prop.table() %>%
-              rowSums())
+  nocols <- FALSE
+  if (is.null(ncol(dt))){
+    nocols <- TRUE
+    dt <- data.frame(x = dt) %>% 
+      mutate(y= 1:n() %% 2)
+  }
+  
+  dt <- filter(dt, !is.na(dt[,2]))
+  ct <- dt %>%
+    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+    as.matrix() %>%
+    cbind(Overall=dt %>%
+            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+            rowSums())
+  prop <- dt %>%
+    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+    prop.table(margin=2) %>%
+    as.matrix() %>%
+    cbind(Overall=dt %>%
+            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+            prop.table() %>%
+            rowSums())
 
-    cols <- unlist(dimnames(prop)[2])
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
-      as.data.frame() 
+  cols <- unlist(dimnames(prop)[2])
+  out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames = list(NULL,cols)) %>%
+    as.data.frame() 
 
-    out <- cbind(dimnames(prop)[1], out)
+  out <- cbind(dimnames(prop)[1], out)
 
-    row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
-    out <- rbind(row1, out)
-    n <- dt %>%
-      complete.cases() %>%
-      sum()
-    if (missing == TRUE){
-      out[is.na(out[,1]),1] <- "Missing"
-      n <- n + sum(is.na(dt[,1]))
+  row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
+  out <- rbind(row1, out)
+
+  if (missing == TRUE){
+    out[is.na(out[,1]),1] <- "Missing"
     }
-    out <- cbind(out[,1], N="", Measure="", out[,(2:ncol(out))])
-    out$Measure[1] <- "Col. Prop. (N)"
-    out$N[1] <- n
-    colnames(out)[1] <- "Variable"
-  } else {
-    ct=dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no"))
-    prop=dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      prop.table()
-    
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop)) %>%
-      as.data.frame()
-
-    out <- cbind(dimnames(prop), out)
-
-    row1 <- c(paste(rowlabel), "")
-    out <- rbind(row1, out)
-    n <- dt %>%
-      complete.cases() %>%
-      sum()
-    if (missing == TRUE){
-      out[is.na(out[,1]),1] <- "Missing"
-      n <- n + sum(is.na(dt))
-    }
-    out <- data.frame(out[,1], N="", Measure="", out[,2])
-    out$Measure[1] <- "Col. Prop. (N)"
-    out$N[1] <- n
-    colnames(out)[1] <- "Variable"
-    colnames(out)[4] <- "Overall"
+  out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
+  out$Measure[1] <- "Col. Prop. (N)"
+  colnames(out)[1] <- "Variable"
+  if (nocols == TRUE){
+    out <- out[,-c(3,4)]
   }
   out
 }

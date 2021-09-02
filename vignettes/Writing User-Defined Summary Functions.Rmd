@@ -1,0 +1,191 @@
+---
+title: "Writing User-Defined Summary Functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Writing User-Defined Summary Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+
+---
+
+```{r, include = FALSE}
+suppressPackageStartupMessages(require(tangram.pipe))
+suppressPackageStartupMessages(require(knitr))
+suppressPackageStartupMessages(require(kableExtra))
+```
+
+# Overview
+The package `tangram.pipe` can be used to iteratively build a table which
+allows each row to be uniquely customized. All the possible changes can be seen
+in the package's main vignette, "Customizeable Table Building with Tangram Pipe".
+One main package feature which is not discussed there is that a user may write
+their own summary function for the table rows. By default, the package will use
+default summary functions to calculate a 5-number summary, plus the mean and standard
+deviation, for numeric data; column-wise proportions are generated for categorical
+and binary rows. While the package does give a user flexibility to write personal
+summary functions, care must be taken to ensure that the correct inputs and outputs
+are generated from this summary function in order for the package to work as intended.
+Here, we will discuss the necessary requirements for user-defined summary functions
+in `tangram.pipe`.
+
+# Function Inputs
+To see how the default functions for summarizing data work, let's take a look at
+the function usage for summarizing numerical data, `num_default`.
+
+```{r, eval = FALSE}
+num_default(dt, rowlabel, missing, digits)
+```
+
+Both the numeric and categorical default summary functions take a total of four arguments.
+
+1. `dt`: The dataset to use for the function must be passed into the summary tool.
+However, the full dataset cannot be implemented into the summary function. Based on how
+the summary is used in the row functions, the first column of `dt` must contain
+the row information for the table; the second column should include the table's
+column information, if applicable. Be sure that `dt` is a dataframe object.
+
+2. `rowlabel`: This is the label you want to use for the row in the table. It should
+match the rowlabel you specify in the row-defining function.
+
+3. `missing`: A binary TRUE/FALSE variable which tells the function whether or
+not to account for missing data. It should match the designation for missing data
+from the row function.
+
+4. `digits`: The number of significant digits to use in the summary.
+
+Note that none of the summary function's arguments should have default values. Since
+summary functions are called within the row functions from `tangram.pipe`, the function
+will end up taking the values already entered into the row function, so be sure
+not to use default values here.  Below is an example usage of a generic summary function,
+`summary_generic` using the `iris` dataset. Here, we want `Sepal.Length` to be the
+row variable and `Species` to be the columns of the main table. Suppose we want to
+call the row variable "Sepal Length (cm)", account for missing data, and use 2 significant
+digits. First, we show the format the data (`dt`) must be in to pass it to the function
+
+```{r}
+iris %>% 
+  select(Sepal.Length, Species) %>%
+  head() %>%
+  kable(escape = F, align = 'c') %>%
+  trimws() %>%
+  kable_styling(c("striped", "bordered"))
+```
+
+Note that the row variable is on the left and the column variable is to the right.
+If you wanted to avoid splitting by `Species`, you would only pass the `Sepal.Length` 
+information into the summary function.
+
+Now, we show the code input needed for our generic summary function.
+
+```{r, eval = FALSE}
+summary_generic(dt = iris %>% select(Sepal.Length, Species), rowlabel = "Sepal Length (cm)", 
+                missing = TRUE, digits = 2)
+```
+
+# Body of the function
+
+When writing your summary function, it is important to take note of a few aspects
+the function should be sure to incorporate within its text. The first important check
+to make is whether your data includes a column variable or not. The data will be
+structured differently depending on whether or not your data has two columns or
+only one, so be sure your function can handle both types of data. 
+
+Second, you will likely want to label your variable using the name specified in 
+`rowlabel`. It is in the summary that the rowlabel specified in the row-initializing 
+function is added to the table, so if you neclect this step, the final table will 
+not have the label the user specifies during row initialization. 
+
+Next, the function needs to calculate the amount of missing data if `missing = TRUE`
+in the function. As with the `rowlabel` function, missing data handling is specified
+in the row initialization but calculated within the summary function, so be sure to
+write the function in such a way that missing data can be handled if specified.
+
+Finally, be sure that all summary statistics are rounded based on the `digits` argument.
+The `round` and `sprintf` functions are common tools used to accompish this so
+the table output can have a polished look.
+
+# Required output
+
+At a minimum, the output of each function should be a dataframe object. Any other
+object type will cause the row function to fail since the final table, as well as
+any comparison tests, need dataframes to combine the results together into the 
+finished product. The rightmost column should also be the "Overall" column which
+contains the summary statistics for the dataset as a whole without accounting
+for the table's column variable. This is because the row functions will eliminate
+this column if the user sets `overall = FALSE` during row initialization.
+
+So long as the above two requirements are met, the summary function will not break 
+the preexisting functions of `tangram.pipe`. However, there are certain naming 
+recommendations so that the table is formatted well. Ideally, the row name should be
+in the first column, called "Variable". A column labelling the type of measurement,
+called "Measurement", as well as naming the overall column "Overall", will keep
+the column names consistent with the package's default summary functions. If you
+decide to use different names, it is recommended that you keep the names consistent
+with each new summary function that you use and that you don't not mix in rows with
+default summary functions; mixing in different naming conventions will cause information
+that should be contained in one column being spread out over multiple columns.
+
+Below are example outputs from the preexisting `num_default` and `cat_default`
+summary functions. It is recommnded that you include columns for the variable name,
+the measure type, the column categories (if applicable), and the overall column,
+being sure to keep naming conventions consistent. As of version 1.0.1, `tangram.pipe`
+default summaries now also calculate the total number of instances, N.
+
+```{r}
+iris %>%
+  select(Sepal.Length, Species) %>%
+  num_default(rowlabel = "Sepal Length (cm)", missing = TRUE, digits = 2) %>%
+  kable(escape = F, align = 'l') %>%
+  trimws() %>%
+  kable_styling(c("striped", "bordered"))
+
+iris %>%
+  mutate(Stem.Size = sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)) %>%
+  select(Stem.Size, Species) %>%
+  cat_default(rowlabel = "Stem Size", missing = TRUE, digits = 2) %>%
+  kable(escape = F, align = 'l') %>%
+  trimws() %>%
+  kable_styling(c("striped", "bordered"))
+```
+
+# Special note regarding binary rows
+
+Binary row summary functions differ slightly from numerical and categorical rows
+because two additional arguments are necessary for binary data. 
+
+```{r, eval = FALSE}
+binary_default(dt, reference, rowlabel, compact, missing, digits)
+```
+
+For binary rows, the following two arguments must be included as well:
+
+1. `reference`: This is the reference variable to include in the table. Since binary
+data only includes two possible categories, the row function is written so that only
+one option will be included in the table. The category you want in the table is the
+value of `reference`.
+
+2. `compact`: Often, binary data in tables is written so that the variable name is
+eliminated and only the reference group appears in the table. This compacts the row
+information into a single for. This TRUE/FALSE variable decides if this is how you
+want the data displayed in the table.
+
+Both of the above variables should be included in the body of the user-defined function
+so that each is dealt with accordingly.
+
+Since writing functions for binary data can be somewhat more complicated, remember
+that any data used in a binary row can also be substituted into a categorical defined 
+row instead.
+
+# User-Defined Comparison Tests
+A similar process can be used to write custom functions for comparison tests in `tangram.pipe`.
+The user is encouraged to look up the help documentation to prewritten tests for 
+their desired row to determine what arguments are necessary for a custom function
+to include as input.
+
+
+
+
+
+
+
+

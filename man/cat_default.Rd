@@ -2,7 +2,7 @@
 % Please edit documentation in R/cat_default.R
 \name{cat_default}
 \alias{cat_default}
-\title{Summary for a Categorical Row}
+\title{Default summary for a Categorical Row}
 \usage{
 cat_default(dt, rowlabel, missing, digits)
 }
