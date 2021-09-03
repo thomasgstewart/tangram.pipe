@@ -1,4 +1,4 @@
-#' Summary for a Binary Row
+#' Default summary for a Binary Row
 #' 
 #' Summarizes a binary row using counts and column proportions.
 #' @param dt the name of the dataframe object.
@@ -14,77 +14,53 @@
 
 binary_default <- function(dt, reference, rowlabel, compact, missing, digits){
   rnd <- paste0("%.", digits, "f")
-  if (!is.null(ncol(dt))) {
-    dt <- filter(dt, !is.na(dt[,2]))
-    ct <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      as.matrix() %>%
-      cbind(Overall=dt %>%
-              table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-              rowSums())
-    prop <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      prop.table(margin=2) %>%
-      round(digits) %>%
-      as.matrix() %>%
-      cbind(Overall=dt %>%
-              table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-              prop.table() %>%
-              round(digits) %>%
-              rowSums())
+  nocols <- FALSE
+  if (is.null(ncol(dt))){
+    nocols <- TRUE
+    dt <- data.frame(x = dt) %>% 
+      mutate(y= 1:n() %% 2)
+  }
+  
+  dt <- filter(dt, !is.na(dt[,2]))
+  ct <- dt %>%
+    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+    as.matrix() %>%
+    cbind(Overall=dt %>%
+            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+            rowSums())
+  prop <- dt %>%
+    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+    prop.table(margin=2) %>%
+    as.matrix() %>%
+    cbind(Overall=dt %>%
+            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+            prop.table() %>%
+            rowSums())
     
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
-      as.data.frame()
-    out <- cbind(rownames(out), out)
-    rownames(out) <- NULL
-    row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
-    out <- rbind(row1, out)
+  out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
+    as.data.frame()
+  out <- cbind(rownames(out), out)
+  rownames(out) <- NULL
+  row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
+  out <- rbind(row1, out)
 
-    if (missing == TRUE){
-      out <- out %>% filter(out[,1]==reference | out[,1]=="NA." | out[,1]==rowlabel)
-      out[,1] <- gsub("NA.", "Missing", out[,1])
-    } else {
-      out <- out %>% filter(out[,1]==reference | out[,1]==rowlabel)
-    }
-    out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
-    if (compact == TRUE){
-      out$Measure[2] <- "Col. Prop. (N)"
-      out <- out[-1,]
-    } else {
-      out$Measure[1] <- "Col. Prop. (N)"
-    }
-    colnames(out)[1] <- "Variable"
-    
+  if (missing == TRUE){
+    out <- out %>% filter(out[,1]==reference | out[,1]=="NA." | out[,1]==rowlabel)
+    out[,1] <- gsub("NA.", "Missing", out[,1])
   } else {
-    ct <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no"))
-    prop <- dt %>%
-      table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
-      prop.table() %>%
-      round(digits)
-    
-    out <- matrix(paste0(sprintf(rnd, prop), " (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
-      as.data.frame()
-    out <- cbind(rownames(out), out)
-    rownames(out) <- NULL
-    row1 <- c(paste(rowlabel), "")
-    out <- rbind(row1, out)
-    
-    if (missing == TRUE){
-      out <- out %>% filter(out[,1]==reference | out[,1]=="NA." | out[,1]==rowlabel)
-      out[,1] <- gsub("NA.", "Missing", out[,1])
-    } else {
-      out <- out %>% filter(out[,1]==reference | out[,1]==rowlabel)
-    }
-    out <- data.frame(out[,1], Measure="", out[,2])
-    if (compact == TRUE){
-      out$Measure[2] <- "Col. Prop. (N)"
-      out <- out[-1,]
-    } else {
-      out$Measure[1] <- "Col. Prop. (N)"
-    }
-    colnames(out)[1] <- "Variable"
-    colnames(out)[3] <- "Overall"
+    out <- out %>% filter(out[,1]==reference | out[,1]==rowlabel)
+  }
+  out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
+  if (compact == TRUE){
+    out$Measure[2] <- "Col. Prop. (N)"
+    out <- out[-1,]
+  } else {
+    out$Measure[1] <- "Col. Prop. (N)"
+  }
+  colnames(out)[1] <- "Variable"
+
+  if (nocols == TRUE){
+    out <- out[,-c(3,4)]
   }
   rownames(out) <- NULL
   out

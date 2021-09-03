@@ -1,17 +1,17 @@
 #' Binary Row
 #'
 #' Adds in a binary row to the table.
-#' @param list_obj the name of the tbl_start object previously initialized.
+#' @param list_obj the name of the `tbl_start` object previously initialized.
 #' @param row_var the name of the variable to be used in the rows.
-#' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
-#' @param newdata enter new dataset name if different from that initialized in tbl_start.
-#' @param rowlabel the label for the table row name, if different from row_var.
-#' @param summary summary function for the data. Default will compute proportion (N).
+#' @param col_var the variable to be used in the table columns. Default is from initialized `tbl_start` object.
+#' @param newdata enter new dataset name if different from that initialized in `tbl_start`.
+#' @param rowlabel the label for the table row name, if different from `row_var`.
+#' @param summary summary function for the data, if different from the one supplied in `tbl_start`.
 #' @param reference the name of the row category to use as the reference. Default will use alphabetical first category.
 #' @param compact logical: if TRUE, data displayed in one row.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
-#' @param comparison the name of the comparison test to use, if different from that initialized in tbl_start.
+#' @param comparison the name of the comparison test to use, if different from that initialized in `tbl_start`.
 #' @param digits significant digits to use.
 #' @param indent number of spaces to indent category names.
 #' @return A list with the binary row's table information added as a new element to `list_obj`.
@@ -29,7 +29,7 @@ binary_row <- function(
   , col_var=NULL
   , newdata=FALSE
   , rowlabel=NULL
-  , summary=binary_default
+  , summary=NULL
   , reference=NULL
   , compact=TRUE
   , missing=NULL
@@ -38,6 +38,10 @@ binary_row <- function(
   , digits=2
   , indent=5
 ){
+  # Determine if row parameters override initialized defaults
+  if (is.null(summary)){
+    summary <- list_obj[["default_binary_summary"]]
+  }
   if (is.null(missing)){
     missing <- list_obj[["missing"]]
   }
@@ -51,6 +55,7 @@ binary_row <- function(
     }
   }
 
+  # Formatting row information
   if (is.null(col_var)){
     col_var <- list_obj[["col_var"]]
     num_col <- list_obj[['num_col']]

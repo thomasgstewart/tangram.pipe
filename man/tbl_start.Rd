@@ -4,18 +4,33 @@
 \alias{tbl_start}
 \title{Table Initialization}
 \usage{
-tbl_start(data, col_var, missing = FALSE, overall = TRUE, comparison = FALSE)
+tbl_start(
+  data,
+  col_var,
+  missing = FALSE,
+  overall = TRUE,
+  comparison = FALSE,
+  default_num_summary = num_default,
+  default_cat_summary = cat_default,
+  default_binary_summary = binary_default
+)
 }
 \arguments{
-\item{data}{the dataset to be used in the table.}
+\item{data}{The dataset to be used in the table.}
 
-\item{col_var}{the variable to be used in the table columns. NULL if single summary column desired.}
+\item{col_var}{The variable to be used in the table columns. NULL if single summary column desired.}
 
 \item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
 
 \item{overall}{logical: if TRUE, an overall column is included.}
 
 \item{comparison}{logical: if TRUE, a comparison test is conducted between columns.}
+
+\item{default_num_summary}{The default summary function to use for numerical rows. By default, the package will use \code{num_default()}, but the user can also choose \code{num_minmax}, \code{num_medianiqr}, \code{num_mean_sd}, or write a custom function to use for the rows.}
+
+\item{default_cat_summary}{The default summary function to use for categorical rows. By default, the package will use \code{cat_default()}, but the user can also choose \code{cat_pct} or write a custom function to use for the rows.}
+
+\item{default_binary_summary}{The default summary function to use for binary rows. By default, the package will use \code{binary_default()}, but the user can also choose \code{binary_pct} or write a custom function to use for the rows.}
 }
 \value{
 A list containing separate entries holding information provided in the function's arguments, as well as a calculated number of column categories to include for the initialized table.

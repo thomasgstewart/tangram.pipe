@@ -28,7 +28,7 @@ num_mean_sd <- function(dt, rowlabel, missing, digits){
   if (missing == TRUE){
     miss <- dt %>% filter(is.na(dt[,1]))
     miss <- miss[,2] %>% table() %>% as.data.frame() %>% t()
-    miss <- as.numeric(miss[2,])
+    miss <- if (dim(miss)[1] >= 2) as.numeric(miss[2,]) else 0
   }
   
   dt <- dt[complete.cases(dt),]
