@@ -94,7 +94,7 @@ num_row <- function(
   }
 
   #Default summary function will take mean (SD)
-  num_out <- summary(data, rowlabel, missing, digits)
+  num_out <- summary(data, rowlabel = rowlabel, missing = missing, digits = digits)
   if (overall == FALSE){
     num_out <- num_out[,-ncol(num_out)]
   }

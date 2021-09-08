@@ -1,19 +1,34 @@
 #' JAMA-style summary for a Binary Row
 #' 
-#' Summarizes a binary row using column percentages and the total number in each cell divided by the column total. This is the stye used by the Journal of the American Medical Association.
+#' Summarizes a binary row using column percentages and the total number in each cell divided by the column total. This is the style used by the Journal of the American Medical Association.
 #' @param dt the name of the dataframe object.
-#' @param reference the name of the row category to use as the reference. Default will use alphabetical first category.
-#' @param rowlabel the label for the table row name, if different from row_var.
-#' @param compact logical: if TRUE, data displayed in one row.
-#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
-#' @param digits significant digits to use.
+#' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a binary variable.
+#' @details This is an internal function of `tangram.pipe`. Additional arguments 
+#' should be supplied for this function to work properly.
+#' 
+#' `reference` : the name of the row category to use as the reference. Default will use alphabetical first category
+#' 
+#' `rowlabel` : the label for the table row name, if different from row_var.
+#' 
+#' `compact` : if TRUE, data displayed in one row.
+#' 
+#' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
+#' 
+#' `digits` : significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
-binary_jama <- function(dt, reference, rowlabel, compact, missing, digits){
+binary_jama <- function(dt, ...){
+  dots <- list(...)
+  reference <- dots$reference
+  rowlabel <- dots$rowlabel
+  compact <- dots$compact
+  missing <- dots$missing
+  digits <- dots$digits
   rnd <- paste0("%.", digits, "f")
+  
   nocols <- FALSE
   if (is.null(ncol(dt))){
     nocols <- TRUE

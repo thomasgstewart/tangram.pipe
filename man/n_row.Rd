@@ -32,6 +32,6 @@ the table (if applicable), and gives an overall row count.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
-  N()
+  n_row()
 }
 \keyword{tangram.pipe}

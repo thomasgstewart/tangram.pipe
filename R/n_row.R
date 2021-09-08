@@ -12,7 +12,7 @@
 #' @keywords tangram.pipe
 #' @examples 
 #' x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) %>%
-#'   N()
+#'   n_row()
 #' @export
 
 n_row <- function(

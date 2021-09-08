@@ -37,7 +37,8 @@ to determine whether to account for missing data, calculate overall statistics
 across all columns, or conduct comparison tests across the columns for each row. 
 The arguments for `missing`, `overall`, and `comparison` will be used as the 
 defaults for each subsequent row added to the table; however, a user can specify
-a different entry for each argument for individual rows if desired.
+a different entry for each argument for individual rows if desired. Finally, 
+the user can choose the default summary function to use for each type of row.
 
 This vignette will use the built-in `iris` dataset, which is a well-known dataset
 containing flower measurements for three species of iris flowers.  Since most of 
@@ -52,22 +53,47 @@ iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, repl
 iris[149,5] <- NA
 iris[150,c(1:4, 6:7)] <- NA
 head(iris) %>% 
-  kable(escape=F, align="cl") %>% 
+  kable(escape=F, align="c") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered"))
 ```
 
 For this example, the variable 'Species' will be chosen as the column variable;
 `missing` and `comparison` will be set to `FALSE` to generate a simple example.
+We will also set each type of summary function to the default setting used by the
+package.
 ```{r}
-tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE)
+tbl1 <- tbl_start(data=iris, 
+                  col_var="Species", 
+                  missing=FALSE, 
+                  overall=TRUE, 
+                  comparison=FALSE,
+                  default_num_summary = num_default,
+                  default_cat_summary = cat_default,
+                  default_binary_summary = binary_default)
 ```
 
 Using this function creates a list object that stores the user preferences for 
-building the table going forward; in addition to the five elements listed here, 
+building the table going forward; in addition to the eight elements listed here, 
 the number of rows is also saved to the list. Subsequent entries to the list
 will store information for the rows, which will ultimately be compiled to create
 the final table after all row information has been added.
+
+`tbl_start` arguments are set to the following defaults. Aside from `data` and `col_var`,
+the remaining arguments do not need to be specified if they match the following 
+default values:
+
+`missing` : FALSE
+
+`overall` : TRUE
+
+`comparison` : FALSE
+
+`default_num_summary` : num_default
+
+`default_cat_summary` : cat_default
+
+`default_binary_summary` : binary_default
 
 # Adding Rows
 ## Numeric Rows
@@ -78,19 +104,33 @@ well as the mean and standard deviation for the numeric variable within each
 column.  Since we specified `overall=TRUE` in the initialization step, an overall
 summary row will be included as well. The default summary function is `num_default`, 
 but the user may write their own function to calculate different summary statistics
-from what is shown here. Currently, `num_default` is the only built-in summary
-function for this data type.
+from what is shown here. 
+
+Currently, there are four summary functions available for use within `num_row`.
+The default summary to use for each row can be specified in `tbl_start`, or determined
+using the `summary` argument of each row
+
+`num_default` : Calculates the five-number summary, mean, and standard deviation
+
+`num_minmax` : Calculates the minimum and maximum values
+
+`num_medianiqr` : Calculates the median and interquartile range
+
+`num_mean_sd` : Calculates the mean and standard deviation
+
+More information on writing your own summary functions can be found in the accompanying
+package vignette "Writing User-Defined Summary Functions"
 
 Let's start by calculating summary statistics for the Sepal Length in the `iris`
 dataset. Since it makes more sense to display the variable name as "Sepal Length"
-rather than the R-generated "Sepal.Length", we will use the `rowlabels` argument 
+rather than the R-generated "Sepal.Length", we will use the `rowlabel` argument 
 to make this change for the table. Note that if you have a dataframe with 
-labelled variables as columns, leaving `rowlabels` blank will automatically
+labelled variables as columns, leaving `rowlabel` blank will automatically
 input the variable's label as the rowlabel. To output the final object, we
 use the functions `tbl_out` and `print` to display the table.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length") %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -101,9 +141,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length") %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length") %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -126,9 +166,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", digits=4) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", digits=4) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -141,7 +181,7 @@ of the row and column variables. To see how much missing data there is in the
 sepal length, we specify `missing=TRUE`.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", missing=TRUE) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", missing=TRUE) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -152,9 +192,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", missing=TRUE) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", missing=TRUE) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -186,9 +226,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", comparison=num_diff) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", comparison=num_diff) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -202,8 +242,18 @@ reads in data that is categorical in form, and by default calculates the number
 of instances for each row category within each column category, as well as the 
 column-wise proportions. The default summary function is `cat_default`, 
 but the user may write their own function to calculate different summary statistics
-from what is shown here. Currently, `cat_default` is the only built-in summary
-function for this data type.
+from what is shown here.
+
+Currently, there are three summary functions available for use within `cat_row`.
+The default summary to use for each row can be specified in `tbl_start`, or determined
+using the `summary` argument of each row
+
+`cat_default` : Calculates the cell counts and column-wise proportions
+
+`cat_pct` : Calculates the cell counts and column-wise percentages
+
+`cat_jama` : Calculates the column-wise percentages and cell counts divided by column
+totals. This is the style used by the JAMA journal.
 
 We will demonstrate this function by looking at `Stem.Size` in the `iris` dataset.
 Note that `cat_row` and `num_row` have nearly identical arguments, but `cat_row` 
@@ -211,7 +261,7 @@ allows you to choose the number of spaces to indent category names using the
 `indent` argument. The default setting is 5 spaces.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -222,9 +272,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size") %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -237,7 +287,7 @@ the missingness will be recorded as the percentage of each column that is
 designated as missing data.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size", missing=TRUE) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -248,9 +298,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size", missing=TRUE) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -265,7 +315,7 @@ a Chi-Square Goodness of Fit test on the data present. Currently,
 user may write their own function to use instead.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size", comparison=cat_comp_default) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", comparison=cat_comp_default) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -278,9 +328,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  cat_row("Stem.Size", rowlabels="Stem Size", comparison=cat_comp_default) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", comparison=cat_comp_default) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -289,13 +339,26 @@ tbl1[[7]] %>%
   column_spec(7, width_min = "1.5in")
 ```
 
-## Binary Data
+## Binary Rows
 The final type of data we will examine here is binary data; this is when a variable
 can only take on two possible values. In a table, it can be helpful to only include
 one of the options if the second entry can be deduced from looking at the first.
-This is done using the `binary_row` function. Summary statistics are calculated
-using `binary_default`, and are the same as those calculated using a categorical
-variable. Note that a user may use `cat_row` to process binary data if they wish
+This is done using the `binary_row` function. The default summary function is `binary_default`, 
+but the user may write their own function to calculate different summary statistics
+from what is shown here.
+
+Currently, there are three summary functions available for use within `binary_row`.
+The default summary to use for each row can be specified in `tbl_start`, or determined
+using the `summary` argument of each row
+
+`binary_default` : Calculates the cell counts and column-wise proportions
+
+`binary_pct` : Calculates the cell counts and column-wise percentages
+
+`binary_jama` : Calculates the column-wise percentages and cell counts divided by column
+totals. This is the style used by the JAMA journal.
+
+Note that a user may use `cat_row` to process binary data if they wish
 to see both row entries included in the table.
 
 We will now demonstrate the use of `binary_row` on the color variable in `iris`.
@@ -303,7 +366,7 @@ In the dataset, the available colors are blue and purple, so we do not wish
 to include both entries here.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color") %>%
+  binary_row("color") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -314,9 +377,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color") %>%
+  binary_row("color") %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -324,14 +387,14 @@ tbl1[[7]] %>%
 ```
 
 The `binary_row` function includes all of the same arguments as the previous row
-functions, but additionally includes a new argument, `reference`.  This allows 
+functions, but additionally includes two new arguments.  `reference` allows 
 a user to choose which group will appear on the table. By default, the 
 alphabetically first row group will appear on the table, which is why 'Blue' 
 appeared above. If we want to see the statistics for purple flowers, we can
 run the following code.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", reference="Purple") %>%
+  binary_row("color", reference="Purple") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -342,9 +405,38 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", reference="Purple") %>%
+  binary_row("color", reference="Purple") %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
+```
+
+Notice in the previous examples that the binary row is contained entirely within
+one row. This is because many tables in professional journals will often abbreviate
+binary data to fit within a single row of data. However, this does eliminate the 
+overall row variable name; if you do not wish to do this within your table, you can
+set the additional argument `compact` to be FALSE and display the row information
+in more than one row. This will include the overall row name in the table.
+
+```{r, eval=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  binary_row("color", rowlabel = "Color", compact = FALSE) %>%
+  tbl_out() %>%
+  print()
+tbl1 %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
+```
+```{r, echo=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  binary_row("color", rowlabel = "Color", compact = FALSE) %>%
+  tbl_out()
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -357,7 +449,7 @@ if `comparison=TRUE` during initialization. This will calculate differences in
 proportions across columns; the calculations will also include 95% Confidence intervals.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_diff) %>%
+  binary_row("color", comparison=binary_diff) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -371,9 +463,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_diff) %>%
+  binary_row("color", comparison=binary_diff) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -391,7 +483,7 @@ either of those two options in this row addition, since excluding the argument
 will lead to `binary_diff` being called by default.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_or) %>%
+  binary_row("color", comparison=binary_or) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -404,9 +496,9 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_or) %>%
+  binary_row("color", comparison=binary_or) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -417,7 +509,7 @@ tbl1[[7]] %>%
 
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_rr) %>%
+  binary_row("color", comparison=binary_rr) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -430,15 +522,44 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", rowlabels="Color", comparison=binary_rr) %>%
+  binary_row("color", comparison=binary_rr) %>%
   tbl_out()
-tbl1[[7]] %>% 
+tbl1[[11]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered")) %>%
   column_spec(c(2:7), width_min = "1.1in") %>%
   column_spec(c(8:9), width_min = "1.25in")
+```
+
+## N Row
+
+The `n_row` function will count the number of rows in your dataset, as well as the
+total instances of each column variable. Note that you can decide whether or not
+you want this function to include the missing data as part of your row count. For
+the examnple below we will not include rows from missing data.
+
+```{r, eval=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  n_row() %>%
+  tbl_out() %>%
+  print()
+tbl1 %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
+```
+```{r, echo=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  n_row() %>%
+  tbl_out()
+tbl1[[11]] %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
 ```
 
 ## Adding an empty row
@@ -460,15 +581,24 @@ example of a customized table report that can be produced using tangram.pipe.
 Annotations for the unique elements of the rows are created by inserting the comments
 into the header argument for the `empty_row()` command.
 ```{r, eval=FALSE}
-tbl1 <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
+tbl1 <- tbl_start( 
+                  data = iris, 
+                  col_var = "Species", 
+                  missing=FALSE, 
+                  overall=TRUE, 
+                  comparison=TRUE,
+                  default_num_summary = num_default,
+                  default_cat_summary = cat_pct,
+                  default_binary_summary = binary_default) %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
   empty_row('<i>No rowlabel, 3 decimal places</i>') %>%
   num_row("Sepal.Width", digits=3) %>%
-  empty_row("<i>No comparison test used</i>") %>%
-  num_row("Petal.Length", rowlabels="Petal Length", comparison=FALSE) %>%
-  empty_row("<i>Missing data considered</i>") %>%
-  num_row("Petal.Width", rowlabels="Petal Width", missing=TRUE) %>%
-  cat_row("Stem.Size", rowlabels="Stem Size", missing=TRUE) %>%
+  empty_row("<i>No comparison test used, Min-Max summary</i>") %>%
+  num_row("Petal.Length", rowlabel="Petal Length", summary = num_minmax, comparison=FALSE) %>%
+  empty_row("<i>Missing data considered, mean/Std. Dev summary</i>") %>%
+  num_row("Petal.Width", rowlabel="Petal Width", summary = num_mean_sd, missing=TRUE) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE) %>%
   empty_row("<i>No rowlabels, indent 3 spaces, odds ratio as test</i>") %>%
   binary_row("color", comparison=binary_or, indent=3) %>%
   tbl_out() %>% 
@@ -482,24 +612,34 @@ tbl1 %>%
   column_spec(c(7:9), width_min = "1.5in")
 ```
 ```{r, echo=FALSE}
-tbl1 <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=TRUE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
+tbl1 <- tbl_start( 
+                  data = iris, 
+                  col_var = "Species", 
+                  missing=FALSE, 
+                  overall=TRUE, 
+                  comparison=TRUE,
+                  default_num_summary = num_default,
+                  default_cat_summary = cat_pct,
+                  default_binary_summary = binary_default) %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
   empty_row('<i>No rowlabel, 3 decimal places</i>') %>%
   num_row("Sepal.Width", digits=3) %>%
-  empty_row("<i>No comparison test used</i>") %>%
-  num_row("Petal.Length", rowlabels="Petal Length", comparison=FALSE) %>%
-  empty_row("<i>Missing data considered</i>") %>%
-  num_row("Petal.Width", rowlabels="Petal Width", missing=TRUE) %>%
-  cat_row("Stem.Size", rowlabels="Stem Size", missing=TRUE) %>%
+  empty_row("<i>No comparison test used, Min-Max summary</i>") %>%
+  num_row("Petal.Length", rowlabel="Petal Length", summary = num_minmax, comparison=FALSE) %>%
+  empty_row("<i>Missing data considered, mean/Std. Dev summary</i>") %>%
+  num_row("Petal.Width", rowlabel="Petal Width", summary = num_mean_sd, missing=TRUE) %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE) %>%
   empty_row("<i>No rowlabels, indent 3 spaces, odds ratio as test</i>") %>%
   binary_row("color", comparison=binary_or, indent=3) %>%
   tbl_out()
-tbl1[[17]] %>% 
+tbl1[[21]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:6), width_min = ".8in") %>%
+  column_spec(1, width_min = "1.5in") %>%
+  column_spec(c(2:6), width_min = "1.3in") %>%
   column_spec(c(7:9), width_min = "1.5in")
 ```
 
@@ -512,7 +652,8 @@ up by columns. Note that comparison functions will not run here, even if the
 `comparison` argument is set to TRUE.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(iris, NULL, missing=FALSE, overall=TRUE, comparison=FALSE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -523,9 +664,10 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(iris, NULL, missing=FALSE, overall=TRUE, comparison=FALSE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
   tbl_out()
-tbl1[[8]] %>% 
+tbl1[[12]] %>% 
   tangram_styling() %>%
   kable(escape=F, align="l") %>% 
   trimws %>% 
@@ -551,11 +693,11 @@ petaldat <- iris %>% select(-c(Sepal.Length, Sepal.Width))
 
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(sepaldat, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
-  num_row("Sepal.Width", rowlabels="Sepal Width") %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
+  num_row("Sepal.Width", rowlabel="Sepal Width") %>%
   empty_row(header="Switch to Petal Dataset") %>% 
-  num_row(row_var="Petal.Length", col_var="Species", newdata=petaldat) %>%
-  num_row(row_var="Petal.Width", col_var="Species", newdata=petaldat) %>%
+  num_row(row_var="Petal.Length", col_var="Species", rowlabel="Petal Length", newdata=petaldat) %>%
+  num_row(row_var="Petal.Width", col_var="Species", rowlabel="Petal Width", newdata=petaldat) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -566,13 +708,13 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(sepaldat, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
-  num_row("Sepal.Length", rowlabels="Sepal Length") %>%
-  num_row("Sepal.Width", rowlabels="Sepal Width") %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
+  num_row("Sepal.Width", rowlabel="Sepal Width") %>%
   empty_row(header="Switch to Petal Dataset") %>% 
-  num_row(row_var="Petal.Length", col_var="Species", newdata=petaldat, rowlabels="Petal Length") %>%
-  num_row(row_var="Petal.Width", col_var="Species", newdata=petaldat, rowlabels="Petal Width") %>%
+  num_row(row_var="Petal.Length", col_var="Species", newdata=petaldat, rowlabel="Petal Length") %>%
+  num_row(row_var="Petal.Width", col_var="Species", newdata=petaldat, rowlabel="Petal Width") %>%
   tbl_out()
-tbl1[[12]] %>% 
+tbl1[[15]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>%
   trimws %>%
@@ -598,14 +740,17 @@ petal.large <- iris %>% filter(Petal.Length > 4.3)
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   empty_row(header="All Data") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length") %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width") %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length") %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width") %>%
   empty_row(header="Petal Length less than 4.3") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length", col_var="Species", newdata=petal.small) %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width", col_var="Species", newdata=petal.small) %>%
+  n_row(newdata=petal.small) %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length", col_var="Species", newdata=petal.small) %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width", col_var="Species", newdata=petal.small) %>%
   empty_row(header="Petal Length greater than 4.3") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length", col_var="Species", newdata=petal.large) %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width", col_var="Species", newdata=petal.large) %>%
+  n_row(newdata=petal.large) %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length", col_var="Species", newdata=petal.large) %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width", col_var="Species", newdata=petal.large) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -617,23 +762,60 @@ tbl1 %>%
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(iris, "Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>%
   empty_row(header="All Data") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length") %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width") %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length") %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width") %>%
   empty_row(header="Petal Length less than 4.3") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length", col_var="Species", newdata=petal.small) %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width", col_var="Species", newdata=petal.small) %>%
+  n_row(newdata=petal.small) %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length", col_var="Species", newdata=petal.small) %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width", col_var="Species", newdata=petal.small) %>%
   empty_row(header="Petal Length greater than 4.3") %>%
-  num_row("Sepal.Length", rowlabels="     Sepal Length", col_var="Species", newdata=petal.large) %>%
-  num_row("Sepal.Width", rowlabels="     Sepal Width", col_var="Species", newdata=petal.large) %>%
+  n_row(newdata=petal.large) %>%
+  num_row("Sepal.Length", rowlabel="     Sepal Length", col_var="Species", newdata=petal.large) %>%
+  num_row("Sepal.Width", rowlabel="     Sepal Width", col_var="Species", newdata=petal.large) %>%
   tbl_out()
-tbl1[[16]] %>% 
+tbl1[[22]] %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered"))
 ```
 
+# Supplementary Material
 
+One of the key features of this package is giving the user the flexibility to supply
+custom summary and comparison functions to the package to create tables in formats
+not built-in to `tangram.pipe`. The accompanying vignette "Writing User-Defined
+Summary Functions" outlines the process for how to write functions that will work
+well with `tangram.pipe`
+
+# Version History
+
+## 1.1.0 (released TBD)
+
+1. Changed the `rowlabels` argument to `rowlabel`.
+
+2. Options `overall`, `missing`, and `comparison` now have default values in `tbl_start()`.
+
+3. Only leading white spaces are formatted to HTML form in `tangram_styling`.
+
+4. Added `n_row()` as a row function to the table.
+
+5. Added prewritten summary functions `num_minmax`, `num_medianiqr`, `num_mean_sd`,
+`cat_pct`, `cat_jama`, `binary_pct`, `binary_jama`.
+
+6. Added options `default_num_summary`, `default_cat_summary`, `default_binary_summary`
+to `tbl_start`. Default values are set to the default summary functions for each row.
+
+7. Changed the `summary` argument within the row functions to automatically use
+the default specified in `tbl_start`, unless another function is supplied by the user.
+The default in the function argument has changed from a function to NULL.
+
+8. Summary functions now take on generic arguments specified by an ellipsis (...),
+but still work the same as before within the row functions.
+
+9. `binary_row` now has the option to ocndense to one row (`compact`). Default is
+TRUE.
 
 
 

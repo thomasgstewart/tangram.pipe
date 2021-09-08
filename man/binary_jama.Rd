@@ -4,25 +4,31 @@
 \alias{binary_jama}
 \title{JAMA-style summary for a Binary Row}
 \usage{
-binary_jama(dt, reference, rowlabel, compact, missing, digits)
+binary_jama(dt, ...)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{reference}{the name of the row category to use as the reference. Default will use alphabetical first category.}
-
-\item{rowlabel}{the label for the table row name, if different from row_var.}
-
-\item{compact}{logical: if TRUE, data displayed in one row.}
-
-\item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
-
-\item{digits}{significant digits to use.}
+\item{...}{Additional arguments supplied within the package row functions.}
 }
 \value{
 A dataframe with summary statistics for a binary variable.
 }
 \description{
-Summarizes a binary row using column percentages and the total number in each cell divided by the column total. This is the stye used by the Journal of the American Medical Association.
+Summarizes a binary row using column percentages and the total number in each cell divided by the column total. This is the style used by the Journal of the American Medical Association.
+}
+\details{
+This is an internal function of \code{tangram.pipe}. Additional arguments
+should be supplied for this function to work properly.
+
+\code{reference} : the name of the row category to use as the reference. Default will use alphabetical first category
+
+\code{rowlabel} : the label for the table row name, if different from row_var.
+
+\code{compact} : if TRUE, data displayed in one row.
+
+\code{missing} : if TRUE, missing data is considered; FALSE only uses complete cases.
+
+\code{digits} : significant digits to use.
 }
 \keyword{tangram.pipe}

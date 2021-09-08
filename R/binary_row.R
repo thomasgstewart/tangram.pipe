@@ -110,7 +110,12 @@ binary_row <- function(
       reference = sort(unique(data[,1]))[1]
     }
   }
-  binary_out <- summary(data, reference, rowlabel, compact, missing, digits)
+  binary_out <- summary(data, 
+                        reference = reference, 
+                        rowlabel = rowlabel, 
+                        compact = compact, 
+                        missing = missing, 
+                        digits = digits)
   if (overall == FALSE){
     binary_out <- binary_out[,-ncol(binary_out)]
   }
@@ -128,7 +133,7 @@ binary_row <- function(
   
   idt <- paste(rep(" ", indent), collapse="")
   binary_out[,1] <- ifelse(binary_out[,2]=="" & binary_out[,1] != "", paste0(idt, binary_out[,1]), binary_out[,1])
-
+  
   list_obj[[length(list_obj) + 1]] <- binary_out
   return(list_obj)
 }

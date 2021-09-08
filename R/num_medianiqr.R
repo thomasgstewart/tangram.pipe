@@ -2,10 +2,16 @@
 #' 
 #' Summarizes a numeric row using the median and interquartile range.
 #' @param dt the name of the dataframe object.
-#' @param rowlabel the label for the table row name, if different from row_var.
-#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
-#' @param digits significant digits to use.
+#' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a numeric variable.
+#' @details This is an internal function of `tangram.pipe`. Additional arguments 
+#' should be supplied for this function to work properly.
+#' 
+#' `rowlabel` : the label for the table row name, if different from row_var.
+#' 
+#' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
+#' 
+#' `digits` : significant digits to use.
 #' @import dplyr
 #' @importFrom  stats complete.cases
 #' @importFrom stats aggregate
@@ -15,7 +21,11 @@
 #' @keywords tangram.pipe
 #' @export
 
-num_medianiqr <- function(dt, rowlabel, missing, digits){
+num_medianiqr <- function(dt, ...){
+  dots <- list(...)
+  rowlabel <- dots$rowlabel
+  missing <- dots$missing
+  digits <- dots$digits
   rnd <- paste0("%.", digits, "f")
   
   nocols <- FALSE

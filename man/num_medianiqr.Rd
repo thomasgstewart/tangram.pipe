@@ -4,21 +4,27 @@
 \alias{num_medianiqr}
 \title{Median/IQR summary for a Numeric Row}
 \usage{
-num_medianiqr(dt, rowlabel, missing, digits)
+num_medianiqr(dt, ...)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{rowlabel}{the label for the table row name, if different from row_var.}
-
-\item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
-
-\item{digits}{significant digits to use.}
+\item{...}{Additional arguments supplied within the package row functions.}
 }
 \value{
 A dataframe with summary statistics for a numeric variable.
 }
 \description{
 Summarizes a numeric row using the median and interquartile range.
+}
+\details{
+This is an internal function of \code{tangram.pipe}. Additional arguments
+should be supplied for this function to work properly.
+
+\code{rowlabel} : the label for the table row name, if different from row_var.
+
+\code{missing} : if TRUE, missing data is considered; FALSE only uses complete cases.
+
+\code{digits} : significant digits to use.
 }
 \keyword{tangram.pipe}

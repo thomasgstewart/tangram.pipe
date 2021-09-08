@@ -1,17 +1,28 @@
 #' JAMA-style summary for a Categorical Row
 #' 
-#' Summarizes a categorical row using column percentages and the total number in each cell divided by the column total. This is the stye used by the Journal of the American Medical Association.
+#' Summarizes a categorical row using column percentages and the total number in each cell divided by the column total. This is the style used by the Journal of the American Medical Association.
 #' @param dt the name of the dataframe object.
-#' @param rowlabel the label for the table row name, if different from row_var.
-#' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
-#' @param digits significant digits to use.
+#' @param ... Additional arguments supplied within the package row functions.
 #' @return A dataframe with summary statistics for a categorical variable.
+#' @details This is an internal function of `tangram.pipe`. Additional arguments 
+#' should be supplied for this function to work properly.
+#' 
+#' `rowlabel` : the label for the table row name, if different from row_var.
+#' 
+#' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
+#' 
+#' `digits` : significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export
 
-cat_jama <- function(dt, rowlabel, missing, digits){
+cat_jama <- function(dt, ...){
+  dots <- list(...)
+  rowlabel <- dots$rowlabel
+  missing <- dots$missing
+  digits <- dots$digits
   rnd <- paste0("%.", digits, "f")
+  
   nocols <- FALSE
   if (is.null(ncol(dt))){
     nocols <- TRUE

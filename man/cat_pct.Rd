@@ -4,21 +4,27 @@
 \alias{cat_pct}
 \title{Percentage summary for a Categorical Row}
 \usage{
-cat_pct(dt, rowlabel, missing, digits)
+cat_pct(dt, ...)
 }
 \arguments{
 \item{dt}{the name of the dataframe object.}
 
-\item{rowlabel}{the label for the table row name, if different from row_var.}
-
-\item{missing}{logical: if TRUE, missing data is considered; FALSE only uses complete cases.}
-
-\item{digits}{significant digits to use.}
+\item{...}{Additional arguments supplied within the package row functions.}
 }
 \value{
 A dataframe with summary statistics for a categorical variable.
 }
 \description{
 Summarizes a categorical row using counts and column percentages.
+}
+\details{
+This is an internal function of \code{tangram.pipe}. Additional arguments
+should be supplied for this function to work properly.
+
+\code{rowlabel} : the label for the table row name, if different from row_var.
+
+\code{missing} : if TRUE, missing data is considered; FALSE only uses complete cases.
+
+\code{digits} : significant digits to use.
 }
 \keyword{tangram.pipe}

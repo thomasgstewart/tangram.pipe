@@ -22,11 +22,13 @@ One main package feature which is not discussed there is that a user may write
 their own summary function for the table rows. By default, the package will use
 default summary functions to calculate a 5-number summary, plus the mean and standard
 deviation, for numeric data; column-wise proportions are generated for categorical
-and binary rows. While the package does give a user flexibility to write personal
-summary functions, care must be taken to ensure that the correct inputs and outputs
-are generated from this summary function in order for the package to work as intended.
-Here, we will discuss the necessary requirements for user-defined summary functions
-in `tangram.pipe`.
+and binary rows. Currently, there are a total of four prewritten numeric summary
+functions, as well as three prewritten functions for both categorical and binary data.
+However, it is often the case that a user wants to have increased flexibility
+and wants to format `tangram.pipe` output tables in a different way than provided by 
+the currently-available options. This document is intended to walk a user through 
+how to write a custom-made summary function, as well as some suggested inputs and 
+outputs to include for user-defined summary functions using `tangram.pipe`.
 
 # Function Inputs
 To see how the default functions for summarizing data work, let's take a look at
@@ -36,7 +38,10 @@ the function usage for summarizing numerical data, `num_default`.
 num_default(dt, rowlabel, missing, digits)
 ```
 
-Both the numeric and categorical default summary functions take a total of four arguments.
+All prewritten summary functions for numerical and categorical data take on a generic
+form such as `num_default(dt, ...)`, where only the argument `dt` is required. However,
+in order for these summary functions to work correctly, a total of four arguments
+are passed to each of the functions.
 
 1. `dt`: The dataset to use for the function must be passed into the summary tool.
 However, the full dataset cannot be implemented into the summary function. Based on how
@@ -52,6 +57,17 @@ not to account for missing data. It should match the designation for missing dat
 from the row function.
 
 4. `digits`: The number of significant digits to use in the summary.
+
+Each of the prewritten functions use the ellipsis `...` in place of the final three
+arguments to provide flexibility in writing custom functions. To write your own function,
+the bare minimum requirement is that you provide an argument for the dataframe object
+to use in the summary. The remaining arguments `rowlabel`, `missing`, and `digits`
+are highly recommended to use within your custom function because it is within the summary
+that these values, which are specified in the row-initialization, are implemented.
+If you do not include them in your summary function, your specifications for these
+arguments in the row initialization will not be present in your table for the row
+of interest. Therefore, it is highly recommended, but not required, for you to include
+these inputs in your summaries; excluding them will not break the package.
 
 Note that none of the summary function's arguments should have default values. Since
 summary functions are called within the row functions from `tangram.pipe`, the function
@@ -78,8 +94,10 @@ information into the summary function.
 Now, we show the code input needed for our generic summary function.
 
 ```{r, eval = FALSE}
-summary_generic(dt = iris %>% select(Sepal.Length, Species), rowlabel = "Sepal Length (cm)", 
-                missing = TRUE, digits = 2)
+summary_generic(dt = iris %>% select(Sepal.Length, Species), 
+                rowlabel = "Sepal Length (cm)", 
+                missing = TRUE, 
+                digits = 2)
 ```
 
 # Body of the function
@@ -101,7 +119,7 @@ in the row initialization but calculated within the summary function, so be sure
 write the function in such a way that missing data can be handled if specified.
 
 Finally, be sure that all summary statistics are rounded based on the `digits` argument.
-The `round` and `sprintf` functions are common tools used to accompish this so
+The `round` and `sprintf` functions are common tools used to accomplish this so
 the table output can have a polished look.
 
 # Required output
@@ -126,9 +144,9 @@ default summary functions; mixing in different naming conventions will cause inf
 that should be contained in one column being spread out over multiple columns.
 
 Below are example outputs from the preexisting `num_default` and `cat_default`
-summary functions. It is recommnded that you include columns for the variable name,
+summary functions. It is recommended that you include columns for the variable name,
 the measure type, the column categories (if applicable), and the overall column,
-being sure to keep naming conventions consistent. As of version 1.0.1, `tangram.pipe`
+being sure to keep naming conventions consistent. As of version 1.1.0, `tangram.pipe`
 default summaries now also calculate the total number of instances, N.
 
 ```{r}
@@ -151,13 +169,14 @@ iris %>%
 # Special note regarding binary rows
 
 Binary row summary functions differ slightly from numerical and categorical rows
-because two additional arguments are necessary for binary data. 
+because `tangram.pipe`'s prewritten summary functions include two additional arguments.
 
 ```{r, eval = FALSE}
 binary_default(dt, reference, rowlabel, compact, missing, digits)
 ```
 
-For binary rows, the following two arguments must be included as well:
+For binary rows, it is recommended that you include the following two argument
+as well when writing your own functions:
 
 1. `reference`: This is the reference variable to include in the table. Since binary
 data only includes two possible categories, the row function is written so that only
@@ -170,7 +189,10 @@ information into a single for. This TRUE/FALSE variable decides if this is how y
 want the data displayed in the table.
 
 Both of the above variables should be included in the body of the user-defined function
-so that each is dealt with accordingly.
+so that each is dealt with accordingly. As with numerical and categorical data,
+you are not required to account for these arguments in the body of your function, 
+but excluding them will result in the `reference` and `compact` arguments defined in
+`binary_row` to not be implemented in your table output object.
 
 Since writing functions for binary data can be somewhat more complicated, remember
 that any data used in a binary row can also be substituted into a categorical defined 

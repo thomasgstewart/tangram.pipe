@@ -99,7 +99,7 @@ cat_row <- function(
   #Default summary function will take % (N)
 
   #Calculations
-  cat_out <- summary(data, rowlabel, missing, digits)
+  cat_out <- summary(data, rowlabel = rowlabel, missing = missing, digits = digits)
   if (overall == FALSE){
     cat_out <- cat_out[,-ncol(cat_out)]
   }
