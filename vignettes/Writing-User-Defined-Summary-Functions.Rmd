@@ -25,7 +25,7 @@ deviation, for numeric data; column-wise proportions are generated for categoric
 and binary rows. Currently, there are a total of four prewritten numeric summary
 functions, as well as three prewritten functions for both categorical and binary data.
 However, it is often the case that a user wants to have increased flexibility
-and wants to format `tangram.pipe` output tables in a different way than provided by 
+and format `tangram.pipe` output tables in a different way than provided by 
 the currently-available options. This document is intended to walk a user through 
 how to write a custom-made summary function, as well as some suggested inputs and 
 outputs to include for user-defined summary functions using `tangram.pipe`.
@@ -58,7 +58,7 @@ from the row function.
 
 4. `digits`: The number of significant digits to use in the summary.
 
-Each of the prewritten functions use the ellipsis `...` in place of the final three
+Each of the prewritten functions use the ellipsis (`...`) in place of the final three
 arguments to provide flexibility in writing custom functions. To write your own function,
 the bare minimum requirement is that you provide an argument for the dataframe object
 to use in the summary. The remaining arguments `rowlabel`, `missing`, and `digits`
@@ -68,6 +68,15 @@ If you do not include them in your summary function, your specifications for the
 arguments in the row initialization will not be present in your table for the row
 of interest. Therefore, it is highly recommended, but not required, for you to include
 these inputs in your summaries; excluding them will not break the package.
+
+When you write a custom function, be sure to include all arguments outside `dt`
+within the ellipsis (`...`). This is because `tangram.pipe`'s for functions will
+input values for `rowlabel`, `missing`, and `digits` as done in the prewritten
+functions. To provide additional flexibility, using (`...`) as the second argument
+following `dt` will allow for differing arguments to be used while preventing
+the custom function from inadvertently breaking the package row functions. You can
+call your inputs within the function body by inputting (`...`) into a list and 
+calling the elements of (`...`).
 
 Note that none of the summary function's arguments should have default values. Since
 summary functions are called within the row functions from `tangram.pipe`, the function
@@ -139,7 +148,7 @@ in the first column, called "Variable". A column labelling the type of measureme
 called "Measurement", as well as naming the overall column "Overall", will keep
 the column names consistent with the package's default summary functions. If you
 decide to use different names, it is recommended that you keep the names consistent
-with each new summary function that you use and that you don't not mix in rows with
+with each new summary function that you use and that you do not mix in rows with
 default summary functions; mixing in different naming conventions will cause information
 that should be contained in one column being spread out over multiple columns.
 

@@ -155,7 +155,7 @@ We can use the `digits` argument to specify more or fewer significant digits in
 the reported table.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", digits=4) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", digits=4) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -214,15 +214,14 @@ to accompany the mean difference. Currently, `num_diff` is the only built-in com
 function for `num_row`.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  num_row(row_var="Sepal.Length", rowlabels="Sepal Length", comparison=num_diff) %>%
+  num_row(row_var="Sepal.Length", rowlabel="Sepal Length", comparison=num_diff) %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(7:9), width_min = "1.5in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -322,9 +321,7 @@ tbl1 %>%
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:6), width_min = "1.1in") %>%
-  column_spec(7, width_min = "1.5in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -456,10 +453,7 @@ tbl1 %>%
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:6), width_min = "1.1in") %>%
-  column_spec(7, width_min = "1.75in") %>%
-  column_spec(c(8:9), width_min = "1.5in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -490,9 +484,7 @@ tbl1 %>%
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:7), width_min = "1.1in") %>%
-  column_spec(c(8:9), width_min = "1.25in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -516,9 +508,7 @@ tbl1 %>%
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:7), width_min = "1.1in") %>%
-  column_spec(c(8:9), width_min = "1.25in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -538,7 +528,7 @@ tbl1[[11]] %>%
 The `n_row` function will count the number of rows in your dataset, as well as the
 total instances of each column variable. Note that you can decide whether or not
 you want this function to include the missing data as part of your row count. For
-the examnple below we will not include rows from missing data.
+the example below we will not include rows from missing data.
 
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -607,9 +597,7 @@ tbl1 %>%
   tangram_styling() %>% 
   kable(escape=F, align="l") %>% 
   trimws %>% 
-  kable_styling(c("striped","bordered")) %>%
-  column_spec(c(2:6), width_min = ".8in") %>%
-  column_spec(c(7:9), width_min = "1.5in")
+  kable_styling(c("striped","bordered"))
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start( 
@@ -791,7 +779,7 @@ well with `tangram.pipe`
 
 # Version History
 
-## 1.1.0 (released TBD)
+## 1.1.0 (released October 2021)
 
 1. Changed the `rowlabels` argument to `rowlabel`.
 
@@ -805,16 +793,16 @@ well with `tangram.pipe`
 `cat_pct`, `cat_jama`, `binary_pct`, `binary_jama`.
 
 6. Added options `default_num_summary`, `default_cat_summary`, `default_binary_summary`
-to `tbl_start`. Default values are set to the default summary functions for each row.
+to `tbl_start()`. Default values are set to the default summary functions for each row.
 
 7. Changed the `summary` argument within the row functions to automatically use
-the default specified in `tbl_start`, unless another function is supplied by the user.
+the default specified in `tbl_start()`, unless another function is supplied by the user.
 The default in the function argument has changed from a function to NULL.
 
 8. Summary functions now take on generic arguments specified by an ellipsis (...),
 but still work the same as before within the row functions.
 
-9. `binary_row` now has the option to ocndense to one row (`compact`). Default is
+9. `binary_row()` now has the option to condense to one row (`compact`). Default is
 TRUE.
 
 
