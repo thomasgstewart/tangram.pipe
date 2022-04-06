@@ -56,8 +56,9 @@ binary_pct <- function(dt, ...){
   
   out <- matrix(paste0(sprintf(rnd, prop), "% (", ct, ")"), nrow=nrow(prop), dimnames=dimnames(prop)) %>%
     as.data.frame()
-  out <- cbind(rownames(out), out)
+  out <- cbind(dimnames(prop)[[1]], out)
   rownames(out) <- NULL
+  out[is.na(out)] <- "NA."
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
   out <- rbind(row1, out)
   
@@ -70,6 +71,7 @@ binary_pct <- function(dt, ...){
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
   if (compact == TRUE){
     out$Measure[2] <- "Col. Pct. (N)"
+    out[2,1] <- paste0(out[1,1], ": ", out[2,1])
     out <- out[-1,]
   } else {
     out$Measure[1] <- "Col. Pct. (N)"

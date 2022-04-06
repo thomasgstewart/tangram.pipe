@@ -59,7 +59,7 @@ num_minmax <- function(dt, ...){
   out$Overall[1] <- paste0(sprintf(rnd, min(dt[,1])), 
                            "\u2013", 
                            sprintf(rnd,max(dt[,1])))
-  out <- data.frame(Measure="Min \u2013 Max", out)
+  out <- data.frame(Measure="Min \u2013 Max", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){

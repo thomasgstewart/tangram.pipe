@@ -45,7 +45,7 @@ n_row <- function(
       matrix(nrow = 1) %>%
       as.data.frame()
     colnames(colN) <- levels(data[,col_var])
-    n_out <- data.frame(Variable = "", Measure = "N", colN)
+    n_out <- data.frame(Variable = "", Measure = "N", colN, check.names = FALSE)
     
     if (missing == TRUE){
       n_out <- cbind(n_out, Overall = length(data[,col_var]))
@@ -54,7 +54,7 @@ n_row <- function(
       n_out <- cbind(n_out, Overall = sum(complete.cases(data[,col_var])))
     }
   } else {
-    n_out <- data.frame(Variable = "", Measure = "N", Overall = nrow(data))
+    n_out <- data.frame(Variable = "", Measure = "N", Overall = nrow(data), check.names = FALSE)
   }
   
   if (overall == FALSE){

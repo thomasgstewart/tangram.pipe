@@ -66,7 +66,7 @@ num_medianiqr <- function(dt, ...){
                            "\u2013", 
                            sprintf(rnd, quantile(dt[,1], probs = 0.75)),
                            ")")
-  out <- data.frame(Measure="Median (IQR)", out)
+  out <- data.frame(Measure="Median (IQR)", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){

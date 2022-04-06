@@ -60,7 +60,7 @@ num_mean_sd <- function(dt, ...){
                            " (",
                            sprintf(rnd, sd(dt[,1])), 
                            ")")
-  out <- data.frame(Measure="Mean (Std. Dev.)", out)
+  out <- data.frame(Measure="Mean (Std. Dev.)", out, check.names = FALSE)
   rownames(out) <- NULL
   
   if (missing == TRUE){

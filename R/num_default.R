@@ -87,7 +87,7 @@ num_default <- function(dt, ...){
   out$Overall[8] <- sprintf(rnd, mean(dt[,1]))
   out$Overall[9] <- sprintf(rnd, sd(dt[,1]))
   out <- out[(3:nrow(out)),]
-  out <- data.frame(Measure=rownames(out), out)
+  out <- data.frame(Measure=rownames(out), out, check.names = FALSE)
   rownames(out) <- NULL
   if (missing == TRUE){
     out <- cbind(Variable="",out)

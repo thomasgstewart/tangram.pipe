@@ -11,6 +11,7 @@
 #' @param overall logical: if TRUE, an overall column is included.
 #' @param comparison the name of the comparison test to use, if different from that initialized in `tbl_start`.
 #' @param digits significant digits to use.
+#' @param ordering If `ascending`, will sort by overall ascending order; if `descending`, will sort by overall descending order. Default is no row sorting.
 #' @param indent number of spaces to indent category names.
 #' @return A list with the categorical row's table information added as a new element to `list_obj`.
 #' @import dplyr
@@ -32,6 +33,7 @@ cat_row <- function(
   , overall=NULL
   , comparison=NULL  #Null or function
   , digits=2
+  , ordering="none"
   , indent=5
 ){
   # Determine if row parameters override initialized defaults
@@ -100,6 +102,29 @@ cat_row <- function(
 
   #Calculations
   cat_out <- summary(data, rowlabel = rowlabel, missing = missing, digits = digits)
+  if (ordering %in% c("ascending", "descending")){
+    if (ordering == "ascending") {i <- 1} else {i <- -1}
+    miss <- filter(cat_out, cat_out[,1] == "Missing")
+    
+    if (is.null(ncol(data))){
+      data <- data.frame(x = data) %>% 
+        mutate(y= 1:n() %% 2)
+    }
+    data <- filter(data, !is.na(data[,2]))
+    
+    sorting <- NULL
+    cat_out.temp <- cat_out %>%
+      filter(cat_out[,1] != "Missing") %>%
+      slice(2:nrow(cat_out)) %>%
+      cbind(sorting=data %>%
+              table(useNA = "no") %>%
+              rowSums()) %>%
+      arrange(i*sorting) %>%
+      select(-sorting)
+    cat_out <- rbind(slice(cat_out, 1), cat_out.temp) %>%
+      rbind(miss)
+    rownames(cat_out) <- NULL
+  }
   if (overall == FALSE){
     cat_out <- cat_out[,-ncol(cat_out)]
   }

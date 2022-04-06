@@ -62,8 +62,9 @@ binary_jama <- function(dt, ...){
   out <- matrix(paste0(sprintf(rnd, prop), " (", sprintf("%1.0f/%1.0f", ct, total.ct), ")")
                 , nrow=nrow(prop), dimnames=dimnames(prop)) %>%
     as.data.frame()
-  out <- cbind(rownames(out), out)
+  out <- cbind(dimnames(prop)[[1]], out)
   rownames(out) <- NULL
+  out[is.na(out)] <- "NA."
   row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
   out <- rbind(row1, out)
   
@@ -76,6 +77,7 @@ binary_jama <- function(dt, ...){
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
   if (compact == TRUE){
     out$Measure[2] <- "Pct. (n/N)"
+    out[2,1] <- paste0(out[1,1], ": ", out[2,1])
     out <- out[-1,]
   } else {
     out$Measure[1] <- "Pct. (n/N)"

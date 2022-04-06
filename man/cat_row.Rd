@@ -15,6 +15,7 @@ cat_row(
   overall = NULL,
   comparison = NULL,
   digits = 2,
+  ordering = "none",
   indent = 5
 )
 }
@@ -38,6 +39,8 @@ cat_row(
 \item{comparison}{the name of the comparison test to use, if different from that initialized in \code{tbl_start}.}
 
 \item{digits}{significant digits to use.}
+
+\item{ordering}{If \code{ascending}, will sort by overall ascending order; if \code{descending}, will sort by overall descending order. Default is no row sorting.}
 
 \item{indent}{number of spaces to indent category names.}
 }
