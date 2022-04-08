@@ -12,6 +12,7 @@
 #' @param comparison the name of the comparison test to use, if different from that initialized in `tbl_start`.
 #' @param digits significant digits to use.
 #' @param ordering If `ascending`, will sort by overall ascending order; if `descending`, will sort by overall descending order. Default is no row sorting.
+#' @param sortcol Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
 #' @param indent number of spaces to indent category names.
 #' @return A list with the categorical row's table information added as a new element to `list_obj`.
 #' @import dplyr
@@ -34,6 +35,7 @@ cat_row <- function(
   , comparison=NULL  #Null or function
   , digits=2
   , ordering="none"
+  , sortcol=NULL
   , indent=5
 ){
   # Determine if row parameters override initialized defaults
@@ -101,30 +103,12 @@ cat_row <- function(
   #Default summary function will take % (N)
 
   #Calculations
-  cat_out <- summary(data, rowlabel = rowlabel, missing = missing, digits = digits)
-  if (ordering %in% c("ascending", "descending")){
-    if (ordering == "ascending") {i <- 1} else {i <- -1}
-    miss <- filter(cat_out, cat_out[,1] == "Missing")
-    
-    if (is.null(ncol(data))){
-      data <- data.frame(x = data) %>% 
-        mutate(y= 1:n() %% 2)
-    }
-    data <- filter(data, !is.na(data[,2]))
-    
-    sorting <- NULL
-    cat_out.temp <- cat_out %>%
-      filter(cat_out[,1] != "Missing") %>%
-      slice(2:nrow(cat_out)) %>%
-      cbind(sorting=data %>%
-              table(useNA = "no") %>%
-              rowSums()) %>%
-      arrange(i*sorting) %>%
-      select(-sorting)
-    cat_out <- rbind(slice(cat_out, 1), cat_out.temp) %>%
-      rbind(miss)
-    rownames(cat_out) <- NULL
-  }
+  cat_out <- summary(data, 
+                     rowlabel = rowlabel, 
+                     missing = missing, 
+                     digits = digits, 
+                     ordering = ordering, 
+                     sortcol = sortcol)
   if (overall == FALSE){
     cat_out <- cat_out[,-ncol(cat_out)]
   }

@@ -16,6 +16,7 @@ cat_row(
   comparison = NULL,
   digits = 2,
   ordering = "none",
+  sortcol = NULL,
   indent = 5
 )
 }
@@ -41,6 +42,8 @@ cat_row(
 \item{digits}{significant digits to use.}
 
 \item{ordering}{If \code{ascending}, will sort by overall ascending order; if \code{descending}, will sort by overall descending order. Default is no row sorting.}
+
+\item{sortcol}{Column to sort row on. Requires \code{ordering} to be \code{ascending} or \code{descending}. By default, will sort based on overall statistics.}
 
 \item{indent}{number of spaces to indent category names.}
 }

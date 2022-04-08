@@ -11,6 +11,10 @@
 #' 
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
+#' `ordering` : Sorts the row variable: options are "ascending" or "descending"
+#' 
+#' `sortvar` : Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
+#' 
 #' `digits` : significant digits to use.
 #' @import dplyr
 #' @keywords tangram.pipe
@@ -21,6 +25,8 @@ cat_pct <- function(dt, ...){
   rowlabel <- dots$rowlabel
   missing <- dots$missing
   digits <- dots$digits
+  ordering <- dots$ordering
+  sortcol <- dots$sortcol
   rnd <- paste0("%.", digits, "f")
   
   nocols <- FALSE
@@ -31,12 +37,22 @@ cat_pct <- function(dt, ...){
   }
   
   dt <- filter(dt, !is.na(dt[,2]))
+  if (is.null(sortcol)) {sortcol <- "Overall"}
+  if (sortcol != "Overall" & !(sortcol %in% dt[,2])) {
+    message <- cat("Sorting column", sortcol, "not found, sorting by overall instead\n")
+    message
+    sortcol <- "Overall"
+  }
+  if (is.null(ordering)) {ordering <- "none"}
+  
   ct <- dt %>%
     table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
     as.matrix() %>%
     cbind(Overall=dt %>%
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             rowSums())
+  if (ordering == "ascending") {ct <- ct[order(ct[,sortcol], decreasing = FALSE),]}
+  if (ordering == "descending") {ct <- ct[order(ct[,sortcol], decreasing = TRUE),]}
   prop <- dt %>%
     table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
     prop.table(margin=2) %>%
@@ -45,6 +61,8 @@ cat_pct <- function(dt, ...){
             table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
             prop.table() %>%
             rowSums())
+  if (ordering == "ascending") {prop <- prop[order(prop[,sortcol], decreasing = FALSE),]}
+  if (ordering == "descending") {prop <- prop[order(prop[,sortcol], decreasing = TRUE),]}
   
   prop <- prop * 100
   
@@ -60,6 +78,8 @@ cat_pct <- function(dt, ...){
   
   if (missing == TRUE){
     out[is.na(out[,1]),1] <- "Missing"
+    out <- rbind(out[out[,1] != "Missing",], out[out[,1] == "Missing",])
+    rownames(out) <- NULL
   }
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
   out$Measure[1] <- "Col. Pct. (N)"
