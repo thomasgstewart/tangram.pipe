@@ -47,6 +47,9 @@ the data in `iris` is numerical, we will add in two made-up variables
 functions for non-numeric data. Note that the additional columns are made-up 
 purely for demonstration of this package.
 
+```{r, echo = FALSE}
+set.seed(04082022)
+```
 ```{r}
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 iris$Stem.Size <- sample(c("Small", "Medium", "Medium", "Large"), size=150, replace=TRUE)
@@ -243,16 +246,18 @@ column-wise proportions. The default summary function is `cat_default`,
 but the user may write their own function to calculate different summary statistics
 from what is shown here.
 
-Currently, there are three summary functions available for use within `cat_row`.
+Currently, there are four summary functions available for use within `cat_row`.
 The default summary to use for each row can be specified in `tbl_start`, or determined
-using the `summary` argument of each row
+using the `summary` argument of each row.
 
 `cat_default` : Calculates the cell counts and column-wise proportions
 
 `cat_pct` : Calculates the cell counts and column-wise percentages
 
+`cat_count` : Calculates the cell counts
+
 `cat_jama` : Calculates the column-wise percentages and cell counts divided by column
-totals. This is the style used by the JAMA journal.
+totals. This is the style used by the Journal of the American Medical Association.
 
 We will demonstrate this function by looking at `Stem.Size` in the `iris` dataset.
 Note that `cat_row` and `num_row` have nearly identical arguments, but `cat_row` 
@@ -306,6 +311,42 @@ tbl1[[11]] %>%
   kable_styling(c("striped","bordered"))
 ```
 
+We can also sort a categorical row in ascending or descending order by category
+counts for a specified column. The `ordering` argument will sort the row variable,
+and `sortcol` specifies which column we could like to sort our row by. Permissible
+arguments for `ordering` are `c("ascending", "descending")`; by default, the row
+function will sort by the overall cell counts unless a valid column category name
+is inputted into `sortcol`. If an invalid category name is used, the row function 
+will sort by the overall cell counts instead.
+
+```{r, eval=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE, 
+          ordering = "ascending", sortcol = "versicolor") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size", missing=TRUE, 
+          ordering = "descending", sortcol = "versicolor") %>%
+  tbl_out() %>%
+  print()
+tbl1 %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
+```
+```{r, echo=FALSE}
+tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
+  cat_row("Stem.Size", rowlabel="Stem Size (Ascending by versicolor)", missing=TRUE, 
+          ordering = "ascending", sortcol = "versicolor") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size (Descending by overall count)", missing=TRUE, 
+          ordering = "descending") %>%
+  tbl_out()
+tbl1[[12]] %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"))
+```
+
 Finally, let's look at a comparison test for a categorical row. The default
 comparison function is `cat_comp_default`, which will calculate the relative
 entropy between each column and the reference category, as well as conduct
@@ -344,7 +385,7 @@ This is done using the `binary_row` function. The default summary function is `b
 but the user may write their own function to calculate different summary statistics
 from what is shown here.
 
-Currently, there are three summary functions available for use within `binary_row`.
+Currently, there are four summary functions available for use within `binary_row`.
 The default summary to use for each row can be specified in `tbl_start`, or determined
 using the `summary` argument of each row
 
@@ -352,8 +393,10 @@ using the `summary` argument of each row
 
 `binary_pct` : Calculates the cell counts and column-wise percentages
 
+`binary_count`: Calculates the cell counts
+
 `binary_jama` : Calculates the column-wise percentages and cell counts divided by column
-totals. This is the style used by the JAMA journal.
+totals. This is the style used by the Journal of the American Medical Association.
 
 Note that a user may use `cat_row` to process binary data if they wish
 to see both row entries included in the table.
@@ -363,7 +406,7 @@ In the dataset, the available colors are blue and purple, so we do not wish
 to include both entries here.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color") %>%
+  binary_row("color", rowlabel = "Color") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -374,7 +417,7 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color") %>%
+  binary_row("color", rowlabel = "Color") %>%
   tbl_out()
 tbl1[[11]] %>% 
   tangram_styling() %>% 
@@ -391,7 +434,7 @@ appeared above. If we want to see the statistics for purple flowers, we can
 run the following code.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", reference="Purple") %>%
+  binary_row("color", rowlabel = "Color", reference="Purple") %>%
   tbl_out() %>%
   print()
 tbl1 %>% 
@@ -402,7 +445,7 @@ tbl1 %>%
 ```
 ```{r, echo=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
-  binary_row("color", reference="Purple") %>%
+  binary_row("color", rowlabel = "Color", reference="Purple") %>%
   tbl_out()
 tbl1[[11]] %>% 
   tangram_styling() %>% 
@@ -413,10 +456,9 @@ tbl1[[11]] %>%
 
 Notice in the previous examples that the binary row is contained entirely within
 one row. This is because many tables in professional journals will often abbreviate
-binary data to fit within a single row of data. However, this does eliminate the 
-overall row variable name; if you do not wish to do this within your table, you can
-set the additional argument `compact` to be FALSE and display the row information
-in more than one row. This will include the overall row name in the table.
+binary data to fit within a single row of data. If you do not wish to do this within 
+your table, you can set the additional argument `compact` to be FALSE and display 
+the row information in more than one row.
 
 ```{r, eval=FALSE}
 tbl1 <- tbl_start(data=iris, col_var="Species", missing=FALSE, overall=TRUE, comparison=FALSE) %>% 
@@ -464,6 +506,7 @@ tbl1[[11]] %>%
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered")) %>%
+  column_spec(1, width_min = "1in") %>%
   column_spec(c(2:6), width_min = "1.1in") %>%
   column_spec(7, width_min = "1.75in") %>%
   column_spec(c(8:9), width_min = "1.5in")
@@ -495,6 +538,7 @@ tbl1[[11]] %>%
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered")) %>%
+  column_spec(1, width_min = "1in") %>%
   column_spec(c(2:7), width_min = "1.1in") %>%
   column_spec(c(8:9), width_min = "1.25in")
 ```
@@ -519,6 +563,7 @@ tbl1[[11]] %>%
   kable(escape=F, align="l") %>% 
   trimws %>% 
   kable_styling(c("striped","bordered")) %>%
+  column_spec(1, width_min = "1in") %>%
   column_spec(c(2:7), width_min = "1.1in") %>%
   column_spec(c(8:9), width_min = "1.25in")
 ```
@@ -769,6 +814,51 @@ tbl1[[22]] %>%
   kable_styling(c("striped","bordered"))
 ```
 
+# Additional Styling with knitr & kableExtra
+
+The `knitr` and `kableExtra` packages can be used to add styling features to the
+finished tables. Captions can be added to the tables using the `caption` command,
+and tables can also be rendered into a LaTeX format using the `format` argument;
+both can be used in the `kble` function. `kable_styling` allows you to use the
+`font_size` argument to specify how large the table text should be.
+
+```{r, eval = FALSE}
+tbl1 <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE, 
+                  default_num_summary = num_minmax,
+                  default_cat_summary = cat_pct,
+                  default_binary_summary = binary_jama) %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size") %>%
+  binary_row("color", rowlabel="Color") %>%
+  tbl_out() %>%
+  print()
+tbl1 %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l", caption = "Example Summary table", format = "html") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"), font_size = 12)
+```
+```{r, echo = FALSE}
+tbl1 <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE, 
+                  default_num_summary = num_minmax,
+                  default_cat_summary = cat_pct,
+                  default_binary_summary = binary_jama) %>%
+  n_row() %>%
+  num_row("Sepal.Length", rowlabel="Sepal Length") %>%
+  cat_row("Stem.Size", rowlabel="Stem Size") %>%
+  binary_row("color", rowlabel="Color") %>%
+  tbl_out()
+tbl1[[14]] %>% 
+  tangram_styling() %>% 
+  kable(escape=F, align="l", caption = "Example Summary table", format = "html") %>% 
+  trimws %>% 
+  kable_styling(c("striped","bordered"), font_size = 12) %>%
+  column_spec(1, width_min = "1.5in") %>%
+  column_spec(c(2:6), width_min = "1.3in") %>%
+  column_spec(c(7:9), width_min = "1.5in")
+```
+
 # Supplementary Material
 
 One of the key features of this package is giving the user the flexibility to supply
@@ -778,6 +868,23 @@ Summary Functions" outlines the process for how to write functions that will wor
 well with `tangram.pipe`
 
 # Version History
+
+## 1.1.1 (released April 2022)
+
+1. Fixed a bug in `num_row` where column category names with spaces would not
+format correctly.
+
+2. Changed `binary_row` output to include the rowlabel along with the displayed
+category when `compact = TRUE`
+
+3. Fixed a bug in `binary_row` where numeric row cateegory labels would not format
+correctly when `compact = TRUE`.
+
+4. Added `ordering` and `sortcol` arguments to `cat_row`
+
+5. Edited categorical summary functions to utilize sorting arguments.
+
+6. Added prewritten summary functions `cat_count` and `binary_count`.
 
 ## 1.1.0 (released October 2021)
 

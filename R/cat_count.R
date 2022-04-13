@@ -1,0 +1,75 @@
+#' Count summary for a Categorical Row
+#' 
+#' Summarizes a categorical row using counts.
+#' @param dt the name of the dataframe object.
+#' @param ... Additional arguments supplied within the package row functions.
+#' @return A dataframe with summary statistics for a categorical variable.
+#' @details This is an internal function of `tangram.pipe`. Additional arguments 
+#' should be supplied for this function to work properly.
+#' 
+#' `rowlabel` : the label for the table row name, if different from row_var.
+#' 
+#' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
+#' 
+#' `ordering` : Sorts the row variable: options are "ascending" or "descending"
+#' 
+#' `sortvar` : Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
+#' 
+#' `digits` : significant digits to use.
+#' @import dplyr
+#' @keywords tangram.pipe
+#' @export
+
+cat_count <- function(dt, ...){
+  dots <- list(...)
+  rowlabel <- dots$rowlabel
+  missing <- dots$missing
+  digits <- dots$digits
+  ordering <- dots$ordering
+  sortcol <- dots$sortcol
+  rnd <- paste0("%.", digits, "f")
+  
+  nocols <- FALSE
+  if (is.null(ncol(dt))){
+    nocols <- TRUE
+    dt <- data.frame(x = dt) %>% 
+      mutate(y= 1:n() %% 2)
+  }
+  
+  dt <- filter(dt, !is.na(dt[,2]))
+  if (is.null(sortcol)) {sortcol <- "Overall"}
+  if (sortcol != "Overall" & !(sortcol %in% dt[,2])) {
+    message <- cat("Sorting column", sortcol, "not found, sorting by overall instead\n")
+    message
+    sortcol <- "Overall"
+  }
+  if (is.null(ordering)) {ordering <- "none"}
+  
+  ct <- dt %>%
+    table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+    as.matrix() %>%
+    cbind(Overall=dt %>%
+            table(useNA=ifelse(missing==TRUE, "ifany", "no")) %>%
+            rowSums())
+  if (ordering == "ascending") {ct <- ct[order(ct[,sortcol], decreasing = FALSE),]}
+  if (ordering == "descending") {ct <- ct[order(ct[,sortcol], decreasing = TRUE),]}
+
+  out <- ct %>%
+    as.data.frame() 
+  out <- cbind(dimnames(ct)[1], out)
+  row1 <- c(paste(rowlabel), rep("", ncol(out)-1))
+  out <- rbind(row1, out)
+  rownames(out) <- NULL
+  
+  if (missing == TRUE){
+    out[is.na(out[,1]),1] <- "Missing"
+    out <- rbind(out[out[,1] != "Missing",], out[out[,1] == "Missing",])
+  }
+  out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
+  out$Measure[1] <- "N"
+  colnames(out)[1] <- "Variable"
+  if (nocols == TRUE){
+    out <- out[,-c(3,4)]
+  }
+  out
+}

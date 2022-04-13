@@ -23,7 +23,7 @@ their own summary function for the table rows. By default, the package will use
 default summary functions to calculate a 5-number summary, plus the mean and standard
 deviation, for numeric data; column-wise proportions are generated for categorical
 and binary rows. Currently, there are a total of four prewritten numeric summary
-functions, as well as three prewritten functions for both categorical and binary data.
+functions, as well as four prewritten functions for both categorical and binary data.
 However, it is often the case that a user wants to have increased flexibility
 and format `tangram.pipe` output tables in a different way than provided by 
 the currently-available options. This document is intended to walk a user through 
@@ -206,6 +206,26 @@ but excluding them will result in the `reference` and `compact` arguments define
 Since writing functions for binary data can be somewhat more complicated, remember
 that any data used in a binary row can also be substituted into a categorical defined 
 row instead.
+
+# Additional note regarding categorical rows
+
+As of `tangram.pipe` version 1.1.1 (April 2022), categorical rows can now be sorted
+based on a column category label. While the default categorical summary functions,
+as well as any custom functions, do not require any sorting argument, if you want
+to sort your categorical row in your table, the following two arguments will allow
+you to do so.
+
+1. `ordering`: The method for ordering the row variable. It is recommended that
+argument accepts values that will determine what type of sorting to do. The default
+summary functions use `c("ascending", "descending")` as acceptable arguments, but
+you may choose whatever types of sorting and allowable names as you wish.
+
+2. `sortcol`. The category name to sort on. The default packages accept specific
+names of column categories on which to do the sort.
+
+As with binary summary functions, these extra arguments are not necessary in order 
+for the package to work; they only need to be accounted for if you want to sort
+your row variable. `cat_row` assumes `NULL` values for these variables by default.
 
 # User-Defined Comparison Tests
 A similar process can be used to write custom functions for comparison tests in `tangram.pipe`.
