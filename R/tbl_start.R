@@ -1,6 +1,6 @@
 #' Table Initialization
 #'
-#' Initializes the table by specifying the desired elements and data components.
+#' Initializes a `tangram.pipe` table by specifying the desired elements and data components.
 #' @param data The dataset to be used in the table.
 #' @param col_var The variable to be used in the table columns. NULL if single summary column desired.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.

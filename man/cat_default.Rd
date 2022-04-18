@@ -31,4 +31,7 @@ should be supplied for this function to work properly.
 
 \code{digits} : significant digits to use.
 }
+\seealso{
+Additional prewritten summary functions for categorical data: \link[tangram.pipe]{cat_pct}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
+}
 \keyword{tangram.pipe}

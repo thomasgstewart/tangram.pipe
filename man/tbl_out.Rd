@@ -13,7 +13,7 @@ tbl_out(list_obj)
 A tangram.pipe class object with the finalized table as a dataframe added as the most recent element of \code{list_obj}.
 }
 \description{
-Produces a finalized table.
+Produces a finalized \code{tangram.pipe} table.
 }
 \examples{
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)

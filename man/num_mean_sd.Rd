@@ -27,4 +27,7 @@ should be supplied for this function to work properly.
 
 \code{digits} : significant digits to use.
 }
+\seealso{
+Additional prewritten summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
+}
 \keyword{tangram.pipe}

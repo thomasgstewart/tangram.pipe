@@ -1,13 +1,15 @@
 #' Row counter
 #'
 #' Counts the instances of each column variable of the dataframe to be used in
-#' the table (if applicable), and gives an overall row count.
+#' a `tangram.pipe` table (if applicable), and gives an overall row count.
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @param col_var the variable to be used in the table columns. Default is from initialized tbl_start object.
 #' @param newdata enter new dataset name if different from that initialized in tbl_start.
 #' @param missing logical: if TRUE, missing data in the column variable is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
 #' @return A list with the row counts added as a new element to `list_obj`.
+#' @seealso Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{empty_row}
+#' @seealso Starting a `tangram.pipe` table: \link[tangram.pipe]{tbl_start}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 

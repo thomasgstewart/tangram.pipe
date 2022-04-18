@@ -16,6 +16,7 @@
 #' `sortvar` : Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Additional prewritten summary functions for categorical data: \link[tangram.pipe]{cat_default}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export

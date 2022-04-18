@@ -1,6 +1,6 @@
 #' Output Table
 #'
-#' Produces a finalized table.
+#' Produces a finalized `tangram.pipe` table.
 #' @param list_obj the name of the tbl_start object previously initialized.
 #' @return A tangram.pipe class object with the finalized table as a dataframe added as the most recent element of `list_obj`.
 #' @keywords tangram.pipe

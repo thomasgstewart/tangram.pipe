@@ -31,4 +31,7 @@ should be supplied for this function to work properly.
 
 \code{digits} : significant digits to use.
 }
+\seealso{
+Possible summary functions for binary data:\link[tangram.pipe]{binary_default}, \link[tangram.pipe]{binary_count}, \link[tangram.pipe]{binary_jama}
+}
 \keyword{tangram.pipe}

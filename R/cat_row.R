@@ -1,6 +1,6 @@
 #' Categorical Row
 #'
-#' Adds in a categorical row to the table.
+#' Adds in a categorical row to a `tangram.pipe` table.
 #' @param list_obj the name of the `tbl_start` object previously initialized.
 #' @param row_var the name of the variable to be used in the rows.
 #' @param col_var the variable to be used in the table columns. Default is from initialized `tbl_start` object.
@@ -15,6 +15,9 @@
 #' @param sortcol Column to sort row on. Requires `ordering` to be `ascending` or `descending`. By default, will sort based on overall statistics.
 #' @param indent number of spaces to indent category names.
 #' @return A list with the categorical row's table information added as a new element to `list_obj`.
+#' @seealso Possible summary functions for categorical data:\link[tangram.pipe]{cat_default}, \link[tangram.pipe]{cat_pct}, \link[tangram.pipe]{cat_count}, \link[tangram.pipe]{cat_jama}
+#' @seealso Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{n_row}, \link[tangram.pipe]{empty_row}
+#' @seealso Starting a `tangram.pipe` table: \link[tangram.pipe]{tbl_start}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @examples 

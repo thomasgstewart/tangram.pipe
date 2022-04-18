@@ -16,6 +16,7 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Possible summary functions for binary data:\link[tangram.pipe]{binary_default}, \link[tangram.pipe]{binary_count}, \link[tangram.pipe]{binary_jama}
 #' @import dplyr
 #' @keywords tangram.pipe
 #' @export

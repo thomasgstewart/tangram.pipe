@@ -22,7 +22,7 @@ One main package feature which is not discussed there is that a user may write
 their own summary function for the table rows. By default, the package will use
 default summary functions to calculate a 5-number summary, plus the mean and standard
 deviation, for numeric data; column-wise proportions are generated for categorical
-and binary rows. Currently, there are a total of four prewritten numeric summary
+and binary rows. Currently, there are a total of five prewritten numeric summary
 functions, as well as four prewritten functions for both categorical and binary data.
 However, it is often the case that a user wants to have increased flexibility
 and format `tangram.pipe` output tables in a different way than provided by 

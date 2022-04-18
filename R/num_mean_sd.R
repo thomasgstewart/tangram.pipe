@@ -12,6 +12,7 @@
 #' `missing` : if TRUE, missing data is considered; FALSE only uses complete cases.
 #' 
 #' `digits` : significant digits to use.
+#' @seealso Additional prewritten summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
 #' @import dplyr
 #' @importFrom  stats complete.cases
 #' @importFrom stats aggregate

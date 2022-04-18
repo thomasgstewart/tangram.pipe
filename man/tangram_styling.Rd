@@ -13,5 +13,5 @@ tangram_styling(df)
 A dataframe containing HTML formatting code where applicable.
 }
 \description{
-Used to preprocess a tangram.pipe table for HTML formatting.
+Used to preprocess a \code{tangram.pipe} table for HTML formatting.
 }

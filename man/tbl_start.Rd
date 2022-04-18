@@ -36,7 +36,7 @@ tbl_start(
 A list containing separate entries holding information provided in the function's arguments, as well as a calculated number of column categories to include for the initialized table.
 }
 \description{
-Initializes the table by specifying the desired elements and data components.
+Initializes a \code{tangram.pipe} table by specifying the desired elements and data components.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE)

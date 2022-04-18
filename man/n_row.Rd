@@ -28,10 +28,15 @@ A list with the row counts added as a new element to \code{list_obj}.
 }
 \description{
 Counts the instances of each column variable of the dataframe to be used in
-the table (if applicable), and gives an overall row count.
+a \code{tangram.pipe} table (if applicable), and gives an overall row count.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
   n_row()
+}
+\seealso{
+Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{empty_row}
+
+Starting a \code{tangram.pipe} table: \link[tangram.pipe]{tbl_start}
 }
 \keyword{tangram.pipe}

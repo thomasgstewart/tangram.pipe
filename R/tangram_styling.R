@@ -1,6 +1,6 @@
 #' Tangram Styling
 #' 
-#' Used to preprocess a tangram.pipe table for HTML formatting.
+#' Used to preprocess a `tangram.pipe` table for HTML formatting.
 #' @param df The output data frame object to be printed in HTML form.
 #' @return A dataframe containing HTML formatting code where applicable.
 #' @import dplyr

@@ -51,11 +51,18 @@ binary_row(
 A list with the binary row's table information added as a new element to \code{list_obj}.
 }
 \description{
-Adds in a binary row to the table.
+Adds in a binary row to a \code{tangram.pipe} table.
 }
 \examples{
 iris$color <- sample(c("Blue", "Purple"), size=150, replace=TRUE)
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
   binary_row("color", rowlabel="Color")
+}
+\seealso{
+Possible summary functions for binary data:\link[tangram.pipe]{binary_default}, \link[tangram.pipe]{binary_pct}, \link[tangram.pipe]{binary_count}, \link[tangram.pipe]{binary_jama}
+
+Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{n_row}, \link[tangram.pipe]{empty_row}
+
+Starting a \code{tangram.pipe} table: \link[tangram.pipe]{tbl_start}
 }
 \keyword{tangram.pipe}

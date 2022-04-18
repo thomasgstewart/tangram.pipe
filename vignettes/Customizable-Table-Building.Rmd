@@ -109,7 +109,7 @@ summary row will be included as well. The default summary function is `num_defau
 but the user may write their own function to calculate different summary statistics
 from what is shown here. 
 
-Currently, there are four summary functions available for use within `num_row`.
+Currently, there are five summary functions available for use within `num_row`.
 The default summary to use for each row can be specified in `tbl_start`, or determined
 using the `summary` argument of each row
 
@@ -120,6 +120,8 @@ using the `summary` argument of each row
 `num_medianiqr` : Calculates the median and interquartile range
 
 `num_mean_sd` : Calculates the mean and standard deviation
+
+`num_date` : Calculates the five-number summary for a date object
 
 More information on writing your own summary functions can be found in the accompanying
 package vignette "Writing User-Defined Summary Functions"
@@ -713,7 +715,7 @@ correctly when `compact = TRUE`.
 
 5. Edited categorical summary functions to utilize sorting arguments.
 
-6. Added prewritten summary functions `cat_count` and `binary_count`.
+6. Added prewritten summary functions `num_date`, `cat_count`, and `binary_count`.
 
 7. Edited `tbl_out` to output the finalized dataframe object (previous version
 only appended the final table to the table information list).

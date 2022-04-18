@@ -42,10 +42,17 @@ num_row(
 A list with the numeric row's table information added as a new element to \code{list_obj}.
 }
 \description{
-Adds in a numeric row to the table.
+Adds in a numeric row to a \code{tangram.pipe} table.
 }
 \examples{
 x <- tbl_start(iris, "Species", missing=TRUE, overall=TRUE, comparison=TRUE) \%>\%
   num_row("Sepal.Length", rowlabel="Sepal Length")
+}
+\seealso{
+Possible summary functions for numeric data: \link[tangram.pipe]{num_default}, \link[tangram.pipe]{num_mean_sd}, \link[tangram.pipe]{num_medianiqr}, \link[tangram.pipe]{num_minmax}, \link[tangram.pipe]{num_date}
+
+Other related row-building functions: \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{n_row}, \link[tangram.pipe]{empty_row}
+
+Starting a \code{tangram.pipe} table: \link[tangram.pipe]{tbl_start}
 }
 \keyword{tangram.pipe}

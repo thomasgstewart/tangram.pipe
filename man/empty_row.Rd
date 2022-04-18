@@ -15,6 +15,11 @@ empty_row(list_obj, header = NULL)
 If a header is included, a list object is returned with a one-element dataframe containing the header as the most recent entry to \code{list_obj}. Otherwise, a list is returned containing a blank character as the last element of \code{list_obj}.
 }
 \description{
-Produces a empty dividing row in the table.  May have a row header.
+Produces a empty dividing row in a \code{tangram.pipe} table.  May have a row header.
+}
+\seealso{
+Other related row-building functions: \link[tangram.pipe]{num_row}, \link[tangram.pipe]{cat_row}, \link[tangram.pipe]{binary_row}, \link[tangram.pipe]{n_row}
+
+Starting a \code{tangram.pipe} table: \link[tangram.pipe]{tbl_start}
 }
 \keyword{tangram.pipe}
