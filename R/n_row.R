@@ -34,7 +34,7 @@ n_row <- function(
     col_var <- list_obj[['col_var']]
   }
   
-  if (class(newdata) == 'logical'){
+  if (inherits(newdata, 'logical')){
     data <- list_obj[['data']]
   } else {
     data <- newdata

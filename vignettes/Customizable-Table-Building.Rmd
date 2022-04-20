@@ -651,7 +651,7 @@ tbl1 %>%
 The `knitr` and `kableExtra` packages can be used to add styling features to the
 finished tables. Captions can be added to the tables using the `caption` command,
 and tables can also be rendered into a LaTeX format using the `format` argument;
-both can be used in the `kble` function. `kable_styling` allows you to use the
+both can be used in the `kable` function. `kable_styling` allows you to use the
 `font_size` argument to specify how large the table text should be.
 
 ```{r, eval = FALSE}

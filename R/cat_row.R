@@ -63,14 +63,14 @@ cat_row <- function(
     col_var <- list_obj[["col_var"]]
     num_col <- list_obj[['num_col']]
   } else {
-    if (class(newdata) == 'logical'){
+    if (inherits(newdata, 'logical')){
       num_col <- list_obj[['data']][col_var] %>%
         filter(!is.na(list_obj[['data']][col_var])) %>%
         unique() %>%
         nrow()
     }
   }
-  if (class(newdata) == 'logical'){
+  if (inherits(newdata, 'logical')){
     data <- list_obj[['data']][,c(row_var, col_var)] #list_obj %>% le('data') %>% select(row_var, col_var)
   } else {
     data <- newdata[,c(row_var, col_var)]
@@ -116,7 +116,7 @@ cat_row <- function(
     cat_out <- cat_out[,-ncol(cat_out)]
   }
 
-  if (class(comparison) == "function" & num_col > 1){
+  if (inherits(comparison, "function") & num_col > 1){
     comp <- comparison(data, digits)
     for (i in 1:ncol(comp)){
       cat_out$compare <- ""
