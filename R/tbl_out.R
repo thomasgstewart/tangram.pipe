@@ -27,16 +27,16 @@
 tbl_out <- function(
   list_obj
 ){
-  sections <- length(list_obj) - 9
+  sections <- length(list_obj) - 10
   if (sections == 1){
-    out_tbl <- list_obj[[10]]
+    out_tbl <- list_obj[[11]]
   } else if (sections > 1) {
-    out_tbl <- list_obj[[10]]
+    out_tbl <- list_obj[[11]]
     for (i in 2:sections){
-      if (all(suppressWarnings(colnames(out_tbl) == colnames(list_obj[[i + 9]])))){
-        out_tbl <- rbind(out_tbl, list_obj[[i + 9]])
+      if (all(suppressWarnings(colnames(out_tbl) == colnames(list_obj[[i + 10]])))){
+        out_tbl <- rbind(out_tbl, list_obj[[i + 10]])
       } else {
-        out_tbl <- bind_rows(out_tbl, list_obj[[i+9]])
+        out_tbl <- bind_rows(out_tbl, list_obj[[i+10]])
         out_tbl[is.na(out_tbl)] <- ""
         out_tbl[is.null(out_tbl)] <- ""
       }

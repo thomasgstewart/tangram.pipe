@@ -9,6 +9,7 @@ binary_row(
   row_var,
   col_var = NULL,
   newdata = FALSE,
+  ref.label = "on",
   rowlabel = NULL,
   summary = NULL,
   reference = NULL,
@@ -16,7 +17,7 @@ binary_row(
   missing = NULL,
   overall = NULL,
   comparison = NULL,
-  digits = 2,
+  digits = NULL,
   indent = 5
 )
 }
@@ -28,6 +29,8 @@ binary_row(
 \item{col_var}{the variable to be used in the table columns. Default is from initialized \code{tbl_start} object.}
 
 \item{newdata}{enter new dataset name if different from that initialized in \code{tbl_start}.}
+
+\item{ref.label}{toggles the reference label in the table. Default is \code{on}, which displays the reference; \code{off} switches it off. Only relevant if a compact row is used.}
 
 \item{rowlabel}{the label for the table row name, if different from \code{row_var}.}
 

@@ -23,6 +23,8 @@ should be supplied for this function to work properly.
 
 \code{reference} : the name of the row category to use as the reference. Default will use alphabetical first category
 
+\code{ref.label} : choice of whether you want the reference label to be in the table. Default is \code{on} and includes reference label; \code{off} switches it off.
+
 \code{rowlabel} : the label for the table row name, if different from row_var.
 
 \code{compact} : if TRUE, data displayed in one row.

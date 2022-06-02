@@ -14,7 +14,7 @@ cat_row(
   missing = NULL,
   overall = NULL,
   comparison = NULL,
-  digits = 2,
+  digits = NULL,
   ordering = "none",
   sortcol = NULL,
   indent = 5

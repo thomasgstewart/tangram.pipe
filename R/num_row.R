@@ -32,7 +32,7 @@ num_row <- function(
   , missing=NULL
   , overall=NULL
   , comparison=NULL
-  , digits=2
+  , digits=NULL
 ){
   # Determine if row parameters override initialized defaults
   if (is.null(summary)){
@@ -43,6 +43,9 @@ num_row <- function(
   }
   if (is.null(overall)){
     overall <- list_obj[["overall"]]
+  }
+  if (is.null(digits)){
+    digits <- list_obj[["digits"]]
   }
   if (is.null(comparison)){
     comparison <- list_obj[["comparison"]]

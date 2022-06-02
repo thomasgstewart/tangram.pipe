@@ -10,6 +10,7 @@ tbl_start(
   missing = FALSE,
   overall = TRUE,
   comparison = FALSE,
+  digits = 2,
   default_num_summary = num_default,
   default_cat_summary = cat_default,
   default_binary_summary = binary_default
@@ -25,6 +26,8 @@ tbl_start(
 \item{overall}{logical: if TRUE, an overall column is included.}
 
 \item{comparison}{logical: if TRUE, a comparison test is conducted between columns.}
+
+\item{digits}{The default number of digits to use in the table. By default, the package will use 2 significant digits.}
 
 \item{default_num_summary}{The default summary function to use for numerical rows. By default, the package will use \code{num_default()}, but the user can also choose \code{num_minmax}, \code{num_medianiqr}, \code{num_mean_sd}, or write a custom function to use for the rows.}
 

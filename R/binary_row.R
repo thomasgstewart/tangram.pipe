@@ -8,6 +8,7 @@
 #' @param rowlabel the label for the table row name, if different from `row_var`.
 #' @param summary summary function for the data, if different from the one supplied in `tbl_start`.
 #' @param reference the name of the row category to use as the reference. Default will use alphabetical first category.
+#' @param ref.label toggles the reference label in the table. Default is `on`, which displays the reference; `off` switches it off. Only relevant if a compact row is used.
 #' @param compact logical: if TRUE, data displayed in one row.
 #' @param missing logical: if TRUE, missing data is considered; FALSE only uses complete cases.
 #' @param overall logical: if TRUE, an overall column is included.
@@ -31,6 +32,7 @@ binary_row <- function(
   , row_var
   , col_var=NULL
   , newdata=FALSE
+  , ref.label = 'on'
   , rowlabel=NULL
   , summary=NULL
   , reference=NULL
@@ -38,7 +40,7 @@ binary_row <- function(
   , missing=NULL
   , overall=NULL
   , comparison=NULL  #Null or function
-  , digits=2
+  , digits=NULL
   , indent=5
 ){
   # Determine if row parameters override initialized defaults
@@ -50,6 +52,9 @@ binary_row <- function(
   }
   if (is.null(overall)){
     overall <- list_obj[["overall"]]
+  }
+  if (is.null(digits)){
+    digits <- list_obj[["digits"]]
   }
   if (is.null(comparison)){
     comparison <- list_obj[["comparison"]] #Hierarchy of if-else (1. check if comparison not NULL, 2. T/F)
@@ -115,6 +120,7 @@ binary_row <- function(
   }
   binary_out <- summary(data, 
                         reference = reference, 
+                        ref.label = ref.label,
                         rowlabel = rowlabel, 
                         compact = compact, 
                         missing = missing, 
@@ -135,7 +141,7 @@ binary_row <- function(
   }
   
   idt <- paste(rep(" ", indent), collapse="")
-  binary_out[,1] <- ifelse(binary_out[,2]=="" & binary_out[,1] != "", paste0(idt, binary_out[,1]), binary_out[,1])
+  binary_out[-1,1] <- paste0(idt, binary_out[-1,1])
   
   list_obj[[length(list_obj) + 1]] <- binary_out
   return(list_obj)

@@ -36,7 +36,7 @@ cat_row <- function(
   , missing=NULL
   , overall=NULL
   , comparison=NULL  #Null or function
-  , digits=2
+  , digits=NULL
   , ordering="none"
   , sortcol=NULL
   , indent=5
@@ -50,6 +50,9 @@ cat_row <- function(
   }
   if (is.null(overall)){
     overall <- list_obj[["overall"]]
+  }
+  if (is.null(digits)){
+    digits <- list_obj[["digits"]]
   }
   if (is.null(comparison)){
     comparison <- list_obj[["comparison"]] #Hierarchy of if-else (1. check if comparison not NULL, 2. T/F)
@@ -128,7 +131,7 @@ cat_row <- function(
   }
   
   idt <- paste(rep(" ", indent), collapse="")
-  cat_out[,1] <- ifelse(cat_out[,2]=="" & cat_out[,1] != "", paste0(idt, cat_out[,1]), cat_out[,1])
+  cat_out[-1,1] <- paste0(idt, cat_out[-1,1])
 
   list_obj[[length(list_obj) + 1]] <- cat_out
   return(list_obj)

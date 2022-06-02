@@ -14,7 +14,7 @@ num_row(
   missing = NULL,
   overall = NULL,
   comparison = NULL,
-  digits = 2
+  digits = NULL
 )
 }
 \arguments{

@@ -9,6 +9,8 @@
 #' 
 #' `reference` : the name of the row category to use as the reference. Default will use alphabetical first category
 #' 
+#' `ref.label` : choice of whether you want the reference label to be in the table. Default is `on` and includes reference label; `off` switches it off.
+#' 
 #' `rowlabel` : the label for the table row name, if different from row_var.
 #' 
 #' `compact` : if TRUE, data displayed in one row.
@@ -24,6 +26,7 @@
 binary_pct <- function(dt, ...){
   dots <- list(...)
   reference <- dots$reference
+  ref.label <- dots$ref.label
   rowlabel <- dots$rowlabel
   compact <- dots$compact
   missing <- dots$missing
@@ -72,7 +75,7 @@ binary_pct <- function(dt, ...){
   out <- cbind(out[,1], Measure="", out[,(2:ncol(out))])
   if (compact == TRUE){
     out$Measure[2] <- "Col. Pct. (N)"
-    out[2,1] <- paste0(out[1,1], ": ", out[2,1])
+    if (ref.label != "off") {out[2,1] <- paste0(out[1,1], ": ", out[2,1])} else {out[2,1] <- rowlabel}
     out <- out[-1,]
   } else {
     out$Measure[1] <- "Col. Pct. (N)"
