@@ -71,13 +71,14 @@ tbl1 <- tbl_start(data=iris,
                   missing=FALSE, 
                   overall=TRUE, 
                   comparison=FALSE,
+                  digits = 2,
                   default_num_summary = num_default,
                   default_cat_summary = cat_default,
                   default_binary_summary = binary_default)
 ```
 
 Using this function creates a list object that stores the user preferences for 
-building the table going forward; in addition to the eight elements listed here, 
+building the table going forward; in addition to the nine elements listed here, 
 the number of rows is also saved to the list. Subsequent entries to the list
 will store information for the rows, which will ultimately be compiled to create
 the final table after all row information has been added.
@@ -91,6 +92,8 @@ default values:
 `overall` : TRUE
 
 `comparison` : FALSE
+
+`digits` : 2
 
 `default_num_summary` : num_default
 
@@ -346,7 +349,7 @@ tbl1 %>%
 ```
 
 The `binary_row` function includes all of the same arguments as the previous row
-functions, but additionally includes two new arguments.  `reference` allows 
+functions, but additionally includes three new arguments.  `reference` allows 
 a user to choose which group will appear on the table. By default, the 
 alphabetically first row group will appear on the table, which is why 'Blue' 
 appeared above. If we want to see the statistics for purple flowers, we can
@@ -377,6 +380,11 @@ tbl1 %>%
   trimws %>% 
   kable_styling(c("striped","bordered"))
 ```
+
+As of package version 1.1.2, the user can now choose to remove the reference group
+label from the table if they do not want it to be present. The argument `ref.label`
+allows a user to toggle the name of the reference group in the table; by default,
+this is set to `on`, but a user can input `off` to remove it.
 
 Finally, let's look at some comparison functions used for binary data. By default,
 this row function will calculate the difference in proportions by using `binary_diff`
@@ -493,10 +501,9 @@ tbl1 <- tbl1 %>% empty_row()
 The following code will generate a finalized table for the `iris` dataset.  It
 will include all four numeric variables (sepal length, sepal width, petal length,
 petal width), as well as stem size and color. The final table itself is generated
-using `tbl_out`; a `print` command will display the final result. Below is an 
-example of a customized table report that can be produced using tangram.pipe.
-Annotations for the unique elements of the rows are created by inserting the comments
-into the header argument for the `empty_row()` command.
+using `tbl_out`. Below is an example of a customized table report that can be produced 
+using tangram.pipe. Annotations for the unique elements of the rows are created 
+by inserting the comments into the header argument for the `empty_row()` command.
 ```{r, eval=FALSE}
 tbl1 <- tbl_start( 
                   data = iris, 
@@ -699,6 +706,17 @@ Summary Functions" outlines the process for how to write functions that will wor
 well with `tangram.pipe`
 
 # Version History
+
+## 1.1.2 (released August 2022)
+
+1. The `digits` parameter is now available in `tbl_start` for specifying default
+digits to use throughout the table.
+
+2. Added `ref.label` argument in binary summary functions to allow user to toggle
+reference group labels in binary rows.
+
+3. Deprecated the `print.tangram.pipe` function, as the update to `tbl_out` in
+version 1.1.1 rendered this function obsolete.
 
 ## 1.1.1 (released April 2022)
 

@@ -178,13 +178,13 @@ iris %>%
 # Special note regarding binary rows
 
 Binary row summary functions differ slightly from numerical and categorical rows
-because `tangram.pipe`'s prewritten summary functions include two additional arguments.
+because `tangram.pipe`'s prewritten summary functions include three additional arguments.
 
 ```{r, eval = FALSE}
-binary_default(dt, reference, rowlabel, compact, missing, digits)
+binary_default(dt, reference, ref.label, rowlabel, compact, missing, digits)
 ```
 
-For binary rows, it is recommended that you include the following two argument
+For binary rows, it is recommended that you include the following arguments
 as well when writing your own functions:
 
 1. `reference`: This is the reference variable to include in the table. Since binary
@@ -192,16 +192,23 @@ data only includes two possible categories, the row function is written so that 
 one option will be included in the table. The category you want in the table is the
 value of `reference`.
 
-2. `compact`: Often, binary data in tables is written so that the variable name is
+2. `ref.label`: Depending on the label you choose for your binary variable, it
+may not make sense to include the name of the reference group alongside the variable
+label. This argument allows you to toggle the reference group label. Of the three
+additional arguments, this is arguably the lowest-priority one to include in your
+custom functions, so it is only recommended to incorporate this if you are interested
+in toggling the reference label on and off in your table.
+
+3. `compact`: Often, binary data in tables is written so that the variable name is
 eliminated and only the reference group appears in the table. This compacts the row
 information into a single for. This TRUE/FALSE variable decides if this is how you
 want the data displayed in the table.
 
-Both of the above variables should be included in the body of the user-defined function
+The above variables should be included in the body of the user-defined function
 so that each is dealt with accordingly. As with numerical and categorical data,
 you are not required to account for these arguments in the body of your function, 
-but excluding them will result in the `reference` and `compact` arguments defined in
-`binary_row` to not be implemented in your table output object.
+but excluding them will result in the `reference`, `ref.label`, and `compact` arguments 
+defined in `binary_row` to not be implemented in your table output object.
 
 Since writing functions for binary data can be somewhat more complicated, remember
 that any data used in a binary row can also be substituted into a categorical defined 
